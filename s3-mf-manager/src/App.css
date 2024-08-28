@@ -1,188 +1,118 @@
-/* General Styles */
-.container {
+/* src/App.css */
+
+/* Reseteo de estilos básicos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Estilo para el contenedor principal */
+.App {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f7f7f7;
 }
 
-.header {
-  background-color: rgb(252, 252, 252);
-  padding: 15px;
-  text-align: center;
-  position: relative;
-  display: flex;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-}
-
-.header-buttons {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-}
-
-.header-button {
-  margin-left: 10px;
-  padding: 5px 15px;
-  background-color: #E15554;
+/* Estilos para los botones */
+button {
+  font-size: 1rem;
+  padding: 10px 20px;
   border-radius: 5px;
-  color: white;
-  font-weight: bold;
   border: none;
   cursor: pointer;
+  
 }
 
-.body {
-  flex: 1;
-  padding: 20px;
-  background-color: gray;
+button:hover {
+  opacity: 0.8;
 }
 
-.actions-container {
+/* Estilo para el encabezado */
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.regresar-button {
   padding: 10px 20px;
-  border-radius: 5px;
-  color: white;
-  background-color: #E15554;
-  border: none;
-  cursor: pointer;
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.create-button {
-  padding: 10px 20px;
-  border-radius: 5px;
-  color: white;
-  background-color: red;
-  border: none;
-  cursor: pointer;
+.header .logo {
+  height: 120px;
 }
 
-.sort-container {
+.header-right {
   display: flex;
   align-items: center;
+}
+
+.header-right button {
+  margin-right: 20px;
+  color: black;
+}
+
+/* Estilos para el pie de página */
+.footer {
+  width: 100%;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  text-align: center;
+}
+
+.footer .social-media-icons img {
+  height: 30px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.footer .social-media-icons img:hover {
+  opacity: 0.7;
+}
+
+/* Estilo para la sección principal */
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+.top-buttons {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
-}
-
-.sort-text {
-  font-size: 16px;
-  margin-right: 10px;
-}
-
-.picker {
-  height: 40px;
-  width: 150px;
-  background-color: #D7D2CE;
-  border-radius: 5px;
-  border: none;
 }
 
 .membership-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.membership-button {
-  background-color: #E15554;
-  padding: 20px 80px;
-  border-radius: 5px;
-  margin: 15px 0;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  border: none;
-  cursor: pointer;
-}
-
-/* Modal Styles */
-.modal-container {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-view {
-  width: 400px;
-  background-color: white;
-  border-radius: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.modal-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.input {
-  width: calc(100% - 22px); /* Adjust width for padding */
-  padding: 10px;
-  border: 1px solid #ccc;
+.membership-item {
+  background-color: rgb(219, 49, 49);
+  padding: 15px;
+  margin-bottom: 10px;
   border-radius: 5px;
-  margin-bottom: 15px;
-  font-size: 16px;
-}
-
-.modal-label {
-  align-self: flex-start;
-  margin-bottom: 5px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.create-button-modal, .cancel-button-modal {
-  padding: 10px;
-  border-radius: 5px;
-  color: white;
-  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  flex: 1;
-  margin: 0 5px;
+  color: rgb(255, 255, 255)
 }
 
-.create-button-modal {
-  background-color: rgb(189, 31, 52);
+.membership-item:hover {
+  background-color: #cf2e2e;
 }
 
-.cancel-button-modal {
-  background-color: rgb(53, 44, 44);
-}
-
-.toggle-state-button {
-  background-color: #007BFF;
-  padding: 10px;
-  border-radius: 5px;
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  margin: 10px 0;
+.membership-item.inactive {
+  background-color: rgb(219, 49, 49);;
+  color: #ffffff;
 }
