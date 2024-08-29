@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './EmployeeForm.css';
+import ConfirmationModal from '../Modal/ConfirmationModal'; // Importa el nuevo componente de modal
 
 const EmployeeForm = ({ onClose, addEmployee }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +15,8 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
     rol: '',
     contrato: ''
   });
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -29,10 +31,11 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
 
     if (dni && nombres && primerApellido && segundoApellido) {
       addEmployee(formData);
-      alert('Empleado agregado con éxito');
-      onClose();
+      setConfirmationMessage('Empleado agregado con éxito');
+      setShowConfirmation(true);
     } else {
-      alert('No se han completado los datos correctamente');
+      setConfirmationMessage('No se han completado los datos correctamente');
+      setShowConfirmation(true);
     }
   };
 
@@ -59,101 +62,127 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
     }
   };
 
+  const handleConfirm = () => {
+    setShowConfirmation(false);
+    onClose(); // Regresar a la lista
+  };
+
+  const handleClose = () => {
+    setShowConfirmation(false);
+    // Regresar al formulario
+  };
+
   return (
-    <form className="employee-form" onSubmit={handleSubmit}>
-      <h2>Agregar Empleado</h2>
-      <div className="dni-section">
-        <input
-          type="text"
-          name="dni"
-          placeholder="DNI"
-          value={formData.dni}
-          onChange={handleChange}
-        />
-        <button type="button" className="search-sunat-btn" onClick={handleSearchSUNAT}>
-          Buscar por SUNAT
-        </button>
+    <div className="modal-container">
+      <div className="modal-content">
+        <div className="employee-form-header">
+          <h2>Agregar Empleado</h2>
+        </div>
+        <form className="employee-form" onSubmit={handleSubmit}>
+          <div className="dni-search">
+            <input
+              type="text"
+              name="dni"
+              placeholder="DNI"
+              value={formData.dni}
+              onChange={handleChange}
+            />
+            <button type="button" className="search-sunat-btn" onClick={handleSearchSUNAT}>
+              Buscar DNI por RENIEC
+            </button>
+          </div>
+          <div className="form-grid">
+            <div className="column">
+              <input
+                type="text"
+                name="dni"
+                placeholder="DNI"
+                value={formData.dni}
+                onChange={handleChange}
+              />
+              <select name="genero" value={formData.genero} onChange={handleChange}>
+                <option value="">Género</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+              </select>
+              <input
+                type="text"
+                name="ciudad"
+                placeholder="Ciudad"
+                value={formData.ciudad}
+                onChange={handleChange}
+              />
+              <select name="sede" value={formData.sede} onChange={handleChange}>
+                <option value="">Sede</option>
+                <option value="La Molina">La Molina</option>
+                <option value="San Isidro">San Isidro</option>
+              </select>
+            </div>
+            <div className="column">
+              <input
+                type="text"
+                name="nombres"
+                placeholder="Nombres"
+                value={formData.nombres}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="primerApellido"
+                placeholder="Primer Apellido"
+                value={formData.primerApellido}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="distrito"
+                placeholder="Distrito"
+                value={formData.distrito}
+                onChange={handleChange}
+              />
+              <select name="rol" value={formData.rol} onChange={handleChange}>
+                <option value="">Rol</option>
+                <option value="Entrenador">Entrenador</option>
+                <option value="Encargado">Encargado</option>
+              </select>
+            </div>
+            <div className="column">
+              <input
+                type="text"
+                name="segundoApellido"
+                placeholder="Segundo Apellido"
+                value={formData.segundoApellido}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="direccion"
+                placeholder="Dirección"
+                value={formData.direccion}
+                onChange={handleChange}
+              />
+              <input
+                type="file"
+                name="contrato"
+                onChange={(e) => setFormData({ ...formData, contrato: e.target.files[0] })}
+                className="contract-upload-btn"
+              />
+            </div>
+          </div>
+          <div className="btn-section">
+            <button type="submit" className="add-btn">Agregar</button>
+            <button type="button" className="return-btn" onClick={onClose}>Volver</button>
+          </div>
+        </form>
+        {showConfirmation && (
+          <ConfirmationModal
+            message={confirmationMessage}
+            onConfirm={handleConfirm}
+            onClose={handleClose}
+          />
+        )}
       </div>
-      <input
-        type="text"
-        name="nombres"
-        placeholder="Nombres"
-        value={formData.nombres}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="primerApellido"
-        placeholder="Primer Apellido"
-        value={formData.primerApellido}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="segundoApellido"
-        placeholder="Segundo Apellido"
-        value={formData.segundoApellido}
-        onChange={handleChange}
-      />
-
-      {/* Género (Desplegable) */}
-      <select name="genero" value={formData.genero} onChange={handleChange}>
-        <option value="">Selecciona Género</option>
-        <option value="masculino">Masculino</option>
-        <option value="femenino">Femenino</option>
-      </select>
-
-      {/* Ciudad */}
-      <input
-        type="text"
-        name="ciudad"
-        placeholder="Ciudad"
-        value={formData.ciudad}
-        onChange={handleChange}
-      />
-
-      {/* Distrito */}
-      <input
-        type="text"
-        name="distrito"
-        placeholder="Distrito"
-        value={formData.distrito}
-        onChange={handleChange}
-      />
-
-      {/* Dirección */}
-      <input
-        type="text"
-        name="direccion"
-        placeholder="Dirección"
-        value={formData.direccion}
-        onChange={handleChange}
-      />
-
-      {/* Sede (Desplegable) */}
-      <select name="sede" value={formData.sede} onChange={handleChange}>
-        <option value="">Selecciona Sede</option>
-        <option value="la_molina">La Molina</option>
-        <option value="san_isidro">San Isidro</option>
-      </select>
-
-      {/* Rol (Desplegable) */}
-      <select name="rol" value={formData.rol} onChange={handleChange}>
-        <option value="">Selecciona Rol</option>
-        <option value="entrenador">Entrenador</option>
-        <option value="encargado">Encargado</option>
-      </select>
-
-      {/* Contrato (Archivo) */}
-      <input
-        type="file"
-        name="contrato"
-        onChange={(e) => setFormData({ ...formData, contrato: e.target.files[0] })}
-      />
-
-      <button type="submit">Agregar</button>
-      <button type="button" onClick={onClose}>Volver</button>
-    </form>
+    </div>
   );
 };
 

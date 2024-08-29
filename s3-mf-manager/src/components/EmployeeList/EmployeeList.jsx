@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeForm from '../EmployeeForm/EmployeeForm';
 import Modal from '../Modal/Modal';
+import ConfirmationPopup from '../Modal/ConfirmationPopup'; // Importa el componente de confirmación
 import './EmployeeList.css';
 
 const EmployeeList = () => {
@@ -11,34 +12,19 @@ const EmployeeList = () => {
   const [filters, setFilters] = useState({
     sede: '',
     rol: '',
-    estado: ''
+    estado: '',
   });
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-  const mapRol = {
-    entrenador: "Entrenador",
-    encargado: "Encargado",
-  };
-
-  const mapSede = {
-    la_molina: "La Molina",
-    san_isidro: "San Isidro",
-  };
-
   useEffect(() => {
-    // Fetching employees from the API
+    // Simulación de carga de empleados desde una API (puedes reemplazar con tu fetch real)
     const fetchEmployees = async () => {
       try {
-        const response = await fetch('https://q7qttgu4qi.execute-api.us-east-2.amazonaws.com/v0/api');
+        const response = await fetch(''); // Coloca la URL de la API aquí
         const data = await response.json();
-        const mappedData = data.map((employee) => ({
-          ...employee,
-          rol: mapRol[employee.rol] || employee.rol,
-          sede: mapSede[employee.sede] || employee.sede,
-        }));
-        setEmployees(mappedData);
-        setFilteredEmployees(mappedData);
+        setEmployees(data);
+        setFilteredEmployees(data);
       } catch (error) {
         alert('Error al cargar la lista de empleados.');
       }
@@ -55,48 +41,45 @@ const EmployeeList = () => {
   };
 
   const addEmployee = (newEmployee) => {
-    const mappedEmployee = {
-      ...newEmployee,
-      rol: mapRol[newEmployee.rol] || newEmployee.rol,
-      sede: mapSede[newEmployee.sede] || newEmployee.sede,
-    };
-    setEmployees([...employees, mappedEmployee]);
-    setFilteredEmployees([...employees, mappedEmployee]);
+    // Establece el estado inicial como 'Activo' si no está definido
+    const employeeWithDefaultStatus = { ...newEmployee, estado: newEmployee.estado || 'Activo' };
+    const updatedEmployees = [...employees, employeeWithDefaultStatus];
+    setEmployees(updatedEmployees);
+    setFilteredEmployees(updatedEmployees);
   };
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
-
-    const filtered = employees.filter(
-      (employee) =>
-        employee.dni.includes(value) || 
-        `${employee.nombres} ${employee.primerApellido} ${employee.segundoApellido}`.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredEmployees(filtered);
+    filterEmployees(filters, value);
   };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters({
+    const updatedFilters = {
       ...filters,
-      [name]: value
-    });
+      [name]: value,
+    };
+    setFilters(updatedFilters);
+    filterEmployees(updatedFilters, searchQuery);
   };
 
-  useEffect(() => {
+  const filterEmployees = (filters, searchQuery) => {
     const filtered = employees.filter((employee) => {
+      // Ajustar los nombres de las propiedades según la estructura de tus empleados
       const matchSede = filters.sede ? employee.sede === filters.sede : true;
       const matchRol = filters.rol ? employee.rol === filters.rol : true;
-      const matchEstado = filters.estado
-        ? (filters.estado === 'Activo' && employee.estado === 'Activo') || 
-          (filters.estado === 'Inactivo' && employee.estado === 'Inactivo')
-        : true;
-      return matchSede && matchRol && matchEstado;
-    });
+      const matchEstado = filters.estado ? employee.estado === filters.estado : true;
+      const matchSearch =
+        employee.dni.includes(searchQuery) ||
+        `${employee.nombres} ${employee.primerApellido} ${employee.segundoApellido}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
+      return matchSede && matchRol && matchEstado && matchSearch;
+    });
     setFilteredEmployees(filtered);
-  }, [filters, employees]);
+  };
 
   const toggleEmployeeStatus = (employee) => {
     setShowConfirmPopup(true);
@@ -131,17 +114,32 @@ const EmployeeList = () => {
       </div>
 
       <div className="filters">
-        <select name="sede" className="filter" onChange={handleFilterChange}>
+        <select
+          name="sede"
+          className="filter"
+          value={filters.sede}
+          onChange={handleFilterChange}
+        >
           <option value="">Agrupar por sedes</option>
           <option value="La Molina">La Molina</option>
           <option value="San Isidro">San Isidro</option>
         </select>
-        <select name="rol" className="filter" onChange={handleFilterChange}>
+        <select
+          name="rol"
+          className="filter"
+          value={filters.rol}
+          onChange={handleFilterChange}
+        >
           <option value="">Agrupar por roles</option>
           <option value="Entrenador">Entrenador</option>
           <option value="Encargado">Encargado</option>
         </select>
-        <select name="estado" className="filter" onChange={handleFilterChange}>
+        <select
+          name="estado"
+          className="filter"
+          value={filters.estado}
+          onChange={handleFilterChange}
+        >
           <option value="">Agrupar por estado</option>
           <option value="Activo">Activo</option>
           <option value="Inactivo">Inactivo</option>
@@ -179,7 +177,11 @@ const EmployeeList = () => {
               <tr key={index}>
                 <td>{employee.dni}</td>
                 <td>
-                  <img src={employee.foto || 'default-image.jpg'} alt="Foto del empleado" className="employee-photo" />
+                  <img
+                    src={employee.foto || 'default-image.jpg'}
+                    alt="Foto del empleado"
+                    className="employee-photo"
+                  />
                 </td>
                 <td>{`${employee.nombres} ${employee.primerApellido} ${employee.segundoApellido}`}</td>
                 <td>{employee.rol}</td>
@@ -189,10 +191,15 @@ const EmployeeList = () => {
                 </td>
                 <td>
                   <button
-                    className={`status-button ${employee.estado === 'Activo' ? 'active' : 'inactive'}`}
+                    className={`status-button ${
+                      employee.estado === 'Activo' ? 'active' : 'inactive'
+                    }`}
                     onClick={() => toggleEmployeeStatus(employee)}
                   >
-                    {employee.estado === 'Activo' ? 'Desactivar' : 'Activar'} empleado
+                    {employee.estado === 'Activo'
+                      ? 'Desactivar'
+                      : 'Activar'}{' '}
+                    empleado
                   </button>
                 </td>
               </tr>
@@ -202,17 +209,13 @@ const EmployeeList = () => {
       </div>
 
       {showConfirmPopup && (
-        <div className="confirm-popup">
-          <div className="popup-content">
-            <p>
-              ¿Seguro que quieres{' '}
-              {selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'}{' '}
-              este empleado?
-            </p>
-            <button onClick={confirmToggleStatus}>Sí</button>
-            <button onClick={closePopup}>No</button>
-          </div>
-        </div>
+        <ConfirmationPopup
+          message={`¿Seguro que quieres ${
+            selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'
+          } este empleado?`}
+          onConfirm={confirmToggleStatus}
+          onClose={closePopup}
+        />
       )}
     </div>
   );
