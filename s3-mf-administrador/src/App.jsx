@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import AddProductButton from './components/AddProductButton';
+import ProductTable from './components/ProductTable';
+import logo from './assets/Logo.png';
+import './styles.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app-container">
+      <header className="header">
+        <img src={logo} alt="FIA Fit Logo" className="logo" />
+        <a href="#" className="home-link">INICIO</a>
+      </header>
+      <div className="main-content">
+        <h1 className="page-title">TIPOS DE PRODUCTOS</h1>
+        <div className="top-buttons">
+          <a href="#" className="back-link">← Regresar</a>
+          <AddProductButton />
+        </div>
+        <div className="search-container">
+          <input type="text" placeholder="Buscar..." />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <ProductTable />
+      <footer>
+        Copyright © Gimnasio 2024
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;
+
+
