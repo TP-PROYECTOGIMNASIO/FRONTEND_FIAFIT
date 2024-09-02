@@ -101,7 +101,7 @@ export default StyleSheet.create({
 
   resendText: {
     color: '#4B4F57',
-    fontSize: 20,
+    fontSize: 24,
     marginTop: 15,
     marginBottom: 30,
   },
