@@ -11,7 +11,7 @@ const Header = () => {
     <View style={styles.navbar}>
       <Image source={require('../login/assets/logoFondoNegro.png')} style={styles.logo} />
       <TouchableOpacity onPress={() => navigation.goBack()}>
-       <Text style={styles.navbarText}>Regresar</Text>
+       <Text style={styles.navbarText}></Text>
       </TouchableOpacity>
     </View>
   );
@@ -24,7 +24,7 @@ const Header = () => {
           flex: 1,
         
         },
-        navbar: {
+        navbar: { 
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',

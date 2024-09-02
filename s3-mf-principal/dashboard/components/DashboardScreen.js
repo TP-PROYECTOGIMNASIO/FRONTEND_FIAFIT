@@ -24,12 +24,7 @@ export default function DashboardScreen() {
           style={styles.button}
           onPress={handleNavigateToLogin}
         >
-          <Text style={styles.buttonText}>Ir a Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleNavigateToWeb}
-        >
+      
           <Text style={styles.buttonText}>Ir a microfront</Text>
         </TouchableOpacity>
       </ImageBackground>

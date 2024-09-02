@@ -27,11 +27,20 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
+    color: '#b5121c',
+    marginBottom: 15,
     textAlign: 'center',
-    marginBottom: 20,
   },
+
+  title2: {
+    fontSize: 24,
+    color: '#4B4F57',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+
   input: {
     width: '100%',
     height: 50,
@@ -44,14 +53,19 @@ export default StyleSheet.create({
   },
   button: {
     backgroundColor: '#b71c1c',
-    borderRadius: 8,
-    paddingVertical: 15,
+    borderRadius: 5,
+    paddingVertical: 12,
     alignItems: 'center',
-    marginTop: 10,
+    width: '40%', // Ajusta el ancho al 70% del contenedor padre
+    maxWidth: 300, // Establece un ancho máximo fijo para el botón
   },
   buttonText: {
-    color: 'white',
-    fontSize: 18,
+    color: '#F3F4F7',
+    fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',  // Alinea el texto horizontalmente en el centro
+    alignSelf: 'center',  // Asegura que el texto esté centrado dentro del botón
+    justifyContent: 'center',  // Asegura que el texto esté centrado verticalmente si hay espacio adicional
+
   },
 });
