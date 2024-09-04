@@ -11,6 +11,7 @@ npm install -D tailwindcss postcss autoprefixer
 
 npx tailwindcss init -p  
 
+//Enrutamiento
 npm install react-router-dom
    
 s3-mf-principal -> REACT NATIVE

@@ -70,6 +70,8 @@ function App() {
           <Sedes />
           <Footer/>
         </>
+
+        
       } />
       <Route path="/Informe-Compra" element={<InformePrincipal />} />
       <Route path="/membresias" element={
