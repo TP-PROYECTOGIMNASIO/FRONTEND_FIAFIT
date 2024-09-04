@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
       copyright: {
       color: 'white',
       fontFamily: 'Alegraya',
-      fontSize: 22,
+      
     },
     
   });

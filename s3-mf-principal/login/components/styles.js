@@ -1,7 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
 const { width, height } = Dimensions.get('window');
-
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -76,7 +74,7 @@ export default StyleSheet.create({
     color: '#4B4F57',
     fontSize: 20,
     marginTop: 15,
-    
+
   },
   linkText2: {
     color: '#4B4F57',

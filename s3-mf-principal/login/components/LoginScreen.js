@@ -4,27 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import styles from './styles';
-
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  function decodeJWT(token) {
-    const parts = token.split('.');
-
-    if (parts.length !== 3) {
-        throw new Error('El token no es un JWT válido');
-    }
-
-    const header = JSON.parse(atob(parts[0]));
-    const payload = JSON.parse(atob(parts[1]));
-
-    return {
-        header: header,
-        payload: payload
-    };
-  }
   const handleLogin = () => {
     axios.post('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/auth/login', {
       username,
@@ -33,10 +17,7 @@ export default function LoginScreen() {
     .then(response => {
       console.log('Respuesta completa de la API:', response);
       console.log('Datos de la API:', response.data);
-
       if (response.data.message === 'Login exitoso.') {
-        const decoded = decodeJWT(response.data.idToken);
-        console.log(decoded);
         Toast.show({
           type: 'success',
           position: 'top',
