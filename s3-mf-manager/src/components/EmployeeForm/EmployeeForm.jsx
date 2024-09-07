@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ConfirmationModal from '../Modal/ConfirmationModal';
 
 const EmployeeForm = ({ onClose, addEmployee }) => {
+  // Estado inicial del formulario
   const [formData, setFormData] = useState({
     dni: '',
     nombres: '',
@@ -15,22 +16,27 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
     rol: '',
     contrato: null // Se manejará como archivo
   });
+
+  // Estado para mostrar el modal de confirmación
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState('');
 
+  // Maneja cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData({
       ...formData,
-      [name]: files ? files[0] : value
+      [name]: files ? files[0] : value // Si es un archivo, almacena el archivo, si no, almacena el valor del input
     });
     console.log('Campo modificado:', name, files ? files[0] : value);
   };
 
+  // Maneja el envío del formulario
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Previene el comportamiento por defecto del formulario
     const { dni, nombres, primerApellido, segundoApellido, contrato } = formData;
 
+    // Verifica si los campos obligatorios están completos
     if (dni && nombres && primerApellido && segundoApellido) {
       console.log('Datos del formulario antes de enviar:', formData);
       try {
@@ -38,10 +44,9 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
         let contractUrl = '';
         if (contrato) {
           const reader = new FileReader();
-          reader.readAsDataURL(contrato);
+          reader.readAsDataURL(contrato); // Lee el archivo como una URL de datos (base64)
           reader.onloadend = async () => {
-            contractUrl = reader.result; // Aquí se obtiene el archivo en base64, modificar si es necesario
-            console.log('Archivo de contrato en base64:', contractUrl);
+            contractUrl = reader.result; // Obtiene el archivo en base64
 
             // Preparar los datos para la solicitud POST
             const payload = {
@@ -55,10 +60,10 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
               gender_id: formData.genero,
               rol_id: formData.rol,
               location_id: formData.sede,
-              contract_url: contractUrl // Se envía el archivo en base64
+              contract_url: contractUrl // Incluye el archivo en base64 en el payload
             };
 
-            await sendEmployeeData(payload);
+            await sendEmployeeData(payload); // Envía los datos a la API
           };
         } else {
           const payload = {
@@ -74,7 +79,7 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
             location_id: formData.sede,
           };
 
-          await sendEmployeeData(payload);
+          await sendEmployeeData(payload); // Envía los datos a la API sin archivo
         }
       } catch (error) {
         console.error('Error al conectar con la API:', error);
@@ -87,6 +92,7 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
     }
   };
 
+  // Envía los datos del empleado a la API
   const sendEmployeeData = async (payload) => {
     try {
       console.log('Enviando datos del empleado:', payload);
@@ -117,6 +123,7 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
     }
   };
 
+  // Maneja la búsqueda de datos por DNI en SUNAT
   const handleSearchSUNAT = async () => {
     if (formData.dni) {
       try {
@@ -145,21 +152,23 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
     }
   };
 
+  // Maneja la confirmación del modal
   const handleConfirm = () => {
     setShowConfirmation(false);
-    onClose(); // Regresar a la lista
+    onClose(); // Regresar a la lista de empleados
   };
 
+  // Maneja el cierre del modal
   const handleClose = () => {
     setShowConfirmation(false);
-    // Regresar al formulario
+    // Regresar al formulario si es necesario
   };
 
   return (
-    <div className="modal-container ">
-      <div className="">
+    <div className="modal-container">
+      <div className="modal-content">
         <div className="employee-form-header">
-          <h2 className='text-white'>Agregar Empleado</h2>
+          <h2>Agregar Empleado</h2>
         </div>
         <form className="employee-form" onSubmit={handleSubmit}>
           <div className="dni-search">
@@ -174,7 +183,7 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
               Buscar DNI por RENIEC
             </button>
           </div>
-          <div className="flex flex-row">
+          <div className="form-grid">
             <div className="column">
               <input
                 type="text"
@@ -252,9 +261,9 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
               />
             </div>
           </div>
-          <div className="btn-section">
-            <button type="submit" className="add-btn">Agregar</button>
-            <button type="button" className="return-btn" onClick={onClose}>Volver</button>
+          <div className="form-actions">
+            <button type="submit">Agregar Empleado</button>
+            <button type="button" onClick={onClose} className="close-form-btn">Cerrar</button>
           </div>
         </form>
         {showConfirmation && (

@@ -3,21 +3,28 @@ import EmployeeForm from '../EmployeeForm/EmployeeForm';
 import Modal from '../Modal/Modal';
 import ConfirmationPopup from '../Modal/ConfirmationPopup'; // Importa el componente de confirmación
 import './EmployeeList.css';
-import { Link } from 'react-router-dom';
 
 const EmployeeList = () => {
+  // Estado para almacenar la lista de empleados
   const [employees, setEmployees] = useState([]);
+  // Estado para almacenar la lista de empleados filtrada
   const [filteredEmployees, setFilteredEmployees] = useState([]);
+  // Estado para controlar la visibilidad del modal
   const [showModal, setShowModal] = useState(false);
+  // Estado para almacenar la consulta de búsqueda
   const [searchQuery, setSearchQuery] = useState('');
+  // Estado para almacenar los filtros seleccionados
   const [filters, setFilters] = useState({
     sede: '',
     rol: '',
     estado: '',
   });
+  // Estado para controlar la visibilidad del popup de confirmación
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  // Estado para almacenar el empleado seleccionado para cambiar su estado
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
+  // useEffect para cargar la lista de empleados al montar el componente
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -29,6 +36,7 @@ const EmployeeList = () => {
         const data = await response.json();
         console.log('Employees data:', data);
 
+        // Verifica si la respuesta es un array y actualiza el estado
         if (Array.isArray(data)) {
           setEmployees(data);
           setFilteredEmployees(data);
@@ -43,16 +51,19 @@ const EmployeeList = () => {
     fetchEmployees();
   }, []);
 
+  // Maneja el clic en el botón para agregar un nuevo empleado
   const handleAddEmployeeClick = () => {
     console.log('Opening employee form modal...');
     setShowModal(true);
   };
 
+  // Maneja el cierre del modal
   const handleCloseModal = () => {
     console.log('Closing employee form modal...');
     setShowModal(false);
   };
 
+  // Función para agregar un nuevo empleado a la lista
   const addEmployee = (newEmployee) => {
     console.log('Adding new employee:', newEmployee);
     const employeeWithDefaultStatus = { ...newEmployee, estado: 'Activo' };
@@ -61,12 +72,14 @@ const EmployeeList = () => {
     setFilteredEmployees(updatedEmployees);
   };
 
+  // Maneja la búsqueda por DNI o nombre
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
     filterEmployees(filters, value);
   };
 
+  // Maneja los cambios en los filtros de sede, rol y estado
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const updatedFilters = { ...filters, [name]: value };
@@ -74,6 +87,7 @@ const EmployeeList = () => {
     filterEmployees(updatedFilters, searchQuery);
   };
 
+  // Filtra la lista de empleados basada en los filtros y la búsqueda
   const filterEmployees = (filters, searchQuery) => {
     const filtered = employees.filter((employee) => {
       const matchSede = filters.sede ? employee.location_id === filters.sede : true;
@@ -90,14 +104,16 @@ const EmployeeList = () => {
     setFilteredEmployees(filtered);
   };
 
+  // Función para alternar el estado del empleado entre activo/inactivo
   const toggleEmployeeStatus = (employee) => {
     setShowConfirmPopup(true);
     setSelectedEmployee(employee);
   };
 
+  // Función para actualizar el estado del empleado en el servidor
   const updateEmployeeStatus = async (staffId, newStatus) => {
     try {
-      const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/actualizacion', {
+      const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/actualizacion?staff_id=1', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -119,6 +135,7 @@ const EmployeeList = () => {
     }
   };
 
+  // Confirma la acción de alternar el estado del empleado
   const confirmToggleStatus = async () => {
     const newStatus = selectedEmployee.estado === 'Activo' ? 'Inactivo' : 'Activo';
     const updateResult = await updateEmployeeStatus(selectedEmployee.c_document, newStatus);
@@ -136,19 +153,21 @@ const EmployeeList = () => {
     }
   };
 
+  // Cierra el popup de confirmación sin hacer cambios
   const closePopup = () => {
     setShowConfirmPopup(false);
     setSelectedEmployee(null);
   };
 
+  // Abre el contrato del empleado en una nueva pestaña
   const viewContract = (contractUrl) => {
     window.open(contractUrl, '_blank'); 
   };
 
   return (
-    <div className="employee-list-page min-h-[90vh]">
+    <div className="employee-list-page">
       <div className="employee-list-header">
-        <Link to={"/"} className="back-button">← Regresar</Link>
+        <button className="back-button">← Regresar</button>
         <h1>Lista de Empleados</h1>
         <button className="add-employee-btn" onClick={handleAddEmployeeClick}>
           + Registrar Nuevo Empleado
@@ -238,10 +257,7 @@ const EmployeeList = () => {
                     }`}
                     onClick={() => toggleEmployeeStatus(employee)}
                   >
-                    {employee.estado === 'Activo'
-                      ? 'Desactivar'
-                      : 'Activar'}{' '}
-                    empleado
+                    {employee.estado === 'Activo' ? 'Desactivar' : 'Activar'}
                   </button>
                 </td>
               </tr>
@@ -252,11 +268,9 @@ const EmployeeList = () => {
 
       {showConfirmPopup && (
         <ConfirmationPopup
-          message={`¿Seguro que quieres ${
-            selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'
-          } este empleado?`}
-          onConfirm={confirmToggleStatus}
           onClose={closePopup}
+          onConfirm={confirmToggleStatus}
+          message={`¿Está seguro que desea ${selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'} a ${selectedEmployee?.c_names}?`}
         />
       )}
     </div>

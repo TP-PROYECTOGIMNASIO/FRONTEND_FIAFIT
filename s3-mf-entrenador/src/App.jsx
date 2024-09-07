@@ -6,13 +6,12 @@ import {
   useLocation,
 } from "react-router-dom";
 import Inicio from "./pages/inicio/Inicio";
+import ListStudents from "./pages/listStudents/ListStudents";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-
-
 function App() {
-  
+
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
@@ -29,8 +28,12 @@ function App() {
 
     switch (pathname) {
       case "/":
-        title = "";
-        metaDescription = "";
+        title = "Inicio";
+        metaDescription = "Welcome to Fia Fit";
+        break;
+      case "/list-students":
+        title = "Lista de Alumnos";
+        metaDescription = "Lista de todos los alumnos registrados.";
         break;
     }
 
@@ -52,12 +55,18 @@ function App() {
     <Routes>
       <Route path="/" element={
         <>
-        <Navbar/>
+          <Navbar/>
           <Inicio/>
-        <Footer/>
+          <Footer/>
         </>
-
-        } />
+      } />
+      <Route path="/list-students" element={
+        <>
+          <Navbar/>
+          <ListStudents/>
+          <Footer/>
+        </>
+      } />
     </Routes>
   );
 }
