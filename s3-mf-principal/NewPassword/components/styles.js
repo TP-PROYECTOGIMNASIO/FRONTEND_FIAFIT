@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
+
 const { width, height } = Dimensions.get('window');
+
 export default StyleSheet.create({
   background: {
     flex: 1,
@@ -9,21 +11,48 @@ export default StyleSheet.create({
   },
   container: {
     flex: 1,
+    flexDirection: 'row', // Alinea los elementos en una fila (izquierda y derecha)
+  },
+
+  leftSection: {
+    width: '50%', // Ocupa el 50% del ancho de la pantalla
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+
   },
+  
   backText: {
     color: 'white',
     fontSize: 18,
     marginBottom: 20,
   },
   formContainer: {
-    width: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    padding: 20,
+    width: '85%',  // Aumenta el ancho a un 85% de su sección
+    maxWidth: 550, // Incrementa el ancho máximo
+    padding: 40,   // Aumenta el padding interno
+    backgroundColor: 'rgba(243, 244, 247, 0.9)',
     borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
+
+  rightSection: {
+    width: '50%', // Ocupa el 50% del ancho de la pantalla
+    justifyContent: 'center', // Centra verticalmente
+    alignItems: 'center', // Centra horizontalmente
+    backgroundColor: '#f2f2f2', // Color de fondo para diferenciar
+  },
+
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+
   title: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -42,7 +71,7 @@ export default StyleSheet.create({
   input: {
     width: '100%',
     height: 50,
-    backgroundColor: '#333',
+    backgroundColor: '#DFE0E1',
     color: 'white',
     borderRadius: 8,
     paddingHorizontal: 15,

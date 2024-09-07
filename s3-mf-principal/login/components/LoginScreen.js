@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import styles from './styles';
+
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +18,7 @@ export default function LoginScreen() {
     .then(response => {
       console.log('Respuesta completa de la API:', response);
       console.log('Datos de la API:', response.data);
+
       if (response.data.message === 'Login exitoso.') {
         Toast.show({
           type: 'success',
@@ -68,7 +70,7 @@ export default function LoginScreen() {
           />
           <Text style={styles.loginTitle2}>Contraseña</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { marginBottom: 30 }]}
           //  placeholder="Ingrese su contraseña"
             placeholderTextColor="#888"
             secureTextEntry

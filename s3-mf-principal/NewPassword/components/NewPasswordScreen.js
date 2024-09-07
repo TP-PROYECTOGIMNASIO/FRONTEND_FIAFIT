@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
 import styles from './styles';
@@ -83,34 +84,39 @@ const NewPasswordScreen = ({ navigation, route }) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../assets/background.png')}
-      style={styles.background}
-    >
-      <View style={styles.container}>
-        <View style={styles.formContainer}>
-          <Text style={styles.title}>RESTABLECER CONTRASEÑA</Text>
-          <Text style={styles.title2}>Escriba una nueva contraseña</Text>
-          <TextInput
-            style={styles.input}
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
+    <View style={styles.container}>
+      <View style={styles.leftSection}>
+        <Image
+            source={require('../../public/background.png')}
+            style={styles.backgroundImage}
           />
-          <Text style={styles.title2}>Vuelva a escribir la contraseña</Text>
-          <TextInput
-            style={styles.input}
-            secureTextEntry
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-          />
+        </View>
+        <View style={styles.rightSection}>
+          <View style={styles.formContainer}>
+            <Text style={styles.title}>RESTABLECER CONTRASEÑA</Text>
+            <Text style={styles.title2}>Escriba una nueva contraseña</Text>
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+            />
+            <Text style={styles.title2}>Vuelva a escribir la contraseña</Text>
+            <TextInput
+            style={[styles.input, { marginBottom: 30 }]}
+             
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
 
-          <TouchableOpacity style={styles.button} onPress={handleConfirm}>
-            <Text style={styles.buttonText}>CONFIRMAR</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleConfirm}>
+              <Text style={styles.buttonText}>CONFIRMAR</Text>
+            </TouchableOpacity>
         </View>
       </View>
-    </ImageBackground>
+      </View>
+    
   );
 };
 

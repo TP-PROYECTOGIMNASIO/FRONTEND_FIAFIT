@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
+
 const { width, height } = Dimensions.get('window');
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -65,6 +67,22 @@ export default StyleSheet.create({
     width: '70%', // Ajusta el ancho al 70% del contenedor padre
     maxWidth: 300, // Establece un ancho máximo fijo para el botón
   },
+
+
+  closeButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    padding: 5,
+    zIndex: 1,
+  },
+
+  closeButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+
   buttonText: {
     color: '#F3F4F7',
     fontSize: 24,
@@ -74,7 +92,7 @@ export default StyleSheet.create({
     color: '#4B4F57',
     fontSize: 20,
     marginTop: 15,
-
+    
   },
   linkText2: {
     color: '#4B4F57',
