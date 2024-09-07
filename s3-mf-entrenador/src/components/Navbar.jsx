@@ -1,3 +1,4 @@
+//usar este navbar para seguir un patron ya definido
 export default function Navbar(){
     return(
         <nav className="min-h-[10vh] flex justify-between p-2" style={{backgroundColor:"#FFFFFF"}}>

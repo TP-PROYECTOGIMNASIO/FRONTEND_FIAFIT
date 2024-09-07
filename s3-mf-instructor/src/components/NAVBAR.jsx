@@ -1,45 +1,12 @@
-import PropTypes from "prop-types";
-import styles from "./NAVBAR.module.css";
-
-const NAVBAR = ({ className = "" }) => {
-  return (
-    <header className={[styles.navbar, className].join(" ")}>
-      <div className={styles.navbarChild} />
-      <img
-        className={styles.image59Icon}
-        loading="lazy"
-        alt=""
-        src="/image-59@2x.png"
-      />
-      <div className={styles.userActions}>
-        <div className={styles.userMenu}>
-          <div className={styles.productsLink}>
-            <h2 className={styles.productos}>Productos</h2>
-          </div>
-          <div className={styles.cartUser}>
-            <div className={styles.cartIcon}>
-              <img
-                className={styles.icons8ShoppingCart521}
-                loading="lazy"
-                alt=""
-                src="/icons8shoppingcart52-1@2x.png"
-              />
+//usar este navbar para seguir un patron ya definido
+export default function Navbar(){
+    return(
+        <nav className="min-h-[10vh] flex justify-between p-2" style={{backgroundColor:"#FFFFFF"}}>
+            <img src={"/logo-3.png"} alt="logo fia fit" className="w-[30vh] h-[10vh]" />
+            <div className="flex flex-row items-center mr-4 gap-20">
+                <h1 className="text-[20px] font-bold" style={{color:"#4B4F57"}}>Inicio</h1>
+                <img src={"/icono-user.png"} alt="icono usuario" className="border border-white rounded-full w-[8vh] h-[6vh]"/>
             </div>
-            <img
-              className={styles.icons8UsuarioMasculinoEnC}
-              loading="lazy"
-              alt=""
-              src="/icons8usuariomasculinoencrculo96-1@2x.png"
-            />
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-};
-
-NAVBAR.propTypes = {
-  className: PropTypes.string,
-};
-
-export default NAVBAR;
+        </nav>
+    )
+}

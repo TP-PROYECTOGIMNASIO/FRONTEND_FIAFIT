@@ -1,3 +1,4 @@
+//usar este footer para seguir un patron ya definido
 import faceLogo from '/facebook.svg'
 import instaLogo from '/instagram.svg'
 import linkedLogo from '/linkedin.svg'
