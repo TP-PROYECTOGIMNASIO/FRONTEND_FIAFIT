@@ -1,23 +1,51 @@
-import React from 'react';
-import './styles/GenerarNuevoInventario.css'; // Importa el archivo de estilos CSS para el componente
+// src/pages/inventario/GenerarNuevoInventario.jsx
 
-const inputClasses = "border border-border rounded-lg p-3 w-full placeholder-custom"; // Clases para los inputs del formulario
-const labelClasses = "block text-muted-foreground"; // Clases para las etiquetas de los inputs
-const buttonClasses = "bg-red-600 text-white hover:bg-red-700 rounded-lg p-3 w-full"; // Clases para el botón de guardar, con fondo rojo y texto blanco
-const closeButtonClasses = "text-black cursor-pointer hover:text-gray-700 text-xl"; // Clases para el botón de cerrar (X), con color negro y efecto hover
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './styles/GenerarNuevoInventario.css';
+import Modal from './Modal';
+import ConfirmeInventarioAsignarSede from './ConfirmeInventarioAsignarSede';
+import { fetchSedes } from '../../services/apiService'; // Importa la función de servicio
+
+const inputClasses = "border border-border rounded-lg p-3 w-full placeholder-custom";
+const labelClasses = "block text-muted-foreground";
+const buttonClasses = "bg-red-600 text-white hover:bg-red-700 rounded-lg p-3 w-full";
 
 const GenerarNuevoInventario = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sedes, setSedes] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadSedes = async () => {
+      try {
+        const data = await fetchSedes();
+        setSedes(data);
+      } catch (error) {
+        console.error('Error loading sedes:', error);
+      }
+    };
+
+    loadSedes();
+  }, []);
+
+  const handleGuardar = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="flex flex-col modal-container bg-background p-6 rounded-lg shadow-lg max-w relative max-h-[500px]">
       <div className="modal-header mb-4 flex items-start justify-end">
-       
-        
+        {/* Aquí puedes agregar elementos adicionales si es necesario */}
       </div>
 
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-primary">Generar Nuevo Inventario</h2>
-        </div>
-
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-primary">Generar Nuevo Inventario</h2>
+      </div>
 
       <div className="form-grid mb-4">
         <div className="form-item">
@@ -38,13 +66,19 @@ const GenerarNuevoInventario = () => {
         <div className="form-item">
           <label className={labelClasses} htmlFor="asignar">Asignar a:</label>
           <select id="asignar" className={inputClasses}>
-            <option value="la-molina">La Molina</option>
-            <option value="miraflores">Miraflores</option>
-            <option value="santa-anita">Santa Anita</option>
+            {sedes.map(sede => (
+              <option key={sede.location_id} value={sede.location_id}>
+                {sede.c_name}
+              </option>
+            ))}
           </select>
         </div>
-        <button className={buttonClasses}>GUARDAR</button>
+        <button className={buttonClasses} onClick={handleGuardar}>GUARDAR</button>
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <ConfirmeInventarioAsignarSede />
+      </Modal>
     </div>
   );
 };
