@@ -1,40 +1,43 @@
-// src/pages/inventario/GenerarNuevoInventario.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './styles/GenerarNuevoInventario.css';
-import Modal from './Modal';
-import ConfirmeInventarioAsignarSede from './ConfirmeInventarioAsignarSede';
-import { fetchSedes } from '../../services/apiService'; // Importa la función de servicio
+import './styles/GenerarNuevoInventario.css'; // Importa el archivo de estilos CSS para el componente
 
-const inputClasses = "border border-border rounded-lg p-3 w-full placeholder-custom";
-const labelClasses = "block text-muted-foreground";
-const buttonClasses = "bg-red-600 text-white hover:bg-red-700 rounded-lg p-3 w-full";
+import Modal from './Modal';
+import ConfirmeInventarioAsignarSede from './ConfirmeInventarioAsignarSede'; // Asegúrate de que la ruta sea correcta
+
+const inputClasses = "border border-border rounded-lg p-3 w-full placeholder-custom"; // Clases para los inputs del formulario
+const labelClasses = "block text-muted-foreground"; // Clases para las etiquetas de los inputs
+const buttonClasses = "bg-red-600 text-white hover:bg-red-700 rounded-lg p-3 w-full"; // Clases para el botón de guardar, con fondo rojo y texto blanco
 
 const GenerarNuevoInventario = () => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sedes, setSedes] = useState([]);
+  const [sedes, setSedes] = useState([]); // Estado para almacenar las sedes
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadSedes = async () => {
+    // Función para obtener los datos de la API
+    const fetchSedes = async () => {
       try {
-        const data = await fetchSedes();
-        setSedes(data);
+        const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/typeproduct/locations');
+        const data = await response.json();
+        setSedes(data); // Guarda los datos en el estado
       } catch (error) {
-        console.error('Error loading sedes:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    loadSedes();
-  }, []);
+    fetchSedes(); // Llama a la función para obtener los datos
+  }, []); // Se ejecuta solo una vez cuando el componente se monta
 
+  // Maneja el clic en el botón de guardar
   const handleGuardar = () => {
-    setIsModalOpen(true);
+      setIsModalOpen(true);
   };
 
+  // Maneja el cierre del modal
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+      setIsModalOpen(false);
   };
 
   return (
@@ -79,6 +82,7 @@ const GenerarNuevoInventario = () => {
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <ConfirmeInventarioAsignarSede />
       </Modal>
+
     </div>
   );
 };
