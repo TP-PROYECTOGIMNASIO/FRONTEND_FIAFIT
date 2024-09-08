@@ -105,6 +105,14 @@ function App() {
           <Footer/>
         </>
       } />
+      <Route path="/InventarioAsignado" element={
+        <>
+          <Navbar />
+          <InventarioAsignado />
+          <Footer/>
+        </>
+
+        } />
     </Routes>
   );
 }
