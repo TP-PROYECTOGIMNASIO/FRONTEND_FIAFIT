@@ -94,7 +94,7 @@ const EmployeeList = () => {
       const matchRol = filters.rol ? employee.rol_id === filters.rol : true;
       const matchEstado = filters.estado ? employee.estado === filters.estado : true;
       const matchSearch =
-        employee.c_document.includes(searchQuery) ||
+        employee.document.includes(searchQuery) ||
         `${employee.c_names} ${employee.father_last_name} ${employee.mother_last_name}`
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
@@ -134,15 +134,16 @@ const EmployeeList = () => {
       alert('Error al actualizar el estado del empleado.');
     }
   };
+  
 
   // Confirma la acción de alternar el estado del empleado
   const confirmToggleStatus = async () => {
     const newStatus = selectedEmployee.estado === 'Activo' ? 'Inactivo' : 'Activo';
-    const updateResult = await updateEmployeeStatus(selectedEmployee.c_document, newStatus);
+    const updateResult = await updateEmployeeStatus(selectedEmployee.staff_id, newStatus);
     
     if (updateResult) {
       const updatedEmployees = employees.map((emp) =>
-        emp.c_document === selectedEmployee.c_document
+        emp.staff_id === selectedEmployee.staff_id
           ? { ...emp, estado: newStatus }
           : emp
       );
@@ -234,9 +235,9 @@ const EmployeeList = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees.map((employee, index) => (
-              <tr key={index}>
-                <td>{employee.c_document}</td>
+            {filteredEmployees.map((employee) => (
+              <tr key={employee.staff_id}>
+                <td>{employee.document}</td>
                 <td>
                   <img
                     src={employee.photo_url || 'default-image.jpg'}
