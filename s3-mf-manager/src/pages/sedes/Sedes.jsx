@@ -14,7 +14,7 @@ export default function Sedes() {
     const handleCloseModalError = () => setModalErrorOpen(false);
 
     const fetchSedes = () => {
-        fetch("https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/sedes")
+        fetch("https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/planilla-por-sedes/hu-tp-77")
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Error al obtener las sedes");
@@ -22,10 +22,8 @@ export default function Sedes() {
                 return response.json();
             })
             .then(data => {
-                console.log(data)
-     
-                setSedes(data.locations);
- 
+                console.log(data);
+                setSedes(data.locations); // Asegúrate de que data.locations contenga las sedes correctas
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -41,7 +39,8 @@ export default function Sedes() {
     // Filtra las sedes basado en el filtro seleccionado
     const filteredSedes = sedes.filter(sede => {
         if (filter === 'all') return true;
-        return sede.status === filter;
+        if (filter === 'active') return sede.active; // Filtra las sedes activas
+        if (filter === 'inactive') return !sede.active; // Filtra las sedes inactivas
     });
 
     return (
@@ -87,29 +86,20 @@ export default function Sedes() {
                 </div>
             </div>
             <Modal 
-            isOpen={isModalOpen} onClose={handleCloseModal} openError={handleOpenModalError} 
-            asignarMsj={setMsjError} 
-            onRegisterSuccess={fetchSedes} // Pasa la función fetchSedes como prop
+                isOpen={isModalOpen} onClose={handleCloseModal} openError={handleOpenModalError} 
+                asignarMsj={setMsjError} 
+                onRegisterSuccess={fetchSedes} // Pasa la función fetchSedes como prop
             />
             <ModalError isOpen={isModalErrorOpen} onClose={handleCloseModalError} msj={msjError} asignarMsj={setMsjError} />
         </main>
     );
 }
-/*
-https://smecstc9rd.execute-api.us-east-2.amazonaws.com/actualizar/
-
-{
-  "action": "disable",
-  "id": 3
-}
-enable  
-*/
 function CardSede({ sede }) {
-    const [selectBgColor, setSelectBgColor] = useState(sede.status === 'inactive' ? '#4B4F57' : '#B5121C');
+    const [selectBgColor, setSelectBgColor] = useState(sede.active ? '#B5121C' : '#4B4F57');
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
-    const [pendingStatus, setPendingStatus] = useState(sede.status);
-    const [prevStatus, setPrevStatus] = useState(sede.status);
+    const [pendingStatus, setPendingStatus] = useState(sede.active ? 'active' : 'inactive');
+    const [prevStatus, setPrevStatus] = useState(sede.active ? 'active' : 'inactive');
 
     const handleStatusChange = (event) => {
         const newStatus = event.target.value;
@@ -132,14 +122,14 @@ function CardSede({ sede }) {
 
     const handleConfirm = () => {
         // Hacer la llamada a la API para actualizar el estado
-        fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/sedes', {
+        fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/planilla-por-sedes/hu-tp-77', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                action: pendingStatus === 'inactive' ? 'disable' : 'enable',
-                id: sede.location_id
+                status: pendingStatus === 'inactive' ? false : true,
+                location_id: sede.location_id
             }),
         })
         .then(response => response.json())
@@ -161,10 +151,10 @@ function CardSede({ sede }) {
         <div className="flex flex-col justify-center items-center m-2 p-4 pt-8 pb-8 gap-2 min-w-[200px] max-w-[500px]" style={{ borderRadius: "10px", backgroundColor: "#BFB6B8" }}>
             <img 
                 src={sede.image_url} 
-                alt={`Imagen de ${sede.c_name}`} 
+                alt={`Imagen de ${sede.name}`} 
                 className="min-w-[180px] max-w-[300px] md:max-w-[350px] lg:max-w-[400px] border border-white" 
             />
-            <h2 className="font-extrabold text-[24px] text-white">{sede.c_name}</h2>
+            <h2 className="font-extrabold text-[24px] text-white">{sede.name}</h2>
             <p className="text-center text-gray-700">{sede.address}</p>
             <select
                 value={pendingStatus}
@@ -212,6 +202,7 @@ function CardSede({ sede }) {
 }
 
 
+
 function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
     const [sede, setSede] = useState('');
     const [ubicacion, setUbicacion] = useState('');
@@ -227,12 +218,20 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
 
         const formData = new FormData();
         formData.append('name', sede);
-        formData.append('photo', imagen); // Agregar archivo de imagen
+        formData.append('image_url', imagen); // Agregar archivo de imagen
         formData.append('address', ubicacion);
 
-        fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/sedes', {
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+        
+
+        fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/planilla-por-sedes/hu-tp-76', {
             method: 'POST',
             body: formData,
+            headers: {
+                'Content-Type':'multipart/form-data',
+            },
         })
         .then(response => {
             if (!response.ok) {
@@ -282,7 +281,7 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
                     <div className="flex flex-row justify-between">
                         <label className="text-black" htmlFor="sede">Sede:</label>
                         <input 
-                            className="text-white bg-white p-1 text-center max-w-[180px]" 
+                            className="text-black bg-white p-1 text-center max-w-[180px]" 
                             type="text" 
                             placeholder="sede"
                             value={sede}
@@ -292,7 +291,7 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
                     <div className="flex flex-row justify-between">
                         <label className="text-black" htmlFor="ubicacion">Ubicación:</label>
                         <input 
-                            className="text-white bg-white p-1 text-center max-w-[180px]" 
+                            className="text-black bg-white p-1 text-center max-w-[180px]" 
                             type="text" 
                             placeholder="ubicación"
                             value={ubicacion}
@@ -302,7 +301,7 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
                     <div className="flex flex-row justify-between">
                         <label className="text-black" htmlFor="imagen">Imagen:</label>
                         <input 
-                            className="text-white bg-white p-1 text-center max-w-[180px]" 
+                            className="text-black bg-white p-1 text-center max-w-[180px]" 
                             type="file" // Cambiado a "file"
                             accept="image/png" // Acepta solo PNG
                             onChange={(e) => setImagen(e.target.files[0])} // Guardar el archivo seleccionado
