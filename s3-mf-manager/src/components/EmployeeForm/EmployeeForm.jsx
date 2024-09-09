@@ -51,7 +51,7 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
             // Preparar los datos para la solicitud POST
             const payload = {
               c_document: formData.dni,
-              c_names: formData.nombres,
+              names: formData.nombres,
               father_last_name: formData.primerApellido,
               mother_last_name: formData.segundoApellido,
               city: formData.ciudad,
@@ -68,7 +68,7 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
         } else {
           const payload = {
             c_document: formData.dni,
-            c_names: formData.nombres,
+            names: formData.nombres,
             father_last_name: formData.primerApellido,
             mother_last_name: formData.segundoApellido,
             city: formData.ciudad,
@@ -96,7 +96,7 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
   const sendEmployeeData = async (payload) => {
     try {
       console.log('Enviando datos del empleado:', payload);
-      const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/register', {
+      const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-73', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,12 +128,12 @@ const EmployeeForm = ({ onClose, addEmployee }) => {
     if (formData.dni) {
       try {
         console.log('Buscando datos para DNI:', formData.dni);
-        const response = await fetch(`https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/register?c_document=${formData.dni}`);
+        const response = await fetch(`https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-73?document=${formData.dni}`);
         const data = await response.json();
         console.log('Datos encontrados para el DNI:', data);
         setFormData({
           ...formData,
-          nombres: data.c_names,
+          nombres: data.names,
           primerApellido: data.father_last_name,
           segundoApellido: data.mother_last_name,
           direccion: data.address,

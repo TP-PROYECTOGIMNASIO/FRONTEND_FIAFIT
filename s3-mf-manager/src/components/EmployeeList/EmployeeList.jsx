@@ -29,7 +29,7 @@ const EmployeeList = () => {
     const fetchEmployees = async () => {
       try {
         console.log('Fetching employees...');
-        const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/visualize');
+        const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-74');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -113,7 +113,7 @@ const EmployeeList = () => {
   // Función para actualizar el estado del empleado en el servidor
   const updateEmployeeStatus = async (staffId, newStatus) => {
     try {
-      const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/actualizacion?staff_id=1', {
+      const response = await fetch(`https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-75?staff_id=${staffId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -244,7 +244,7 @@ const EmployeeList = () => {
                     className="employee-photo"
                   />
                 </td>
-                <td>{`${employee.c_names} ${employee.father_last_name} ${employee.mother_last_name}`}</td>
+                <td>{`${employee.names} ${employee.father_last_name} ${employee.mother_last_name}`}</td>
                 <td>{employee.rol_id === '1' ? 'Entrenador' : 'Encargado'}</td>
                 <td>{employee.location_id === '1' ? 'La Molina' : 'San Isidro'}</td>
                 <td>
@@ -270,7 +270,7 @@ const EmployeeList = () => {
         <ConfirmationPopup
           onClose={closePopup}
           onConfirm={confirmToggleStatus}
-          message={`¿Está seguro que desea ${selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'} a ${selectedEmployee?.c_names}?`}
+          message={`¿Está seguro que desea ${selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'} a ${selectedEmployee?.names}?`}
         />
       )}
     </div>
