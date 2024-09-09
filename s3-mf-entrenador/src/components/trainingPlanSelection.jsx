@@ -1,16 +1,13 @@
 // src/TrainingPlanSelection.jsx
 import React from 'react';
-import "../styles/styles.css";  // Actualización de la ruta al CSS
+import "../styles/stylesH-27.css";  // Actualización de la ruta al CSS
 
 const TrainingPlanSelection = ({ onBack }) => {
   return (
     <div className="container">
       <div className="card">
         {/* Botón de regresar */}
-        <button className="back-btn" onClick={onBack}>← Regresar</button>
-
-        {/* Botón de registrar */}
-        <button className="register-btn">Registrar</button>
+        <button className="back-btn" onClick={onBack}>X</button>
 
         {/* Título principal */}
         <h2 className="title">Eligiendo Plan de Entrenamiento</h2>

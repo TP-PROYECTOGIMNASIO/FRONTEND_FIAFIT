@@ -1,6 +1,6 @@
 // src/TrainingPlan.jsx
 import React from 'react';
-import "../styles/styles.css";  // Actualización de la ruta al CSS
+import "../styles/stylesH-27.css";  // Actualización de la ruta al CSS
 
 const TrainingPlan = ({ onGeneratePlan }) => {
   return (
