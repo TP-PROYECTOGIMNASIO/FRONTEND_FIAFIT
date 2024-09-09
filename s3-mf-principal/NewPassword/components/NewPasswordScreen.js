@@ -33,7 +33,7 @@ const NewPasswordScreen = ({ navigation, route }) => {
       return;
     }
 
-    axios.put('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/auth/envio_c', 
+    axios.put('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/auth/hu-tp-02', 
       { 
         username,
         confirmationCode,

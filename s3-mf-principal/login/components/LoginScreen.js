@@ -5,13 +5,36 @@ import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import styles from './styles';
 
+// Función para decodificar base64url
+function base64UrlDecode(base64Url) {
+  const base64 = base64Url
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+  
+  const binary = atob(base64);
+  return decodeURIComponent(escape(binary));
+}
+
+// Función para parsear el JWT
+function parseJwt(token) {
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    throw new Error('Invalid JWT token');
+  }
+  
+  const payload = parts[1];
+  const decodedPayload = base64UrlDecode(payload);
+  
+  return JSON.parse(decodedPayload);
+}
+
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    axios.post('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/auth/login', {
+    axios.post('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/auth/hu-tp-01', {
       username,
       password,
     })
@@ -20,15 +43,39 @@ export default function LoginScreen() {
       console.log('Datos de la API:', response.data);
 
       if (response.data.message === 'Login exitoso.') {
-        Toast.show({
-          type: 'success',
-          position: 'top',
-          text1: 'Login Exitoso',
-          text2: 'Redirigiendo a Dashboard...',
-        });
-        setTimeout(() => {
-          navigation.navigate('Dashboard');
-        }, 2000);
+        const token = response.data.idToken;
+
+        try {
+          if (!token || token.split('.').length !== 3) {
+            throw new Error('Token vacío o malformado');
+          }
+
+          const decodedPayload = parseJwt(token);
+          console.log('Decoded Payload:', decodedPayload);
+
+          const userRole = decodedPayload['custom:role']; 
+          console.log('User Role:', userRole);
+
+          Toast.show({
+            type: 'success',
+            position: 'top',
+            text1: 'Login Exitoso',
+            text2: 'Redirigiendo a Dashboard...',
+          });
+
+          setTimeout(() => {
+            navigation.navigate('Dashboard', { role: userRole });
+          }, 2000);
+
+        } catch (error) {
+          console.error('Error al decodificar el token:', error.message);
+          Toast.show({
+            type: 'error',
+            position: 'top',
+            text1: 'Error al Decodificar Token',
+            text2: 'No se pudo decodificar el token.',
+          });
+        }
       } else {
         Toast.show({
           type: 'error',
@@ -63,7 +110,7 @@ export default function LoginScreen() {
           <Text style={styles.loginTitle2}>Usuario</Text>
           <TextInput
             style={styles.input}
-           /// placeholder="Ingrese su usuario"
+            placeholder="Ingrese su usuario"
             placeholderTextColor="#888"
             value={username}
             onChangeText={setUsername}
@@ -71,7 +118,7 @@ export default function LoginScreen() {
           <Text style={styles.loginTitle2}>Contraseña</Text>
           <TextInput
             style={[styles.input, { marginBottom: 30 }]}
-          //  placeholder="Ingrese su contraseña"
+            placeholder="Ingrese su contraseña"
             placeholderTextColor="#888"
             secureTextEntry
             value={password}

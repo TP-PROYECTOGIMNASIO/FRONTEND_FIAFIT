@@ -20,7 +20,7 @@ export default function ResetPasswordScreen() {
       return;
     }
   
-    axios.patch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/auth/envio_c', 
+    axios.patch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/auth/hu-tp-02', 
       { username },
       { 
         headers: {
