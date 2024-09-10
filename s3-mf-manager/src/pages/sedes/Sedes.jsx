@@ -206,11 +206,12 @@ function CardSede({ sede }) {
 function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
     const [sede, setSede] = useState('');
     const [ubicacion, setUbicacion] = useState('');
-    const [imagen, setImagen] = useState(null); // Cambiado para aceptar archivos
+    const [imagen, setImagen] = useState(null);
 
     if (!isOpen) return null;
 
     const ejercutarModal = () => {
+        // Validar que todos los campos estén llenos
         if (!sede || !ubicacion || !imagen) {
             ejecutarError();
             return;
@@ -218,20 +219,18 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
 
         const formData = new FormData();
         formData.append('name', sede);
-        formData.append('image_url', imagen); // Agregar archivo de imagen
         formData.append('address', ubicacion);
+        formData.append('file', imagen);  // Agregar archivo de imagen
 
+        // Imprimir el contenido de formData en la consola para verificar
         for (let [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-        
 
+        // Enviar los datos usando fetch
         fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/planilla-por-sedes/hu-tp-76', {
             method: 'POST',
             body: formData,
-            headers: {
-                'Content-Type':'multipart/form-data',
-            },
         })
         .then(response => {
             if (!response.ok) {
@@ -245,17 +244,20 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
         })
         .then(data => {
             console.log('Success:', data);
-            
-            setSede('');  // Limpiar el campo "sede"
-            setUbicacion('');  // Limpiar el campo "ubicacion"
-            setImagen(null);  // Limpiar el campo "imagen"
+            limpiarFormulario();
+            onRegisterSuccess();  // Ejecutar la acción de éxito
             onClose();  // Cerrar el modal
-            onRegisterSuccess();
         })
         .catch((error) => {
             console.error('Error:', error.message);
             ejecutarError();
         });
+    };
+
+    const limpiarFormulario = () => {
+        setSede('');
+        setUbicacion('');
+        setImagen(null);  // Restablecer imagen a null
     };
 
     const ejecutarError = () => {
@@ -269,15 +271,14 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
                 <button 
                     onClick={onClose} 
                     className="absolute top-3 right-3 text-black text-[50px] w-[75px] rounded-full flex items-center justify-center"
-            
                 >
-                    <span style={{fontWeight:900, textAlign:"center"}}>&times;</span>
+                    <span style={{ fontWeight: 900, textAlign: "center" }}>&times;</span>
                 </button>
 
                 <div className="min-w-[360px] min-h-[350px] p-4 flex flex-col justify-center gap-4"
-                    style={{borderRadius:"10px",backgroundColor:"#DFE0E1"}}
+                    style={{ borderRadius: "10px", backgroundColor: "#DFE0E1" }}
                 >
-                    <h2 className="text-xl font-extrabold mb-4 text-black text-center" style={{color:"#B5121C"}}>Registrar Nueva Sede</h2>
+                    <h2 className="text-xl font-extrabold mb-4 text-black text-center" style={{ color: "#B5121C" }}>Registrar Nueva Sede</h2>
                     <div className="flex flex-row justify-between">
                         <label className="text-black" htmlFor="sede">Sede:</label>
                         <input 
@@ -303,12 +304,16 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
                         <input 
                             className="text-black bg-white p-1 text-center max-w-[180px]" 
                             type="file" // Cambiado a "file"
-                            accept="image/png" // Acepta solo PNG
+                            accept="image/jpeg" // Acepta solo JPEG
                             onChange={(e) => setImagen(e.target.files[0])} // Guardar el archivo seleccionado
                         />
                     </div>
-                    <div className="flex justify-center" onClick={ejercutarModal}>
-                        <button className="ml-4 p-2 text-white font-semibold min-w-[100px] max-w-[200px]" style={{backgroundColor:"#B5121C", borderRadius:"5px"}}>
+                    <div className="flex justify-center">
+                        <button 
+                            className="ml-4 p-2 text-white font-semibold min-w-[100px] max-w-[200px]" 
+                            style={{ backgroundColor: "#B5121C", borderRadius: "5px" }}
+                            onClick={ejercutarModal}  // Llamar a ejercutarModal al hacer clic
+                        >
                             Guardar
                         </button>
                     </div>
@@ -317,7 +322,6 @@ function Modal({ isOpen, onClose, openError, asignarMsj, onRegisterSuccess }) {
         </div>
     );
 }
-
 
 function ModalError({ isOpen, onClose,msj,asignarMsj}) {
     if (!isOpen) return null;
