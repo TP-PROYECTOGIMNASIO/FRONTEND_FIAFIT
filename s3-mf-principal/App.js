@@ -2,9 +2,11 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { DashboardScreen } from './dashboard';
 import LoginScreen from './login/components/LoginScreen';
+import UserNotScreen from './login/components/UserNotScreen';
 import ResetPasswordScreen from './reset-password/components/ResetPasswordScreen';
 import VerificationCodeScreen from './VerificationCode/components/VerificationCodeScreen';
 import NewPasswordScreen from './NewPassword/components/NewPasswordScreen';
+import PassswordCorrectScreen from './NewPassword/components/PassswordCorrectScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Footer from './Componentes/Footer';
@@ -45,6 +47,10 @@ function MainStack() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VerificationCode" component={VerificationCodeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="UserNotScreen" component={UserNotScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="PassswordCorrectScreen" component={PassswordCorrectScreen} options={{ headerShown: false }} />
+      
+        
       </Stack.Navigator>
       <Footer />
       <Toast />

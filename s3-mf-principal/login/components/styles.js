@@ -104,4 +104,9 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#b5121C',
   },
+
+  resetImage: {
+    width: 120, // Ajusta el ancho de la imagen
+    height: 120, // Ajusta la altura de la imagen
+  },
 });

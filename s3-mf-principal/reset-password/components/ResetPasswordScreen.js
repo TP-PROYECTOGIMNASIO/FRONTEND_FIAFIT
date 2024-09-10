@@ -76,13 +76,13 @@ export default function ResetPasswordScreen() {
           </TouchableOpacity>
 
           <Text style={styles.title}>RESTABLECER CONTRASEÑA</Text>
-
+          <p></p>
           <Image
             source={require('../assets/icons8-orientación-de-bloqueo-100.png')}
             style={styles.resetImage}
             resizeMode="contain"
           />
-
+          <p></p>
           <Text style={styles.subtitle}>Ingrese su usuario</Text>
 
           <TextInput
@@ -92,7 +92,7 @@ export default function ResetPasswordScreen() {
             value={username}
             onChangeText={setUsername}
           />
-
+       
           <TouchableOpacity style={styles.button} onPress={handleNext}>
             <Text style={styles.buttonText}>SIGUIENTE</Text>
           </TouchableOpacity>

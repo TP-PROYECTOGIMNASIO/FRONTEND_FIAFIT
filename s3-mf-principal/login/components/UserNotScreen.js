@@ -20,7 +20,7 @@ export default function ResetPasswordScreen() {
       </View>
 
       <View style={styles.rightSection}>
-        <View style={styles.resetbox}>
+        <View style={styles.loginBox}>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => navigation.goBack()}
@@ -28,18 +28,18 @@ export default function ResetPasswordScreen() {
             <Text style={styles.closeButtonText}>X</Text>
           </TouchableOpacity>
 
-          <Text style={styles.title}>USUARIO O CONTRASEÑA INCORRECTA</Text>
-
+          <Text style={styles.loginTitle}>USUARIO O CONTRASEÑA INCORRECTA</Text>
+          <p></p>
           <Image
             source={require('../../public/icons8-circled-x-96.png')}
             style={styles.resetImage}
             resizeMode="contain"
           />
-
-          <Text style={styles.subtitle}>Por favor volver a introducir los datos correctamente</Text>
+          <p></p>
+          <Text style={styles.loginTitle2}>Por favor volver a introducir los datos correctamente</Text>
 
         
-
+          <p></p>
           <TouchableOpacity style={styles.button} onPress={handleBack}>
             <Text style={styles.buttonText}>VOLVER</Text>
           </TouchableOpacity>

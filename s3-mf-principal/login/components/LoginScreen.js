@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import Toast from 'react-native-toast-message';
 import styles from './styles';
 
 // Función para decodificar base64url
@@ -56,43 +55,19 @@ export default function LoginScreen() {
           const userRole = decodedPayload['custom:role']; 
           console.log('User Role:', userRole);
 
-          Toast.show({
-            type: 'success',
-            position: 'top',
-            text1: 'Login Exitoso',
-            text2: 'Redirigiendo a Dashboard...',
-          });
-
-          setTimeout(() => {
-            navigation.navigate('Dashboard', { role: userRole });
-          }, 2000);
+          navigation.navigate('Dashboard', { role: userRole });
 
         } catch (error) {
           console.error('Error al decodificar el token:', error.message);
-          Toast.show({
-            type: 'error',
-            position: 'top',
-            text1: 'Error al Decodificar Token',
-            text2: 'No se pudo decodificar el token.',
-          });
+          navigation.navigate('UserNotScreen'); // Redirigir a UserNotScreen en caso de error
         }
       } else {
-        Toast.show({
-          type: 'error',
-          position: 'top',
-          text1: 'Ingreso Fallido',
-          text2: response.data.message || 'Credenciales Invalidas',
-        });
+        navigation.navigate('UserNotScreen'); // Redirigir a UserNotScreen si la respuesta no es exitosa
       }
     })
     .catch(error => {
       console.error('Error en la API:', error.response ? error.response.data : error.message);
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: 'Ingreso Fallido',
-        text2: 'Ocurrió un error. Por favor, intenta nuevamente.',
-      });
+      navigation.navigate('UserNotScreen'); // Redirigir a UserNotScreen en caso de error
     });
   };
 

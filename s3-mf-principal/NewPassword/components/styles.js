@@ -95,4 +95,23 @@ export default StyleSheet.create({
     justifyContent: 'center',  // Asegura que el texto esté centrado verticalmente si hay espacio adicional
 
   },
+
+  closeButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+
+  closeButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    padding: 5,
+    zIndex: 1,
+  },
+
+  resetImage: {
+    width: 120, // Ajusta el ancho de la imagen
+    height: 120, // Ajusta la altura de la imagen
+  },
 });
