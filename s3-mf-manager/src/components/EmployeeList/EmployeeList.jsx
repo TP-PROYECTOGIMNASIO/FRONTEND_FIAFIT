@@ -5,38 +5,23 @@ import ConfirmationPopup from '../Modal/ConfirmationPopup'; // Importa el compon
 import './EmployeeList.css';
 
 const EmployeeList = () => {
-  // Estado para almacenar la lista de empleados
   const [employees, setEmployees] = useState([]);
-  // Estado para almacenar la lista de empleados filtrada
   const [filteredEmployees, setFilteredEmployees] = useState([]);
-  // Estado para controlar la visibilidad del modal
   const [showModal, setShowModal] = useState(false);
-  // Estado para almacenar la consulta de búsqueda
   const [searchQuery, setSearchQuery] = useState('');
-  // Estado para almacenar los filtros seleccionados
   const [filters, setFilters] = useState({
     sede: '',
     rol: '',
-    estado: '',
+    active: '', // Cambiamos el filtro 'estado' por 'active'
   });
-  // Estado para controlar la visibilidad del popup de confirmación
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
-  // Estado para almacenar el empleado seleccionado para cambiar su estado
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-  // useEffect para cargar la lista de empleados al montar el componente
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        console.log('Fetching employees...');
         const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-74');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
         const data = await response.json();
-        console.log('Employees data:', data);
-
-        // Verifica si la respuesta es un array y actualiza el estado
         if (Array.isArray(data)) {
           setEmployees(data);
           setFilteredEmployees(data);
@@ -51,35 +36,27 @@ const EmployeeList = () => {
     fetchEmployees();
   }, []);
 
-  // Maneja el clic en el botón para agregar un nuevo empleado
   const handleAddEmployeeClick = () => {
-    console.log('Opening employee form modal...');
     setShowModal(true);
   };
 
-  // Maneja el cierre del modal
   const handleCloseModal = () => {
-    console.log('Closing employee form modal...');
     setShowModal(false);
   };
 
-  // Función para agregar un nuevo empleado a la lista
   const addEmployee = (newEmployee) => {
-    console.log('Adding new employee:', newEmployee);
-    const employeeWithDefaultStatus = { ...newEmployee, estado: 'Activo' };
+    const employeeWithDefaultStatus = { ...newEmployee, active: true }; // Por defecto, nuevo empleado es activo
     const updatedEmployees = [...employees, employeeWithDefaultStatus];
     setEmployees(updatedEmployees);
     setFilteredEmployees(updatedEmployees);
   };
 
-  // Maneja la búsqueda por DNI o nombre
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
     filterEmployees(filters, value);
   };
 
-  // Maneja los cambios en los filtros de sede, rol y estado
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const updatedFilters = { ...filters, [name]: value };
@@ -87,31 +64,29 @@ const EmployeeList = () => {
     filterEmployees(updatedFilters, searchQuery);
   };
 
-  // Filtra la lista de empleados basada en los filtros y la búsqueda
   const filterEmployees = (filters, searchQuery) => {
     const filtered = employees.filter((employee) => {
       const matchSede = filters.sede ? employee.location_id === filters.sede : true;
       const matchRol = filters.rol ? employee.rol_id === filters.rol : true;
-      const matchEstado = filters.estado ? employee.estado === filters.estado : true;
+      const matchActive = filters.active ? employee.active === (filters.active === 'true') : true;
       const matchSearch =
         employee.document.includes(searchQuery) ||
-        `${employee.c_names} ${employee.father_last_name} ${employee.mother_last_name}`
+        `${employee.names} ${employee.father_last_name} ${employee.mother_last_name}`
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
 
-      return matchSede && matchRol && matchEstado && matchSearch;
+      return matchSede && matchRol && matchActive && matchSearch;
     });
     setFilteredEmployees(filtered);
   };
 
-  // Función para alternar el estado del empleado entre activo/inactivo
   const toggleEmployeeStatus = (employee) => {
     setShowConfirmPopup(true);
     setSelectedEmployee(employee);
   };
 
-  // Función para actualizar el estado del empleado en el servidor
   const updateEmployeeStatus = async (staffId, newStatus) => {
+    console.log(staffId, newStatus);
     try {
       const response = await fetch(`https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-75?staff_id=${staffId}`, {
         method: 'PUT',
@@ -120,31 +95,25 @@ const EmployeeList = () => {
         },
         body: JSON.stringify({
           staff_id: staffId,
-          status: newStatus,
+          active: newStatus, // Enviamos el nuevo estado como booleano
         }),
       });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
       const result = await response.json();
-      console.log('Update result:', result);
       return result;
     } catch (error) {
       console.error('Error al actualizar el estado del empleado:', error);
       alert('Error al actualizar el estado del empleado.');
     }
   };
-  
 
-  // Confirma la acción de alternar el estado del empleado
   const confirmToggleStatus = async () => {
-    const newStatus = selectedEmployee.estado === 'Activo' ? 'Inactivo' : 'Activo';
+    const newStatus = !selectedEmployee.active; // Invertimos el estado actual
     const updateResult = await updateEmployeeStatus(selectedEmployee.staff_id, newStatus);
     
     if (updateResult) {
       const updatedEmployees = employees.map((emp) =>
         emp.staff_id === selectedEmployee.staff_id
-          ? { ...emp, estado: newStatus }
+          ? { ...emp, active: newStatus }
           : emp
       );
       setEmployees(updatedEmployees);
@@ -154,13 +123,11 @@ const EmployeeList = () => {
     }
   };
 
-  // Cierra el popup de confirmación sin hacer cambios
   const closePopup = () => {
     setShowConfirmPopup(false);
     setSelectedEmployee(null);
   };
 
-  // Abre el contrato del empleado en una nueva pestaña
   const viewContract = (contractUrl) => {
     window.open(contractUrl, '_blank'); 
   };
@@ -197,14 +164,14 @@ const EmployeeList = () => {
           <option value="2">Encargado</option>
         </select>
         <select
-          name="estado"
+          name="active"
           className="filter"
-          value={filters.estado}
+          value={filters.active}
           onChange={handleFilterChange}
         >
           <option value="">Agrupar por estado</option>
-          <option value="Activo">Activo</option>
-          <option value="Inactivo">Inactivo</option>
+          <option value="true">Activo</option>
+          <option value="false">Inactivo</option>
         </select>
         <input
           type="text"
@@ -239,26 +206,25 @@ const EmployeeList = () => {
               <tr key={employee.staff_id}>
                 <td>{employee.document}</td>
                 <td>
-                  <img
-                    src={employee.photo_url || 'default-image.jpg'}
-                    alt="Foto del empleado"
-                    className="employee-photo"
-                  />
+                  <img src={employee.photo_url} alt="Foto del empleado" />
                 </td>
                 <td>{`${employee.names} ${employee.father_last_name} ${employee.mother_last_name}`}</td>
                 <td>{employee.rol_id === '1' ? 'Entrenador' : 'Encargado'}</td>
                 <td>{employee.location_id === '1' ? 'La Molina' : 'San Isidro'}</td>
                 <td>
-                  <button className="view-button" onClick={() => viewContract(employee.contract_url)}>Ver</button>
+                  <button
+                    className="view-button"
+                    onClick={() => viewContract(employee.contract_url)}
+                  >
+                    Ver
+                  </button>
                 </td>
                 <td>
                   <button
-                    className={`status-button ${
-                      employee.estado === 'Activo' ? 'active' : 'inactive'
-                    }`}
+                    className={`status-button ${employee.active ? 'active' : 'inactive'}`}
                     onClick={() => toggleEmployeeStatus(employee)}
                   >
-                    {employee.estado === 'Activo' ? 'Desactivar' : 'Activar'}
+                    {employee.active ? 'Desactivar' : 'Activar'}
                   </button>
                 </td>
               </tr>
@@ -269,9 +235,9 @@ const EmployeeList = () => {
 
       {showConfirmPopup && (
         <ConfirmationPopup
-          onClose={closePopup}
+          message={`¿Estás seguro de que deseas ${selectedEmployee.active ? 'desactivar' : 'activar'} a este empleado?`}
           onConfirm={confirmToggleStatus}
-          message={`¿Está seguro que desea ${selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'} a ${selectedEmployee?.names}?`}
+          onCancel={closePopup}
         />
       )}
     </div>
