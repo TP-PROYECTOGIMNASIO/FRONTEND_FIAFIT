@@ -3,7 +3,6 @@ import EmployeeForm from '../EmployeeForm/EmployeeForm';
 import Modal from '../Modal/Modal';
 import ConfirmationPopup from '../Modal/ConfirmationPopup'; // Importa el componente de confirmación
 import './EmployeeList.css';
-import { Link } from 'react-router-dom';
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -13,7 +12,7 @@ const EmployeeList = () => {
   const [filters, setFilters] = useState({
     sede: '',
     rol: '',
-    estado: '',
+    active: '', // Cambiamos el filtro 'estado' por 'active'
   });
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -21,14 +20,8 @@ const EmployeeList = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        console.log('Fetching employees...');
-        const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/visualize');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-74');
         const data = await response.json();
-        console.log('Employees data:', data);
-
         if (Array.isArray(data)) {
           setEmployees(data);
           setFilteredEmployees(data);
@@ -44,18 +37,15 @@ const EmployeeList = () => {
   }, []);
 
   const handleAddEmployeeClick = () => {
-    console.log('Opening employee form modal...');
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
-    console.log('Closing employee form modal...');
     setShowModal(false);
   };
 
   const addEmployee = (newEmployee) => {
-    console.log('Adding new employee:', newEmployee);
-    const employeeWithDefaultStatus = { ...newEmployee, estado: 'Activo' };
+    const employeeWithDefaultStatus = { ...newEmployee, active: true }; // Por defecto, nuevo empleado es activo
     const updatedEmployees = [...employees, employeeWithDefaultStatus];
     setEmployees(updatedEmployees);
     setFilteredEmployees(updatedEmployees);
@@ -78,14 +68,14 @@ const EmployeeList = () => {
     const filtered = employees.filter((employee) => {
       const matchSede = filters.sede ? employee.location_id === filters.sede : true;
       const matchRol = filters.rol ? employee.rol_id === filters.rol : true;
-      const matchEstado = filters.estado ? employee.estado === filters.estado : true;
+      const matchActive = filters.active ? employee.active === (filters.active === 'true') : true;
       const matchSearch =
-        employee.c_document.includes(searchQuery) ||
-        `${employee.c_names} ${employee.father_last_name} ${employee.mother_last_name}`
+        employee.document.includes(searchQuery) ||
+        `${employee.names} ${employee.father_last_name} ${employee.mother_last_name}`
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
 
-      return matchSede && matchRol && matchEstado && matchSearch;
+      return matchSede && matchRol && matchActive && matchSearch;
     });
     setFilteredEmployees(filtered);
   };
@@ -96,22 +86,19 @@ const EmployeeList = () => {
   };
 
   const updateEmployeeStatus = async (staffId, newStatus) => {
+    console.log(staffId, newStatus);
     try {
-      const response = await fetch('https://cxdt2lrhdb.execute-api.us-east-2.amazonaws.com/desarrollo/staff/actualizacion', {
+      const response = await fetch(`https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/empleados/hu-tp-75?staff_id=${staffId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           staff_id: staffId,
-          status: newStatus,
+          active: newStatus, // Enviamos el nuevo estado como booleano
         }),
       });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
       const result = await response.json();
-      console.log('Update result:', result);
       return result;
     } catch (error) {
       console.error('Error al actualizar el estado del empleado:', error);
@@ -120,13 +107,13 @@ const EmployeeList = () => {
   };
 
   const confirmToggleStatus = async () => {
-    const newStatus = selectedEmployee.estado === 'Activo' ? 'Inactivo' : 'Activo';
-    const updateResult = await updateEmployeeStatus(selectedEmployee.c_document, newStatus);
+    const newStatus = !selectedEmployee.active; // Invertimos el estado actual
+    const updateResult = await updateEmployeeStatus(selectedEmployee.staff_id, newStatus);
     
     if (updateResult) {
       const updatedEmployees = employees.map((emp) =>
-        emp.c_document === selectedEmployee.c_document
-          ? { ...emp, estado: newStatus }
+        emp.staff_id === selectedEmployee.staff_id
+          ? { ...emp, active: newStatus }
           : emp
       );
       setEmployees(updatedEmployees);
@@ -146,9 +133,9 @@ const EmployeeList = () => {
   };
 
   return (
-    <div className="employee-list-page min-h-[90vh]">
+    <div className="employee-list-page">
       <div className="employee-list-header">
-        <Link to={"/"} className="back-button">← Regresar</Link>
+        <button className="back-button">← Regresar</button>
         <h1>Lista de Empleados</h1>
         <button className="add-employee-btn" onClick={handleAddEmployeeClick}>
           + Registrar Nuevo Empleado
@@ -177,14 +164,14 @@ const EmployeeList = () => {
           <option value="2">Encargado</option>
         </select>
         <select
-          name="estado"
+          name="active"
           className="filter"
-          value={filters.estado}
+          value={filters.active}
           onChange={handleFilterChange}
         >
           <option value="">Agrupar por estado</option>
-          <option value="Activo">Activo</option>
-          <option value="Inactivo">Inactivo</option>
+          <option value="true">Activo</option>
+          <option value="false">Inactivo</option>
         </select>
         <input
           type="text"
@@ -215,33 +202,29 @@ const EmployeeList = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees.map((employee, index) => (
-              <tr key={index}>
-                <td>{employee.c_document}</td>
+            {filteredEmployees.map((employee) => (
+              <tr key={employee.staff_id}>
+                <td>{employee.document}</td>
                 <td>
-                  <img
-                    src={employee.photo_url || 'default-image.jpg'}
-                    alt="Foto del empleado"
-                    className="employee-photo"
-                  />
+                  <img src={employee.photo_url} alt="Foto del empleado" />
                 </td>
-                <td>{`${employee.c_names} ${employee.father_last_name} ${employee.mother_last_name}`}</td>
+                <td>{`${employee.names} ${employee.father_last_name} ${employee.mother_last_name}`}</td>
                 <td>{employee.rol_id === '1' ? 'Entrenador' : 'Encargado'}</td>
                 <td>{employee.location_id === '1' ? 'La Molina' : 'San Isidro'}</td>
                 <td>
-                  <button className="view-button" onClick={() => viewContract(employee.contract_url)}>Ver</button>
+                  <button
+                    className="view-button"
+                    onClick={() => viewContract(employee.contract_url)}
+                  >
+                    Ver
+                  </button>
                 </td>
                 <td>
                   <button
-                    className={`status-button ${
-                      employee.estado === 'Activo' ? 'active' : 'inactive'
-                    }`}
+                    className={`status-button ${employee.active ? 'active' : 'inactive'}`}
                     onClick={() => toggleEmployeeStatus(employee)}
                   >
-                    {employee.estado === 'Activo'
-                      ? 'Desactivar'
-                      : 'Activar'}{' '}
-                    empleado
+                    {employee.active ? 'Desactivar' : 'Activar'}
                   </button>
                 </td>
               </tr>
@@ -252,11 +235,9 @@ const EmployeeList = () => {
 
       {showConfirmPopup && (
         <ConfirmationPopup
-          message={`¿Seguro que quieres ${
-            selectedEmployee?.estado === 'Activo' ? 'desactivar' : 'activar'
-          } este empleado?`}
+          message={`¿Estás seguro de que deseas ${selectedEmployee.active ? 'desactivar' : 'activar'} a este empleado?`}
           onConfirm={confirmToggleStatus}
-          onClose={closePopup}
+          onCancel={closePopup}
         />
       )}
     </div>
