@@ -65,7 +65,7 @@ export default function Navbar() {
 
                         <div
                             className="flex items-center gap-2 cursor-pointer text-red-600"
-                            onClick={() => navigate('/Inicio')}
+                            onClick={() => navigate('/')}
                         >
                             <UserIcon className="w-[8vh] h-[6vh]" />
                             <h1 className="text-[20px] font-bold">Salir</h1>

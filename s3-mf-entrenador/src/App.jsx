@@ -54,7 +54,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/Inicio" element={<Inicio />} />
+        <Route path="/" element={<Inicio />} />
         <Route path="/visualizar" element={<Visualizar />} />
         <Route path="/listar-alumnos" element={<ListarAlumnos />} />
         <Route path="/registrar-metricas" element={<RegistrarMetricas />} />
