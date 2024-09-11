@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const ListStudents = () => {
   const [students, setStudents] = useState([]);
@@ -141,7 +142,7 @@ const ListStudents = () => {
               </div>
               <div className="flex-1 flex flex-col">
                 <button className="bg-gray-700 text-white py-2 px-4 rounded-md mb-2">PLAN ALIMENTICIO</button>
-                <button className="bg-gray-700 text-white py-2 px-4 rounded-md mb-2">PLAN DE ENTRENAMIENTO</button>
+                <Link to={'/planes'} className="bg-gray-700 text-white py-2 px-4 rounded-md mb-2">PLAN DE ENTRENAMIENTO</Link>
                 <button className="bg-gray-700 text-white py-2 px-4 rounded-md">REPORTE DE FISIOTERAPEUTA</button>
               </div>
             </div>
