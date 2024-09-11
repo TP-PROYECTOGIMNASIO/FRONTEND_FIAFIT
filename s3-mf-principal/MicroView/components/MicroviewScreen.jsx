@@ -5,7 +5,7 @@ import { WebView } from 'react-native-webview';
 
 export default function MicroviewScreen() {
   const route = useRoute();
-  const { urlMain } = route.params;
+  const { role } = route.params;
   const navigation = useNavigation();
   const aleatorio = Math.floor(Math.random() * (7 - 0 + 1)) + 0;
   const navegacion = [
@@ -19,10 +19,17 @@ export default function MicroviewScreen() {
     "nutricionista",
     "recepcionista"
   ];
-  const urlNew = "https://s3-mf-" + navegacion[aleatorio] + ".netlify.app/";
+  var urlNew =""
+  if(role === "admin"){
+    urlNew = "https://s3-mf-administrador.netlify.app/";
 
+  }else if(role ==="cliente"){
+    urlNew = "https://s3-mf-clientes.netlify.app/";
+  }else if(role==='Entrenador'){
+    urlNew = "https://s3-mf-entrenador.netlify.app/";
+  }
   const handleNavigateToDashboard = () => {
-    navigation.navigate('Dashboard');
+    navigation.navigate('Dashboard', { role: role });
   };
 
   return (
@@ -33,13 +40,13 @@ export default function MicroviewScreen() {
       
       {Platform.OS === 'web' ? (
         <iframe 
-          src={urlMain} 
+          src={urlNew} 
           style={styles.webview} 
           title="Microview Web" 
         />
       ) : (
         <WebView
-          source={{ uri: urlMain }}
+          source={{ uri: urlNew }}
           style={styles.webview}
         />
       )}
