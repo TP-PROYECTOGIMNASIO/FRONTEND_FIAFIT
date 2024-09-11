@@ -9,6 +9,7 @@ import RegistrarMetricas from "./pages/RegistrarMetricasAlumno/registrarMetricas
 import AlumnoCheckin from "./pages/VisualizarMetricasAlumno/Checking-Metricas/AlumnoCheckin";
 import VistaNoRegisrado from "./pages/RegistrarMetricasAlumno/VistaNoRegistradoMetricas/Ir-Registrar-Metrica";
 import ListStudents from "./pages/listStudents/ListStudents";
+import AsignarAlumno from "./pages/asignaralumno/AsignarAlumno";
 
 function App() {
   const action = useNavigationType();
@@ -61,6 +62,8 @@ function App() {
         <Route path="/registrar-metricas" element={<RegistrarMetricas />} />
         <Route path="/alumno-checkin" element={<AlumnoCheckin />} />
         <Route path="/vista-no-registrado" element={<VistaNoRegisrado />} />
+        <Route path="/asignar-alumno" element={<AsignarAlumno />} />
+
         {/* Agrega otras rutas aquí */}
       </Routes>
       <Footer />

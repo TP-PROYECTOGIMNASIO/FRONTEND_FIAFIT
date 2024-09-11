@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "../../components/Modal";
 
-export default function Inicio() {
+export default function AsignarAlumno() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [view, setView] = useState("asignar");
   const [dni, setDni] = useState(""); // Para almacenar el DNI ingresado
