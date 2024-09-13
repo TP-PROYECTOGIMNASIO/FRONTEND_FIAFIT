@@ -2,34 +2,90 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'; 
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './registerStyles'; 
+import axios from 'axios';
+
 
 const RegisterScreen = ({ navigation }) => {
 
-  const [documento, setDocumento] = useState('');
+  const [document, setDocument] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellidoPaterno, setApellidoPaterno] = useState('');
-  const [apellidoMaterno, setApellidoMaterno] = useState('');
+  const [apellidoMaterno, setApellidoMaterno] = useState('')
   const [mail, setMail] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [genero, setGenero] = useState('');
-  const [codigo, setCodigo] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [pais, setPais] = useState('');
-  const [ciudad, setCiudad] = useState('');
-  const [postal, setPostal] = useState('');
-  const [imagen, setImagen] = useState('');
-  const [contacto, setContacto] = useState('');
-  const [telContacto, setTelContacto] = useState('');
+  const [phone, setTelefono] = useState('');
+  const [gender_id, setGenero] = useState('');
+  const [password, setPassword] = useState('');
+  const [photo, setPhoto] = useState('');
+  const [emergecy_contact, setContacto] = useState('');
+  const [emergency_contact_phone_number, setTelContacto] = useState('');
   const [relacion, setRelacion] = useState('');
+  const [code, setCode] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [country, setCountry] = useState('');
+  const [postal_code, setPostalCode] = useState('');
+
 
   const [generoOpen, setGeneroOpen] = useState(false);
-  const [paisOpen, setPaisOpen] = useState(false);
-  const [ciudadOpen, setCiudadOpen] = useState(false);
   const [relacionOpen, setRelacionOpen] = useState(false);
   
 
   const handleRegister = () => {
-    navigation.navigate('CodeScreen'); // Navega a la pantalla CodeScreen
+
+    const username = nombre.charAt(0).toUpperCase() + apellidoPaterno.toUpperCase();
+
+    axios.post('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/clientes/hu-tp-04', {
+      document,
+      mail,
+      phone,
+      password,
+      photo,
+      gender_id,
+      code: 'ABC123',
+      city:'Lima',
+      address,
+      country:'Perú',
+      postal_code:'15001',
+      emergecy_contact,
+      emergency_contact_phone_number
+    })
+    .then(response => {
+      console.log('Respuesta completa de la API:', response);
+      console.log('Datos de la API:', response.data);
+
+      if (response.data.message === 'Registro exitoso.') {
+        const decoded = decodeJWT(response.data.idToken);
+        console.log(decoded);
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: 'Registro Exitoso',
+          text2: 'Redirigiendo a codescreen...',
+        });
+        setTimeout(() => {
+          navigation.navigate('login');
+        }, 2000);
+        navigation.navigate('CodeScreen',{username, password}); // Navega a la pantalla CodeScreen
+      } else {
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: 'Registro Fallido',
+          text2: response.data.message || 'Error de validación',
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error en la API:', error.response ? error.response.data : error.message);
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Registro Fallido',
+        text2: 'Ocurrió un error. Por favor, intenta nuevamente.',
+      });
+    });
+      //no hace la validacion
+      navigation.navigate('CodeScreen',{username, password}); // Navega a la pantalla CodeScreen
   };
 
   return (
@@ -42,8 +98,8 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <Text style={styles.inputlabel}>Documento*</Text>
             <TextInput 
-              value={documento}  
-              onChangeText={setDocumento} 
+              value={document}  
+              onChangeText={setDocument} 
               style={styles.input}
             />
           </View>
@@ -67,7 +123,7 @@ const RegisterScreen = ({ navigation }) => {
             <Text  style={styles.inputlabel}>Apellido Materno*</Text>
             <TextInput  
               value={apellidoMaterno}  
-              onChangeText={setApellidoMaterno} 
+              onChangeText={setApellidoMaterno}  
               style={styles.input}      
             />
           </View>
@@ -82,7 +138,7 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <Text  style={styles.inputlabel}>Número de Teléfono*</Text>
             <TextInput 
-              value={telefono}  
+              value={phone}  
               onChangeText={setTelefono} 
               style={styles.input}
             />
@@ -93,12 +149,11 @@ const RegisterScreen = ({ navigation }) => {
               open={generoOpen}
               setOpen={setGeneroOpen}
               items={[
-                { label: 'Seleccione género', value: '' },
-                { label: 'Masculino', value: 'masculino' },
-                { label: 'Femenino', value: 'femenino' },
-                { label: 'Otro', value: 'otro' },
+                { label: 'Seleccione género', value: 0 },
+                { label: 'Masculino', value: 6 },
+                { label: 'Femenino', value: 7 },
               ]}
-              value={genero}
+              value={gender_id}
               setValue={setGenero}
               containerStyle={[styles.pickerContainer]}
               style={styles.picker}
@@ -108,75 +163,30 @@ const RegisterScreen = ({ navigation }) => {
               onChangeValue={item => setGenero(item)}
             />
           </View>
-          <View style={styles.inputWrapper}>
-            <Text  style={styles.inputlabel}>Código Check-In*</Text>
-            <TextInput 
-              value={codigo}  
-              onChangeText={setCodigo} 
-              style={styles.input}
-            />
-          </View>
+         
           <View style={styles.inputWrapper}>
             <Text  style={styles.inputlabel}>Dirección</Text>
             <TextInput 
-              value={direccion}  
-              onChangeText={setDireccion} 
-              style={styles.input}
-            />
-          </View>
-          <View style={[styles.inputWrapper, { zIndex: paisOpen ? 4000 : 1 }]}>
-            <Text  style={styles.inputlabel}>País</Text>
-            <DropDownPicker
-              open={paisOpen}
-              setOpen={setPaisOpen}
-              items={[
-                { label: 'Seleccione país', value: '' },
-                { label: 'Perú', value: 'peru' },
-              ]}
-              value={pais}
-              setValue={setPais}
-              containerStyle={[styles.pickerContainer]}
-              style={styles.picker}
-              itemStyle={styles.pickerItem}
-              dropDownContainerStyle={{ zIndex: 4000, elevation: 5 }}
-              arrowStyle={styles.dropDownArrow}
-              onChangeValue={item => setPais(item)}
-            />
-          </View>
-          <View style={[styles.inputWrapper, { zIndex: ciudadOpen ? 3000 : 1 }]}>
-            <Text  style={styles.inputlabel}>Ciudad</Text>
-            <DropDownPicker
-              open={ciudadOpen}
-              setOpen={setCiudadOpen}
-              items={[
-                { label: 'Seleccione ciudad', value: '' },
-                { label: 'Lima', value: 'lima' },
-                { label: 'Arequipa', value: 'arequipa' },
-              ]}
-              value={ciudad}
-              setValue={setCiudad}
-              containerStyle={[styles.pickerContainer]}
-              style={styles.picker}
-              itemStyle={styles.pickerItem}
-              dropDownContainerStyle={{ zIndex: 3000, elevation: 5 }}
-              arrowStyle={styles.dropDownArrow}
-              onChangeValue={item => setCiudad(item)}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <Text  style={styles.inputlabel}>Código Postal</Text>
-            <TextInput 
-              value={postal}  
-              onChangeText={setPostal} 
+              value={address}  
+              onChangeText={setAddress} 
               style={styles.input}
             />
           </View>
           <View style={styles.inputWrapper}>
             <Text  style={styles.inputlabel}>Adjuntar Imagen</Text>
             <TextInput 
-              value={imagen}  
-              onChangeText={setImagen}  
+              value={photo}  
+              onChangeText={setPhoto}  
               style={styles.input}
+            />
+          </View> 
+          <View style={styles.inputWrapper}>
+            <Text  style={styles.inputlabel}>Crear Contraseña</Text>
+            <TextInput 
+              value={password}  
+              onChangeText={setPassword}  
+              style={styles.input}
+              secureTextEntry={true} 
             />
           </View> 
         </View>
@@ -185,7 +195,7 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <Text  style={styles.inputlabel}>Contacto de Emergencia*</Text>
             <TextInput 
-              value={contacto} 
+              value={emergecy_contact} 
               onChangeText={setContacto} 
               style={styles.input} 
             />
@@ -193,7 +203,7 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputWrapper}>
             <Text  style={styles.inputlabel}>Número de Teléfono*</Text>
             <TextInput 
-              value={telContacto} 
+              value={emergency_contact_phone_number} 
               onChangeText={setTelContacto} 
               style={styles.input} 
             />

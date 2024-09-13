@@ -14,7 +14,7 @@ const TipoClienteScreen = () => {
             <TouchableOpacity style={styles.button} onPress={() => handleButtonClick('ClienteRegularScreen')}>
                 <View style={styles.underline} />
                 <Image
-                    source={require('../assets/clire.png')} // Asegúrate de que la ruta sea correcta
+                    source={require('../assets/clire.png')} 
                     style={styles.image}
                 />
                 <Text style={styles.buttonText}>CLIENTE REGULAR</Text>
@@ -22,7 +22,7 @@ const TipoClienteScreen = () => {
             <TouchableOpacity style={styles.button} onPress={() => handleButtonClick('ClienteLibreScreen')}>
             <View style={styles.underline} />
                 <Image
-                    source={require('../assets/clili.png')} // Asegúrate de que la ruta sea correcta
+                    source={require('../assets/clili.png')} 
                     style={styles.image}
                 />
                 <Text style={styles.buttonText}>CLIENTE LIBRE</Text>

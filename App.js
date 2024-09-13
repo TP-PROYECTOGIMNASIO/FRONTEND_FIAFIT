@@ -9,6 +9,7 @@ import RegisterScreen from './register/components/RegisterScreen';
 import CodeScreen from './register/components/CodeScreen';
 import TipoClienteScreen from './register/components/TipoClienteScreen';
 import ClienteRegularScreen from './register/components/ClienteRegularScreen'; 
+import ClienteRegular2Screen from './register/components/ClienteRegular2Screen';
 import ClienteLibreScreen from './register/components/ClienteLibreScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -55,9 +56,9 @@ function MainStack() {
         <Stack.Screen name="CodeScreen" component={CodeScreen} options={{ headerShown: false }} /> 
         <Stack.Screen name="TipoClienteScreen" component={TipoClienteScreen} options={{ headerShown: false }} /> 
         <Stack.Screen name="ClienteRegularScreen" component={ClienteRegularScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="ClienteRegular2Screen" component={ClienteRegular2Screen} options={{ headerShown: false }}/>
         <Stack.Screen name="ClienteLibreScreen" component={ClienteLibreScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
-
       <Footer />
       <Toast />
     </View>
