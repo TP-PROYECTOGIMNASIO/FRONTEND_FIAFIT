@@ -16,33 +16,12 @@
 </head>
 
 <body>
-
-    <!-- Creamos una tarjeta (card) con Bootstrap para mostrar el botón de pago -->
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                INTEGRACION PASARELA DE PAGO CULQI
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-2">
-                        <!-- Botón que inicia el proceso de pago -->
-                        <button id="btn_pagar" class="btn btn-success">Comprar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <script>
         // Establecemos la clave pública de Culqi para autenticar la transacción
         Culqi.publicKey = 'pk_test_1e3464ded7850f8c';
 
-        const btn_pagar = document.getElementById('btn_pagar');
-
-        btn_pagar.addEventListener('click', function (e) {
-            // Configuramos el formulario de pago con el título, moneda y monto a cobrar
-            Culqi.settings({
+        Culqi.settings({
                 title: 'Fia Fit',
                 currency: 'PEN',  // Moneda en la que se procesará el pago (Soles peruanos)
                 amount: 1000,  // Monto en centavos (1000 centavos = 10.00 PEN)
@@ -68,7 +47,7 @@
             // Abre el formulario de Culqi cuando se hace clic en el botón de pagar
             Culqi.open();
             e.preventDefault(); // Prevenimos que la página se recargue
-        });
+
 
         // Función que se ejecuta al finalizar el proceso de pago
         function culqi() {

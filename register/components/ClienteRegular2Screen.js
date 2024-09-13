@@ -259,6 +259,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom:100,
+    position:'unset',
   },
   checkboxLabel: {
     marginHorizontal: 10,
@@ -293,6 +294,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color:'#B71C1C',
     paddingLeft:50,
+    position:'unset',
   }
 });
 
