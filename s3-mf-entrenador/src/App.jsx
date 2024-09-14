@@ -5,9 +5,12 @@ import {
   useNavigationType,
   useLocation,
 } from "react-router-dom";
-import Inicio from "./pages/inicio/Inicio";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PlanEntrenamientoDia from "./pages/PlanEntrenamientoDia/PlanEntrenamientoDia";
+import RegistrarEntrenamientoDia from "./pages/RegistrarEntrenamientoDia/RegistrarEntrenamientoDia";
+import RegistroEntrenamiento from "./pages/RegistroEntrenamiento/RegistroEntrenamiento";
 
 
 
@@ -49,16 +52,33 @@ function App() {
   }, [pathname]);
 
   return (
-    <Routes>
+    
+     <Routes>
       <Route path="/" element={
         <>
-        <Navbar/>
-          <Inicio/>
-        <Footer/>
+          <Navbar/>
+          <PlanEntrenamientoDia/>
+          <Footer/>
         </>
+      } />
+      <Route path="/registrar-entrenamiento" element={
+        <>
+          <Navbar/>
+          <RegistrarEntrenamientoDia/>
+          <Footer/>
+        </>
+      } />
 
-        } />
+      <Route path="/registro-entrenamiento" element={
+        <>
+          <Navbar/>
+          <RegistroEntrenamiento/>
+          <Footer/>
+        </>
+      } />
     </Routes>
+
+    
   );
 }
 export default App;
