@@ -4,7 +4,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import PasarellaPago from './PaymentMethods'; 
 
 const ClienteRegular2Screen = ({ route, navigation }) => {
-  const { plan, detalle, inscripcion, precio } = route.params || {};
+  const { plan, detalle, inscripcion, precio, total } = route.params || {};
   const [showPasarellaPago, setShowPasarellaPago] = useState(false);
   const [Tipo, setTipo] = useState();
   const [FormaPago, setFormaPago] = useState();
@@ -24,7 +24,7 @@ const ClienteRegular2Screen = ({ route, navigation }) => {
   };
 
   const redirectToPage = () => {
-    window.location.href = '/aa.html'; 
+    window.location.href = '/aa.html?precio=' + total + '&descripcion='+plan ; 
   };
 
   const handleClosePayment = () => {

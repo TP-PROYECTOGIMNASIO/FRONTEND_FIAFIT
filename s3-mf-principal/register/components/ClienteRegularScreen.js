@@ -15,11 +15,12 @@ const ClienteRegularScreen = () => {
   const [isSelectedBasic, setIsSelectedBasic] = useState(false);
   const [isSelectedPro, setIsSelectedPro] = useState(false);
 
+  const montoTotal = (montoInscripcion + montoPrecio) * 100.00;
 
   // Función para manejar la navegación a la siguiente pantalla
   const handleOpenPayment = () => {
     if (membresia) {
-      navigation.navigate('ClienteRegular2Screen', { plan: membresia, detalle:descripcion, inscripcion: montoInscripcion, precio: montoPrecio });
+      navigation.navigate('ClienteRegular2Screen', { plan: membresia, detalle:descripcion, inscripcion: montoInscripcion, precio: montoPrecio, total: montoTotal });
     } else {
       alert('Por favor selecciona un plan de membresía');
     }
@@ -56,6 +57,7 @@ const ClienteRegularScreen = () => {
       setMontoInscripcion(50.00); // Asignar monto de inscripción
       setMontoPrecio(100.00); // Asignar monto de precio
       setIsSelectedPro(false); // Deseleccionar Pro si se selecciona Básico
+
     } else {
       // Si se deselecciona el checkbox básico, limpiar valores
       setMembresia('');

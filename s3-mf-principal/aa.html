@@ -18,36 +18,47 @@
 <body>
     
     <script>
+
+        // Función para obtener el valor de los parámetros de la query string
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Obtenemos el parámetro 'precio' de la URL
+        const precio = getQueryParam('precio') || '1000';  // Valor predeterminado 1000 si no hay parámetro
+        const descripcion = getQueryParam('descripcion');
+
         // Establecemos la clave pública de Culqi para autenticar la transacción
         Culqi.publicKey = 'pk_test_1e3464ded7850f8c';
 
+        // Configuramos los detalles del pago, incluyendo el precio que viene de la query string
         Culqi.settings({
-                title: 'Fia Fit',
-                currency: 'PEN',  // Moneda en la que se procesará el pago (Soles peruanos)
-                amount: 1000,  // Monto en centavos (1000 centavos = 10.00 PEN)
-            });
+            title: 'Fia Fit',
+            currency: 'PEN',  // Moneda en la que se procesará el pago (Soles peruanos)
+            amount: parseInt(precio),  // Usamos el valor del parámetro 'precio' para definir el monto
+        });
 
-            // Opciones adicionales para el formulario, como el idioma y los métodos de pago permitidos
-            Culqi.options({
-                lang: "auto",
-                installments: false, // Deshabilitamos la opción de cuotas
-                paymentMethods: {
-                    tarjeta: true,
-                    yape: true,
-                    bancaMovil: true,
-                    agente: true,
-                    billetera: true,
-                    cuotealo: true,
-                },
-                style: {
-                    logo: "https://s4.aconvert.com/convert/p3r68-cdx67/aale4-nm7pc.webp", // Logo del comercio
-                }
-            });
+        // Opciones adicionales para el formulario, como el idioma y los métodos de pago permitidos
+        Culqi.options({
+            lang: "auto",
+            installments: false, // Deshabilitamos la opción de cuotas
+            paymentMethods: {
+                tarjeta: true,
+                yape: true,
+                bancaMovil: true,
+                agente: true,
+                billetera: true,
+                cuotealo: true,
+            },
+            style: {
+                logo: "https://s4.aconvert.com/convert/p3r68-cdx67/aale4-nm7pc.webp", // Logo del comercio
+            }
+        });
 
-            // Abre el formulario de Culqi cuando se hace clic en el botón de pagar
-            Culqi.open();
-            e.preventDefault(); // Prevenimos que la página se recargue
-            
+        // Abre el formulario de Culqi cuando se hace clic en el botón de pagar
+        Culqi.open();
+        /* e.preventDefault(); */ // Prevenimos que la página se recargue
 
         // Función que se ejecuta al finalizar el proceso de pago
         function culqi() {
@@ -56,17 +67,29 @@
                 const email = Culqi.token.email;
                 console.log('Se ha creado un Token: ', token);
 
-                // Aquí enviarías el token generado al servidor para procesar el pago (comentado para pruebas)
-                /*$.ajax({
-                    url: "procesarPago.php",
+                $.ajax({
+                    url: "https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/ventas/hu-tp-18",  // Cambia esta URL por la de tu API
                     type: "POST",  // Enviar datos al servidor
-                    data: {
+                    contentType: 'application/json', // Especificamos que enviamos datos en formato JSON
+                    data: JSON.stringify({
                         token: token,
-                        email: email
+                        email: email,
+                        item: [
+                            {
+                                description: descripcion,
+                                amount: precio,
+                                quantity: 1
+                            }
+                        ]
+                    }),
+                    success: function (resp) {
+                        alert('Pago procesado correctamente: ' + resp);  // Muestra la respuesta del servidor
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error procesando el pago:', error);
+                        alert('Error al procesar el pago, intenta nuevamente.');
                     }
-                }).done(function (resp) {
-                    alert(resp);  // Muestra la respuesta del servidor
-                });*/
+                });
 
             } else if (Culqi.order) {  // Si se genera un pedido correctamente
                 const order = Culqi.order;
