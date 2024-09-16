@@ -2,15 +2,18 @@ import { useState } from "react";
 import { ShoppingCartIcon } from "./icons";
 import { useShoppingCart } from "../hooks";
 import ShoppingCart from "./shopping-cart";
-
-export default function Header() {
+import { Link } from "react-router-dom";
+export default function Navbar(){
   const [showCart, setShowCart] = useState(false);
   const { products } = useShoppingCart();
-  return (
-    <header className="w-full bg-gray-100 sticky top-0">
-      <div className="max-w-6xl mx-auto px-4 py-6 flex gap-x-12 justify-between">
-        <h1 className="font-semibold text-4xl text-gray">FiaFit</h1>
-        <div className="relative flex items-center">
+  return(
+      <nav className="min-h-[10vh] flex justify-between p-2" style={{backgroundColor:"#FFFFFF"}}>
+          <Link to="/">
+            <img src={"/logo-3.png"} alt="logo fia fit" className="w-[30vh] h-[10vh]" />
+          </Link>
+          <div className="flex flex-row items-center mr-4 gap-20">
+              <h1 className="text-[20px] font-bold" style={{color:"#4B4F57"}}>Inicio</h1>
+              <div className="relative flex items-center">
           <button
             className="hover:bg-slate-200/20 rounded-full p-2 text-white flex items-center gap-1"
             onClick={() => setShowCart(!showCart)}
@@ -26,7 +29,7 @@ export default function Header() {
             </div>
           )}
         </div>
-      </div>
-    </header>
-  );
+          </div>
+      </nav>
+  )
 }
