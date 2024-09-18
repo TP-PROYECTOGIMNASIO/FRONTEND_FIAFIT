@@ -3,13 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function RegistroEntrenamientoDia() {
     const navigate = useNavigate();
-
-    const [ejercicios, setEjercicios] = useState([
-        { id: 1, nombre: "Remo en Maquina", imgSrc: "/1.png", repeticiones: 1, series: 1 },
-        { id: 2, nombre: "Pull Ups", imgSrc: "/2.png", repeticiones: 1, series: 1 },
-        { id: 3, nombre: "Face Pulls", imgSrc: "/3.png", repeticiones: 1, series: 1 }
-    ]);
-
+    
+    const [gruposMusculares, setGruposMusculares] = useState([]);
+    const [ejercicios, setEjercicios] = useState([]);
     const [diaSeleccionado, setDiaSeleccionado] = useState('');
     const [NdiaSeleccionado, NsetDiaSeleccionado] = useState('');
 
@@ -24,6 +20,40 @@ export default function RegistroEntrenamientoDia() {
         }
     }, []);
 
+    useEffect(() => {
+        const obtenerGruposMusculares = async () => {
+            try {
+                const response = await fetch(
+                    'https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/plan-de-entrenamiento/hu-tp-28?exerciseTypes=1'
+                );
+                const data = await response.json();
+                setGruposMusculares(data);
+            } catch (error) {
+                console.error("Error al obtener los grupos musculares:", error);
+            }
+        };
+
+        obtenerGruposMusculares();
+    }, []);
+
+
+    const obtenerEjerciciosPorGrupoMuscular = async (grupoId) => {
+        try {
+            // Mapea el grupo seleccionado a su ID correspondiente
+            const response = await fetch(
+                `https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/plan-de-entrenamiento/hu-tp-28?exercise_type_id=${grupoId}`
+            );
+            const data = await response.json();
+            setEjercicios(data.map(ejercicio => ({
+                ...ejercicio,
+                repeticiones: 1,  
+                series: 1      
+            })));
+        } catch (error) {
+            console.error("Error al obtener los ejercicios:", error);
+        }
+    };
+
     const handleRegresar = () => {
         navigate(-1);
     };
@@ -37,7 +67,9 @@ export default function RegistroEntrenamientoDia() {
     };
 
     const handleGrupoMuscular = (e) => {
-        console.log(`Grupo muscular seleccionado: ${e.target.value}`);
+        const grupoId = e.target.value;
+        console.log(`Grupo muscular seleccionado: ${grupoId}`);
+        obtenerEjerciciosPorGrupoMuscular(grupoId);
     };
 
     const updateEjercicio = (index, tipo, cambio) => {
@@ -49,6 +81,7 @@ export default function RegistroEntrenamientoDia() {
             )
         );
     };
+
     return (
         <div className="min-h-screen bg-[#f3f4f7] p-4 flex flex-col">
             <div className="flex flex-col mb-4">
@@ -71,11 +104,15 @@ export default function RegistroEntrenamientoDia() {
                         onChange={handleGrupoMuscular}
                         className="p-2 rounded text-gray-700 bg-gray-200 text-lg border border-black-thin"
                     >
-                        <option value="">Grupo muscular</option>
-                        <option value="grupo1">Grupo muscular 2</option>
-                        <option value="grupo2">Grupo muscular 3</option>
+                        <option value="">Selecciona un grupo muscular</option>
+                        {gruposMusculares.map((grupo) => (
+                            <option key={grupo.exercise_type_id} value={grupo.exercise_type_id}>
+                                {grupo.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
+            
             </div>
 
             <div className="w-full max-w-3xl mx-auto">
@@ -91,16 +128,17 @@ export default function RegistroEntrenamientoDia() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                {ejercicios.map((ejercicio, index) => (
-                    <div key={ejercicio.id} className="border p-4 rounded-lg bg-white shadow-md">
+                {Array.isArray(ejercicios) && ejercicios.map((ejercicio,index) => (
+                    <div value={(index)} className="border p-4 rounded-lg bg-white shadow-md">
                         <div className="flex flex-col items-center">
                             <img
-                                src={ejercicio.imgSrc}
-                                alt={ejercicio.nombre}
+                                src={ejercicio.image_url}
+                                alt={ejercicio.name}
                                 className="w-full h-auto object-cover rounded mb-4"
+                                
                             />
                             <h4 className="text-lg font-bold text-red-700 mb-2">
-                                {ejercicio.nombre}
+                                {ejercicio.name}
                             </h4>
                             <div className="flex flex-col mb-4 text-[#4b4f57]">
                                 <div className="flex items-center mb-2">

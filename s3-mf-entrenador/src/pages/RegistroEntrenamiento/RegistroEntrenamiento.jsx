@@ -95,14 +95,14 @@ const RegistroEntrenamiento = () => {
               <tr key={index}>
                 <td className="p-2 flex justify-center items-center">
                   <img
-                    src={`/espalda${index + 1}.png`}
+                    src={item.image_url}
                     alt="Ejercicio"
                     className="w-auto h-auto max-w-full max-h-16 object-cover"
                   />
                 </td>
                 <td className="p-2">
                   <div className="bg-white h-16 flex justify-center items-center p-2 rounded-lg">
-                    <span className="text-gray-800">{item.nombre}</span>
+                    <span className="text-gray-800">{item.name}</span>
                   </div>
                 </td>
                 <td className="p-2">

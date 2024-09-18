@@ -44,34 +44,30 @@ export default function PlanEntrenamientoDia() {
     useEffect(() => {
         const diaGuardado = localStorage.getItem('diaSeleccionado');
         setDiaSeleccionado(diaGuardado || '');
-      }, []);
-    
+    }, []);
 
-    const diasSemana = [
-        'Lunes',
-        'Martes',
-        'Miércoles',
-        'Jueves',
-        'Viernes',
-        'Sábado',
-        'Domingo'
+    const dias = [
+        'Día 1',
+        'Día 2',
+        'Día 3',
+        'Día 4',
+        'Día 5',
+        'Día 6',
+        'Día 7'
     ];
 
     const handleDiaSeleccionado = (dia) => {
-        const diaNumero = diasSemana.indexOf(dia) + 1;
+        const diaNumero = dias.indexOf(dia) + 1;
         console.log(`Día seleccionado: ${diaNumero}`);
         localStorage.setItem('diaSeleccionado', dia);
         localStorage.setItem('NdiaSeleccionado', diaNumero);
 
-        if (dia === 'Lunes') {
-            setModalOpen(true); // Abre el modal si se selecciona "Lunes"
-        }
-
+        navigate('/registrar-entrenamiento');
         setDiaSeleccionado(dia);
     };
 
     const closeModal = () => {
-        setModalOpen(false); // Cierra el modal
+        setModalOpen(false);
     };
 
     return (
@@ -99,7 +95,7 @@ export default function PlanEntrenamientoDia() {
                     Seleccionar los días y rutinas
                 </p>
                 <div className="grid grid-cols-3 gap-7">
-                    {diasSemana.map((dia, index) => (
+                    {dias.map((dia, index) => (
                         <button
                             key={index}
                             onClick={() => handleDiaSeleccionado(dia)}
