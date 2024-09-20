@@ -11,6 +11,10 @@ import VistaNoRegisrado from "./pages/RegistrarMetricasAlumno/VistaNoRegistradoM
 import ListStudents from "./pages/listStudents/ListStudents";
 import AsignarAlumno2 from "./pages/asignaralumno/AsignarAlumno2";
 import Planes from "./pages/Planes";
+import PlanEntrenamientoDia from "./pages/PlanEntrenamientoDia/PlanEntrenamientoDia.jsx"
+import RegistrarEntrenamientoDia from "./pages/RegistrarEntrenamientoDia/RegistrarEntrenamientoDia.jsx";
+import RegistroEntrenamiento from "./pages/RegistroEntrenamiento/RegistroEntrenamiento.jsx";
+import TrainingPlan from "./components/TrainingPlan.jsx";
 
 function App() {
   const action = useNavigationType();
@@ -65,7 +69,10 @@ function App() {
         <Route path="/vista-no-registrado" element={<VistaNoRegisrado />} />
         <Route path="/asignar-alumno" element={<AsignarAlumno2 />} />
         <Route path="/planes" element={<Planes />} />
-
+        <Route path="/PlanEntrenamientoDia" element={<PlanEntrenamientoDia />} />
+        <Route path="/registrar-entrenamiento" element={<RegistrarEntrenamientoDia />} />
+        <Route path="/registro-entrenamiento" element={<RegistroEntrenamiento />} />
+        <Route path="/Trainingplan" element={<TrainingPlan />} />
         {/* Agrega otras rutas aquí */}
       </Routes>
       <Footer />

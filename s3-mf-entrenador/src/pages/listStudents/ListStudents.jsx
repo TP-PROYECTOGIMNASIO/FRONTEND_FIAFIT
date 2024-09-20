@@ -152,7 +152,7 @@ const ListStudents = () => {
   </div>
   <div className="flex-1 flex flex-col">
     <button className="bg-gray-700 text-white py-2 px-4 rounded-md mb-2">PLAN ALIMENTICIO</button>
-    <Link to={'/planes'} className="bg-gray-700 text-white py-2 px-4 rounded-md mb-2">PLAN DE ENTRENAMIENTO</Link>
+    <Link to={'/Trainingplan'} className="bg-gray-700 text-white py-2 px-4 rounded-md mb-2">PLAN DE ENTRENAMIENTO</Link>
     <button className="bg-gray-700 text-white py-2 px-4 rounded-md">REPORTE DE FISIOTERAPIA</button>
   </div>
 </div>

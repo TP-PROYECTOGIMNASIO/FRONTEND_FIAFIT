@@ -1,28 +1,48 @@
 // src/TrainingPlan.jsx
 import React from 'react';
-import { Link } from 'react-router-dom'; // Importa Link
-import "../styles/stylesH-27.css";  // Actualización de la ruta al CSS
+import { useNavigate, Link } from 'react-router-dom'; // Importa useNavigate y Link
+import PlanEntrenamientoDia from '../pages/PlanEntrenamientoDia/PlanEntrenamientoDia';
 
-const TrainingPlan = ({ onGeneratePlan }) => {
+const TrainingPlan = () => {
+  const navigate = useNavigate(); // Hook para redirección
+
+  // Función para manejar la redirección
+  const handleGeneratePlan = () => {
+    navigate('/PlanEntrenamientoDia'); // Redirige a /plandeentrenamientodia
+  };
+
   return (
-    <div className="container">
-      <div className="card">
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="bg-white shadow-md rounded-lg p-8 relative max-w-md w-full">
         {/* Botón de cerrar como un Link */}
-        <Link to="/" className="close-btn">X</Link>
+        <Link 
+          to="/" 
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-xl font-bold"
+        >
+          X
+        </Link>
 
         {/* Título principal */}
-        <h2 className="title">Plan de Entrenamiento</h2>
+        <h2 className="text-2xl font-semibold text-center mb-4" style={{ color: '#8c1c13' }}>
+          Plan de Entrenamiento
+        </h2>
 
         {/* Nombre del alumno */}
-        <p className="student-name">Nombre del Alumno</p>
+        <p className="text-lg text-gray-600 mb-4 text-center">
+          Nombre del Alumno
+        </p>
 
         {/* Mensaje principal */}
-        <div className="message">
+        <div className="text-center text-gray-600 bg-gray-100 p-4 rounded-lg mb-6">
           No se encuentra plan de entrenamiento asignado
         </div>
 
         {/* Botón de acción */}
-        <button className="action-btn" onClick={onGeneratePlan}>
+        <button 
+          className="w-full text-white py-2 rounded-lg hover:bg-red-800 transition-colors"
+          style={{ backgroundColor: '#b5121c' }}
+          onClick={handleGeneratePlan} // Llama a la función que redirige
+        >
           GENERAR PLAN DE ENTRENAMIENTO
         </button>
       </div>
@@ -31,7 +51,3 @@ const TrainingPlan = ({ onGeneratePlan }) => {
 };
 
 export default TrainingPlan;
-
-
-
-
