@@ -147,7 +147,10 @@ export default function VisualizarInforme() {
           <button className="min-gasto">Mínimo gasto realizado</button>
         </div>
       </header>
-      
+      <div className="informeCompraB">
+      <h6>Informe Compra</h6>
+      <input type="text" placeholder="" />
+      </div>
       <div className="cTabla">
         <table>
           <thead>

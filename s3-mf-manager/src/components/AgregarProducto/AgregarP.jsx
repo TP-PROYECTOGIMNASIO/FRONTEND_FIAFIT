@@ -3,20 +3,16 @@ import { useState } from 'react';
 import ListaCompras from '../ListaCompras/ListaCompras';
 
 export default function AgregarP({ reportId }) { 
-  const [imagenProducto, setImagenProducto] = useState("");
   const [nombreProducto, setNombreProducto] = useState("");
   const [tipoProducto, setTipoProducto] = useState("");
-  const [descripcionProducto, setDescripcionProducto] = useState("");
   const [fechaCompra, setFechaCompra] = useState("");
   const [precioTotal, setPrecioTotal] = useState("");
   const [cantidadComprada, setCantidadComprada] = useState("");
   const [boletaCompra, setBoletaCompra] = useState("");
+  const [sede, setSede] = useState("");
   const [vista, setVista] = useState(false);
   const [productData, setProductData] = useState([]);
 
-  const handleImagenUpload = (event) => {
-    setImagenProducto(event.target.files[0]?.name || "");
-  };
 
   const handleNombreChange = (event) => {
     setNombreProducto(event.target.value);
@@ -24,10 +20,6 @@ export default function AgregarP({ reportId }) {
 
   const handleTipoChange = (event) => {
     setTipoProducto(event.target.value);
-  };
-
-  const handleDescripcionChange = (event) => {
-    setDescripcionProducto(event.target.value);
   };
 
   const handleFechaChange = (event) => {
@@ -45,17 +37,18 @@ export default function AgregarP({ reportId }) {
   const handleBoletaChange = (event) => {
     setBoletaCompra(event.target.files[0]?.name || "");
   };
+  const handleSedeChange = (event) => {
+    setSede(event.target.value);
+  };
 
   const handleGuardar = async () => {
     const productDataToSend = {
       action: "addProductToReport",
       reportId,
-      image: imagenProducto,
       name: nombreProducto,
       purchaseDate: fechaCompra,
       totalPrice: parseFloat(precioTotal) || 0,
       product_type_id: parseInt(tipoProducto, 10) || 0,
-      description: descripcionProducto,
       quantity: parseInt(cantidadComprada, 10) || 0,
       purchaseReceipt: boletaCompra,
     };
@@ -83,6 +76,10 @@ export default function AgregarP({ reportId }) {
     }
   };
 
+  const guardarP = async () => {
+    setVista(true);
+  }
+
   return (
     <div className="containerGenerarAP">
       <div className="app">
@@ -99,15 +96,7 @@ export default function AgregarP({ reportId }) {
             <div className="form-groupAP">
               <div className="row">
                 <div className="column">
-                  <label htmlFor="imagenProducto">Imagen del Producto</label>
-                  <input
-                    type="file"
-                    id="imagenProducto"
-                    onChange={handleImagenUpload}
-                  />
-                </div>
-                <div className="column">
-                  <label htmlFor="tipoProducto">Tipo de Producto</label>
+                <label htmlFor="tipoProducto">Tipo de Producto</label>
                   <select
                     id="tipoProducto"
                     value={tipoProducto}
@@ -120,32 +109,25 @@ export default function AgregarP({ reportId }) {
                     <option value="4">Otro</option>
                   </select>
                 </div>
-              </div>
-            </div>
-            <div className="form-groupAP">
-              <div className="row">
                 <div className="column">
+                  
                   <label htmlFor="nombreProducto">Nombre del Producto</label>
-                  <input
-                    type="text"
+                 
+                  <select
                     id="nombreProducto"
-                    placeholder="Nombres"
                     value={nombreProducto}
                     onChange={handleNombreChange}
-                  />
-                </div>
-                <div className="column">
-                  <label htmlFor="descripcionProducto">Breve Descripción</label>
-                  <textarea
-                    id="descripcionProducto"
-                    placeholder="Descripción"
-                    value={descripcionProducto}
-                    onChange={handleDescripcionChange}
-                  ></textarea>
+                  >
+                    <option value="">Producto</option>
+                    <option value="1">Producto 1</option>
+                    <option value="2">Producto 2</option>
+                    <option value="3">Producto 3</option>
+                    <option value="4">Producto 4</option>
+                  </select>
                 </div>
               </div>
             </div>
-
+           
             <div className="form-groupAP">
               <div className="row">
                 <div className="column">
@@ -191,8 +173,26 @@ export default function AgregarP({ reportId }) {
                 </div>
               </div>
             </div>
+            <div className="form-groupAS">
+              <div className="row">
+                <div className="column">
+                  <label htmlFor="sede">Sede</label>
+                  <select
+                    id="sede"
+                    value={sede}
+                    onChange={handleSedeChange}
+                  >
+                    <option value="">Seleccionar sede</option>
+                    <option value="1">Sede 1</option>
+                    <option value="2">Sede 2</option>
+                    <option value="3">Sede 3</option>
+                    <option value="4">Sede 4</option>
+                  </select>
+                </div>
+                             </div>
+            </div>
 
-            <button type="button" className="btnAgregarP" onClick={handleGuardar}>
+            <button type="button" className="btnAgregarP" onClick={guardarP}>
               Guardar
             </button>
           </div>
