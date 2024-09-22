@@ -20,7 +20,6 @@ import Header from './Componentes/Header';
 import Toast from 'react-native-toast-message'; 
 import { MicroviewScreen } from './MicroView';
 
-
 const Stack = createStackNavigator();
 
 export default function App() {
