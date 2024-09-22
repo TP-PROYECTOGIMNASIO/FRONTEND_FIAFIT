@@ -14,7 +14,9 @@ import Planes from "./pages/Planes";
 import PlanEntrenamientoDia from "./pages/PlanEntrenamientoDia/PlanEntrenamientoDia.jsx"
 import RegistrarEntrenamientoDia from "./pages/RegistrarEntrenamientoDia/RegistrarEntrenamientoDia.jsx";
 import RegistroEntrenamiento from "./pages/RegistroEntrenamiento/RegistroEntrenamiento.jsx";
-import TrainingPlan from "./components/TrainingPlan.jsx";
+import TrainingPlan from "./pages/PlanEntrenamientoDia/TrainingPlan.jsx";
+import TrainingPlanOk from "./pages/PlanEntrenamientoDia/TrainingPlanOk.jsx";
+
 
 function App() {
   const action = useNavigationType();
@@ -73,6 +75,7 @@ function App() {
         <Route path="/registrar-entrenamiento" element={<RegistrarEntrenamientoDia />} />
         <Route path="/registro-entrenamiento" element={<RegistroEntrenamiento />} />
         <Route path="/Trainingplan" element={<TrainingPlan />} />
+        <Route path="/TrainingPlanOk" element={<TrainingPlanOk />} />
         {/* Agrega otras rutas aquí */}
       </Routes>
       <Footer />

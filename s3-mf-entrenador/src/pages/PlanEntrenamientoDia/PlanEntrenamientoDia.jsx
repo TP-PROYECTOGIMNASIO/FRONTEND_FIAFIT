@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Modal({ isOpen, onClose }) {
     if (!isOpen) return null;
@@ -29,6 +29,8 @@ function Modal({ isOpen, onClose }) {
 }
 
 export default function PlanEntrenamientoDia() {
+    const location = useLocation();
+    const { clientId, trainingPlan } = location.state || {};
     const [diaSeleccionado, setDiaSeleccionado] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();

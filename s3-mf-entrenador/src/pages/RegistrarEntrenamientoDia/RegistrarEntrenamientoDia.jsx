@@ -36,10 +36,8 @@ export default function RegistroEntrenamientoDia() {
         obtenerGruposMusculares();
     }, []);
 
-
     const obtenerEjerciciosPorGrupoMuscular = async (grupoId) => {
         try {
-            // Mapea el grupo seleccionado a su ID correspondiente
             const response = await fetch(
                 `https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/plan-de-entrenamiento/hu-tp-28?exercise_type_id=${grupoId}`
             );
@@ -63,12 +61,10 @@ export default function RegistroEntrenamientoDia() {
         localStorage.setItem('NdiaSeleccionado', NdiaSeleccionado);
         localStorage.setItem('diaSeleccionado', diaSeleccionado);
         navigate('/registro-entrenamiento');
-        console.log("Entrenamiento guardado");
     };
 
     const handleGrupoMuscular = (e) => {
         const grupoId = e.target.value;
-        console.log(`Grupo muscular seleccionado: ${grupoId}`);
         obtenerEjerciciosPorGrupoMuscular(grupoId);
     };
 
@@ -99,7 +95,9 @@ export default function RegistroEntrenamientoDia() {
                     </button>
                 </div>
 
-                <div className="flex justify-start mb-6">
+                {/* Contenedor para el combo box y el título */}
+                <div className="relative flex items-center justify-between mb-6">
+                    {/* Combo Box a la izquierda */}
                     <select
                         onChange={handleGrupoMuscular}
                         className="p-2 rounded text-gray-700 bg-gray-200 text-lg border border-black-thin"
@@ -111,14 +109,15 @@ export default function RegistroEntrenamientoDia() {
                             </option>
                         ))}
                     </select>
+
+                    {/* Título centrado y a la misma altura */}
+                    <h2 className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold text-red-700">
+                        Registro de Entrenamiento
+                    </h2>
                 </div>
-            
             </div>
 
-            <div className="w-full max-w-3xl mx-auto">
-                <h2 className="text-2xl font-bold text-center text-red-700 mb-2">
-                    Registro de Entrenamiento
-                </h2>
+            <div className="w-full max-w-3xl mx-auto mt-[-20px]">
                 <h3 className="text-lg text-center text-gray-700 mb-2">
                     Nombre del Alumno
                 </h3>
@@ -129,13 +128,12 @@ export default function RegistroEntrenamientoDia() {
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 {Array.isArray(ejercicios) && ejercicios.map((ejercicio,index) => (
-                    <div value={(index)} className="border p-4 rounded-lg bg-white shadow-md">
+                    <div key={index} className="border p-4 rounded-lg bg-white shadow-md">
                         <div className="flex flex-col items-center">
                             <img
                                 src={ejercicio.image_url}
                                 alt={ejercicio.name}
                                 className="w-full h-auto object-cover rounded mb-4"
-                                
                             />
                             <h4 className="text-lg font-bold text-red-700 mb-2">
                                 {ejercicio.name}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TrainingPlan from "../components/TrainingPlan";  // Asegúrate de que los nombres de archivo coincidan con el sistema operativo (TrainingPlan.jsx)
+import TrainingPlan from "./PlanEntrenamientoDia/TrainingPlan";  // Asegúrate de que los nombres de archivo coincidan con el sistema operativo (TrainingPlan.jsx)
 
 import "../styles/index.css";  
 
