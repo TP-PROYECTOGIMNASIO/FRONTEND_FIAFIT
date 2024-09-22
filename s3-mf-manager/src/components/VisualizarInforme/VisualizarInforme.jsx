@@ -11,67 +11,10 @@ export default function VisualizarInforme() {
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
 
-  // Fetch all reports on component mount
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const response = await fetch(
-          "https://p48s3kepwc.execute-api.us-east-2.amazonaws.com/default/VISUALIZAR_INFORME_COMPRAS",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: "showSalesReports" }),
-          }
-        );
-
-        const result = await response.json();
-        if (response.ok) {
-          setReports(result.reports || []); // Ensure the response contains a list of reports
-          console.log("Informes recuperados:", result.reports);
-        } else {
-          console.error("Error al mostrar informes:", result);
-        }
-      } catch (error) {
-        console.error("Error en la llamada a la API:", error);
-      }
-    };
-
-    fetchReports();
-  }, []);
+  
 
   const handleAddEmployeeClick = async () => {
     setShowModal(true);
-
-    try {
-      const response = await fetch(
-        "https://p48s3kepwc.execute-api.us-east-2.amazonaws.com/default/GENERAR_INFORME_COMPRA",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ action: "createSalesReport" }),
-        }
-      );
-
-      const result = await response.json();
-      if (response.ok) {
-        console.log("Informe de ventas creado:", result);
-        const newReport = {
-          report_id: result.reportId,
-          created_at: new Date().toISOString(),
-          importe_total: "0.00", // Or the corresponding initial value
-          is_finalized: false
-        };
-        setReports([...reports, newReport]);
-      } else {
-        console.error("Error al crear informe de ventas:", result);
-      }
-    } catch (error) {
-      console.error("Error en la llamada a la API:", error);
-    }
   };
 
   const handleCloseModal = () => {
@@ -82,32 +25,7 @@ export default function VisualizarInforme() {
     setSelectedReport(report);
     setShowModalV(true);
 
-    // Fetch the products for the selected report
-    try {
-      const response = await fetch(
-        "https://p48s3kepwc.execute-api.us-east-2.amazonaws.com/default/VISUALIZAR_INFORME_COMPRAS",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "showProductsInReport",
-            reportId: report.report_id, // Adjusted to match API attribute
-          }),
-        }
-      );
-
-      const result = await response.json();
-      if (response.ok) {
-        console.log("Productos del informe:", result.products);
-        setSelectedReport({ ...report, products: result.products });
-      } else {
-        console.error("Error al obtener productos del informe:", result);
-      }
-    } catch (error) {
-      console.error("Error en la llamada a la API:", error);
-    }
+   
   };
 
   const handleCloseModalV = () => {
