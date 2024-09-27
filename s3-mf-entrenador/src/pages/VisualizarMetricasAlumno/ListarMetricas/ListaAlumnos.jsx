@@ -7,6 +7,21 @@ const ListaAlumnos = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedAlumno, setSelectedAlumno] = useState(null);
 
+    useEffect(() => {
+        const fetchAlumnos = async () => {
+            try {
+                const response = await fetch("https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/metricas-alumno/hu-tp-23/alumno?staff_id=11");
+                const data = await response.json();
+                setAlumnos(data);
+            } catch (error) {
+                console.error("Error fetching alumnos:", error);
+            }
+        };
+
+        fetchAlumnos();
+    }, []);
+
+
     // Dummy data for demonstration
     const alumnos = [
         { nombre: "Juan Pérez", entrenador: "Carlos López", sede: "Sede A", membresia: "Platinum", rango: "Gold" },
