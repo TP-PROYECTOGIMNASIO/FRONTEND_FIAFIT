@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import React, { useState } from 'react';
 import { FaArrowLeft as ArrowLeftIcon, FaSearch as SearchIcon, FaChevronDown as ChevronDownIcon, FaUser as UserIcon, FaInfoCircle as InfoIcon, FaSave as SaveIcon, FaTrash as TrashIcon, FaPrint as PrintIcon } from 'react-icons/fa';
 
@@ -6,6 +7,7 @@ const ListaAlumnos = () => {
     const [expandedIndex, setExpandedIndex] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedAlumno, setSelectedAlumno] = useState(null);
+    const [Alumnos, setAlumnos] =useState(null);
 
     useEffect(() => {
         const fetchAlumnos = async () => {
@@ -105,7 +107,7 @@ const ListaAlumnos = () => {
             </main>
 
             {/* Modal */}
-            // Modal
+
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
                     <div className="bg-white rounded-lg shadow-lg w-full max-w-sm md:max-w-md lg:max-w-lg p-4 relative">
