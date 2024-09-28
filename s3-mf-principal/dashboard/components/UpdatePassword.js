@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Key, Lock, KeyRound } from 'lucide-react-native';
-import styles from './UpdatePasswordStyles'; // Importa los estilos
+import styles from './UpdatePasswordStyles';
 import { useRoute } from '@react-navigation/native';
 
 export default function UpdatePassword() {
-  const route = useRoute(); // Obtener las propiedades de la ruta
-  const { role } = route.params || {}; // Capturar el rol de los parámetros
+  const route = useRoute(); 
+  const { role, username } = route.params || {}; 
+  console.log('Username en UpdatePassword:', username);
+
 
   const [passwords, setPasswords] = useState({
     current: '',
@@ -20,20 +22,45 @@ export default function UpdatePassword() {
     setPasswords({ ...passwords, [name]: value });
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
+
     if (passwords.new !== passwords.confirm) {
       setMessage({ type: 'error', content: 'Las contraseñas no coinciden' });
-    } else {
-      setMessage({ type: 'success', content: 'Contraseña actualizada con éxito' });
-      setPasswords({ current: '', new: '', confirm: '' });
+      return;
     }
+
+    try {
+      // Configurar los parámetros de la solicitud
+      const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/auth/HU-TP-88', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username, 
+          newPassword: passwords.new,
+        }),
+      });
+
+      if (response.ok) {
+        setMessage({ type: 'success', content: 'Contraseña actualizada con éxito' });
+        setPasswords({ current: '', new: '', confirm: '' });
+      } else {
+      
+        const errorData = await response.json();
+        setMessage({ type: 'error', content: `Error: ${errorData.message || 'No se pudo actualizar la contraseña'}` });
+      }
+    } catch (error) {
+    
+      setMessage({ type: 'error', content: `Error de red: ${error.message}` });
+    }
+
     setTimeout(() => setMessage({ type: '', content: '' }), 3000);
   };
 
   return (
     <View style={styles.container}>
-      {/* Mostrar el rol fuera del contenedor de cambiar contraseña */}
       {role && (
         <Text style={styles.title}>
           Bienvenido {role}

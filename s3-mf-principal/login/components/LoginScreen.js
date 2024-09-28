@@ -56,11 +56,13 @@ export default function LoginScreen() {
           const userRole = decodedPayload['custom:role']; 
           console.log('User Role:', userRole);
 
+
            if (userRole === 'cliente') {
-            navigation.navigate('Dashboard', { role: userRole });
+            navigation.navigate('Dashboard', { role: userRole, username:username });
             //Linking.openURL('https://s3-mf-clientes.netlify.app/');
         } else {
-          navigation.navigate('Dashboard', { role: userRole });
+          navigation.navigate('Dashboard', { role: userRole, username:username });
+          navigation.navigate('UpdatePassword', { role: userRole, username:username });
         }
 
         } catch (error) {
