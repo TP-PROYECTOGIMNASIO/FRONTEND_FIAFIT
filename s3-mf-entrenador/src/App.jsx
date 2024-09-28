@@ -11,6 +11,7 @@ import VistaNoRegisrado from "./pages/RegistrarMetricasAlumno/VistaNoRegistradoM
 import ListStudents from "./pages/listStudents/ListStudents";
 import AsignarAlumno2 from "./pages/asignaralumno/AsignarAlumno2";
 import Planes from "./pages/Planes";
+import AsignarAlumno3 from "./pages/asignaralumno/AsignarAlumno3";
 
 function App() {
   const action = useNavigationType();
@@ -63,7 +64,7 @@ function App() {
         <Route path="/registrar-metricas" element={<RegistrarMetricas />} />
         <Route path="/alumno-checkin" element={<AlumnoCheckin />} />
         <Route path="/vista-no-registrado" element={<VistaNoRegisrado />} />
-        <Route path="/asignar-alumno" element={<AsignarAlumno2 />} />
+        <Route path="/asignar-alumno" element={<AsignarAlumno3 />} />
         <Route path="/planes" element={<Planes />} />
 
         {/* Agrega otras rutas aquí */}

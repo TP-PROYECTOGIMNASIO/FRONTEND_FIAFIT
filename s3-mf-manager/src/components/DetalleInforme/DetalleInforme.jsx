@@ -1,57 +1,85 @@
-import React from 'react';
-
-export default function DetalleInforme({ report }) {
-  // Verifica si se ha seleccionado un informe y si contiene productos
-  if (!report) {
-    return <div>No se ha seleccionado ningún informe.</div>;
+import React, { useEffect, useState } from 'react';
+ 
+export default function DetalleInforme({ reportId }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+ 
+  useEffect(() => {
+    const fetchReportProducts = async () => {
+      try {
+        const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/compras/hu-tp-62', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'mostrarProductosEnInforme',
+            reporteId: reportId, // Enviamos el ID del reporte
+          }),
+        });
+ 
+        if (!response.ok) {
+          throw new Error('Error al obtener los productos del informe.');
+        }
+ 
+        const data = await response.json();
+        setProducts(data.data); // Asigna los productos obtenidos de la respuesta
+        setLoading(false);
+      } catch (err) {
+        setError(err.message); // Captura cualquier error de la API
+        setLoading(false);
+      }
+    };
+ 
+    if (reportId) {
+      fetchReportProducts();
+    }
+  }, [reportId]);
+ 
+  if (loading) {
+    return <div>Cargando detalles del informe...</div>;
   }
-
-  const { products } = report; // Extrae los productos del informe
-
+ 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+ 
   return (
-    <div className="containerDetalleI">
-      <h3 className="titleDI">Detalles del Informe {report.report_id}</h3>
-          
-            
+<div className="containerDetalleI">
+<h3 className="titleDI">Detalles del Informe {reportId}</h3>
+ 
       {products && products.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Fecha de Compra</th>
-              <th>Precio Total</th>
-              <th>Descripción</th>
-              <th>Cantidad</th>
-              <th>Recibo de Compra</th>
-            </tr>
-          </thead>
-          <tbody>
+<table>
+<thead>
+<tr>
+<th>Número de Compra</th>
+<th>Nombre</th>
+<th>Fecha de Compra</th>
+<th>Cantidad</th>
+<th>Precio Total</th>
+</tr>
+</thead>
+<tbody>
             {products.map((product) => (
-              <tr key={product.report_product_id}>
-                <td>{product.name}</td>
-                <td>{new Date(product.purchase_date).toLocaleDateString()}</td>
-                <td>{product.total_price} soles</td>
-                <td>{product.description}</td>
-                <td>{product.quantity}</td>
-                <td>
-                  <a href={product.purchase_receipt ? `data:image/jpeg;base64,${btoa(
-                    String.fromCharCode(...new Uint8Array(product.purchase_receipt.data))
-                  )}` : '#'} target="_blank" rel="noopener noreferrer">
-                    <img src="/detalleInforme.png" alt="boleta" />
-                  </a>
-                </td>
-              </tr>
+<tr key={product.number_purchase}>
+<td>{product.number_purchase}</td>
+<td>{product.product_name}</td>
+<td>{new Date(product.purchase_date).toLocaleDateString()}</td>
+<td>{product.purchase_quantity}</td>
+<td>{product.total_price} soles</td>
+</tr>
             ))}
-          </tbody>
-        </table>
-        
+</tbody>
+</table>
       ) : (
-        <p>No hay productos en este informe.</p>
+<p>No hay productos en este informe.</p>
       )}
-      <br></br>
-        <div className='montoTotal'>
-          <p>MONTO TOTAL: S/. {report.importe_total}</p>
-        </div>
-    </div>
+ 
+      <br />
+<div className="montoTotal">
+<p>MONTO TOTAL: S/. {products.reduce((acc, product) => acc + product.total_price, 0)}</p>
+</div>
+</div>
   );
 }

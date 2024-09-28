@@ -1,7 +1,6 @@
 import './AgregarP.css';
 import { useState, useEffect } from 'react';
 import ListaCompras from '../ListaCompras/ListaCompras';
-
 export default function AgregarP({ reportId }) {
   const [nombreProducto, setNombreProducto] = useState("");
   const [tipoProducto, setTipoProducto] = useState("");
@@ -12,7 +11,7 @@ export default function AgregarP({ reportId }) {
   const [sede, setSede] = useState("");
   const [vista, setVista] = useState(false);
   const [productData, setProductData] = useState([]);
-  
+
   const [tiposProducto, setTiposProducto] = useState([]);
   const [productos, setProductos] = useState([]);
   const [sedes, setSedes] = useState([]);
@@ -112,8 +111,7 @@ export default function AgregarP({ reportId }) {
 
   const handleGuardar = async () => {
     const productDataToSend = {
-      action: "guardarInforme",
-      confirmSave: true,
+      action: "almacenarTemporalmente",
       products: [
         {
           product_id: parseInt(nombreProducto, 10),
@@ -138,8 +136,8 @@ export default function AgregarP({ reportId }) {
         setVista(true);
         setProductData((prevData) => [...prevData, { ...productDataToSend, report_product_id: result.report_product_id }]);
       } else {
-        console.error("Error al guardar el informe de compras:", result);
-        alert(`Error al guardar el informe: ${result.error}`);
+        console.error("Error al guardar productos temporalmente:", result);
+        alert(`Error al guardar productos: ${result.error}`);
       }
     } catch (error) {
       console.error("Error en la llamada a la API:", error);
@@ -246,7 +244,7 @@ export default function AgregarP({ reportId }) {
                 </div>
               </div>
             </div>
-            <button type="button" className="btnAgregarP" onClick={guardarP}>
+            <button type="button" className="btn-guardar" onClick={guardarP}>
               Guardar
             </button>
           </div>
