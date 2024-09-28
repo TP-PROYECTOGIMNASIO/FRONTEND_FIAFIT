@@ -20,7 +20,7 @@ export default function VisualizarInforme() {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        action: 'mostrarInformesCompras',
+                        action: 'mostrarInformeYProductos',
                     }),
                 });
                 
@@ -113,7 +113,7 @@ export default function VisualizarInforme() {
                                     <td>{new Date(report.assignment_date).toLocaleDateString()}</td>
                                     <td>{report.expense_incurred} soles</td>
                                     <td>
-                                        <button className="view-button" onClick={() => handleOpenModalV(report.report_id)}>
+                                        <button className="view-button" onClick={() => handleOpenModalV(report)}>
                                             Visualizar
                                         </button>
                                     </td>

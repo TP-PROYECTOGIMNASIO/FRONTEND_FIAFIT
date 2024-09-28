@@ -1,85 +1,69 @@
-import React, { useEffect, useState } from 'react';
- 
-export default function DetalleInforme({ reportId }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
- 
+import React, { useState, useEffect } from 'react';
+
+export default function DetalleInforme({ report }) {
+  const [productos, setProductos] = useState([]);
+
   useEffect(() => {
-    const fetchReportProducts = async () => {
-      try {
-        const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/compras/hu-tp-62', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            action: 'mostrarProductosEnInforme',
-            reporteId: reportId, // Enviamos el ID del reporte
-          }),
-        });
- 
-        if (!response.ok) {
-          throw new Error('Error al obtener los productos del informe.');
-        }
- 
-        const data = await response.json();
-        setProducts(data.data); // Asigna los productos obtenidos de la respuesta
-        setLoading(false);
-      } catch (err) {
-        setError(err.message); // Captura cualquier error de la API
-        setLoading(false);
-      }
-    };
- 
-    if (reportId) {
-      fetchReportProducts();
+    if (report && report.productos && Array.isArray(report.productos.data)) {
+      setProductos(report.productos.data); // Almacena los productos en el estado
+    } else {
+      setProductos([]); // Limpiar el estado si no hay productos
     }
-  }, [reportId]);
- 
-  if (loading) {
-    return <div>Cargando detalles del informe...</div>;
+  }, [report]);
+
+  // Verifica si se ha seleccionado un informe
+  if (!report) {
+    return <div>No se ha seleccionado ningún informe.</div>;
   }
- 
-  if (error) {
-    return <div>Error: {error}</div>;
+
+  // Verificar si 'productos' es un array y tiene elementos
+  if (productos.length === 0) {
+    return <div>No hay productos en este informe.</div>;
   }
- 
+
   return (
-<div className="containerDetalleI">
-<h3 className="titleDI">Detalles del Informe {reportId}</h3>
- 
-      {products && products.length > 0 ? (
-<table>
-<thead>
-<tr>
-<th>Número de Compra</th>
-<th>Nombre</th>
-<th>Fecha de Compra</th>
-<th>Cantidad</th>
-<th>Precio Total</th>
-</tr>
-</thead>
-<tbody>
-            {products.map((product) => (
-<tr key={product.number_purchase}>
-<td>{product.number_purchase}</td>
-<td>{product.product_name}</td>
-<td>{new Date(product.purchase_date).toLocaleDateString()}</td>
-<td>{product.purchase_quantity}</td>
-<td>{product.total_price} soles</td>
-</tr>
+    <div className="containerDetalleI">
+      <h3 className="titleDI">Detalles del Informe {report.report_id}</h3>
+
+      {productos.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre de Compra</th>
+              <th>Fecha de Compra</th>
+              <th>Precio Total</th>
+              <th>Cantidad</th>
+              <th>Recibo de Compra</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productos.map((product, index) => (
+              <tr key={index}> {/* Usar index como clave solo si no hay un ID único */}
+                <td>{product.product_name || 'No disponible'}</td>
+                <td>{new Date(product.purchase_date).toLocaleDateString()}</td>
+                <td>{product.total_price} soles</td>
+                <td>{product.purchase_quantity}</td>
+                <td>
+                  {product.purchase_receipt ? (
+                    <a href={product.purchase_receipt} target="_blank" rel="noopener noreferrer">
+                      <img src="/detalleInforme.png" alt="boleta" />
+                    </a>
+                  ) : (
+                    'Sin recibo'
+                  )}
+                </td>
+              </tr>
             ))}
-</tbody>
-</table>
+          </tbody>
+        </table>
       ) : (
-<p>No hay productos en este informe.</p>
+        <p>No hay productos en este informe.</p>
       )}
- 
+
       <br />
-<div className="montoTotal">
-<p>MONTO TOTAL: S/. {products.reduce((acc, product) => acc + product.total_price, 0)}</p>
-</div>
-</div>
+      <div className="montoTotal">
+        <p>MONTO TOTAL: S/. {report.importe_total || 'No disponible'}</p>
+      </div>
+    </div>
   );
 }
