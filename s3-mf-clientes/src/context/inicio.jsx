@@ -4,13 +4,10 @@ const HomePage = () => {
   return (
     <div className="relative flex flex-col min-h-screen">
       {/* Imagen de fondo */}
-      <img
-        src="/assets/fondo.png"
-        alt="Imagen de fondo"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0" // Imagen de fondo cubre toda la pantalla
-      />
+
 
       {/* Contenido principal con un z-index superior a la imagen */}
+      <h1 className='bg-gradient-to-b from-white to-red-100 text-center text-red-600 p-4 text-lg sm:text-xl font-bold'>BIENVENIDO ALUMNO</h1>
       <main className="relative z-10 flex flex-col sm:flex-row items-center justify-center p-4 sm:p-6 flex-grow bg-gradient-to-b from-white to-red-100">
         <section className="flex flex-col items-center sm:w-1/2 mb-8 sm:mb-0 relative sm:mr-4">
           {/* Texto "ESTAR FUERTE" centrado arriba del div rojo con espaciado entre letras */}
@@ -34,7 +31,7 @@ const HomePage = () => {
             <span className="text-lg sm:text-xl font-bold">MIS PLANES</span>
           </Link>
           <Link
-            to="/"
+            to="/AlumnoCheckin"
             className="bg-white text-red-600 p-4 rounded-md shadow-md w-full sm:w-3/4 max-w-xs sm:max-w-md flex flex-col items-start text-left"
           >
             <span className="text-sm font-semibold">VER</span>

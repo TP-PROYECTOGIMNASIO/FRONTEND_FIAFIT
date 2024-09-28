@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
-import HeroImage from '../../assets/fondo.jpeg';
 
 const HomePage = () => {
     return (

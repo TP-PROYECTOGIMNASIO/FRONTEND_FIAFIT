@@ -13,10 +13,10 @@ export default function Navbar(){
           </Link>
           <div className="flex flex-row items-center mr-4 gap-20">
               <Link to="/">
-                <h1 className="text-[20px] font-bold" style={{color:"#4B4F57"}}>Inicio</h1>
+                <h1 className="text-[20px] font-bold" style={{color:"#e81b1b"}}>Inicio</h1>
               </Link>
               <Link to="/productos">
-                <h1 className="text-[20px] font-bold" style={{color:"#4B4F57"}}>´Productos</h1>
+                <h1 className="text-[20px] font-bold" style={{color:"#e81b1b"}}>Productos</h1>
               </Link>
               <div className="relative flex items-center">
           <button
@@ -24,9 +24,9 @@ export default function Navbar(){
             onClick={() => setShowCart(!showCart)}
           >
             <ShoppingCartIcon />
-            <div className="bg-gray p-1 text-xs text-gray-900 w-6 h-6 rounded-[50%]">
+            <div className="bg-[#e81b1b] p-1 p-1 text-xs text-gray-900 w-6 h-6 rounded-[50%]">
               <span>{products.length}</span>
-            </div>
+            </div><br></br>
           </button>
           {showCart && (
             <div className="absolute top-12 right-0 w-max">
