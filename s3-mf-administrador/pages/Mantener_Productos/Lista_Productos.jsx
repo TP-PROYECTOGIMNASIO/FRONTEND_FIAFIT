@@ -87,222 +87,199 @@ function Lista_Productos() {
   });
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-4">
+    <div className="container mx-auto p-4 md:p-6 lg:p-8 xl:p-10">
+      <div className="flex justify-between items-center mb-4 md:mb-6 lg:mb-8 xl:mb-10">
         <div className="flex items-center">
-          <img
-            src="/logo-3.png" // imagen local
-            alt="FIA Fit Logo"
-            className="w-48 h-25"
-          />
-          <h1 className="text-2xl font-bold ml-4">FIA FIT</h1>
+          <h2 className="text-xl font-bold text-center md:text-2xl lg:text-3xl xl:text-4xl">Lista de Productos</h2>
         </div>
-        <div className="flex items-center">
-          <h2 className="text-lg font-bold mr-4">Inicio</h2>
-          <img
-            src="/user.jpg" // imagen local
-            alt="User Profile"
-            className="w-10 h-10 rounded-full"
-          />
-        </div>
-      </div>
-
-      <div className="flex justify-between mb-8">
-        <div className="flex items-center">
-          <h2 className="text-xl font-bold">Lista de Productos</h2>
-        </div>
-        <div className="flex items-center">
+        <div className="flex items-center justify-end">
           <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
             onClick={() => setShowNewProductForm(true)}
           >
             + Registrar Nuevo Producto
           </button>
           <select
-            className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded ml-2"
+            className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded ml-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
             value={activeFilter}
             onChange={(e) => handleActiveFilterChange(e.target.value)}
           >
             <option value="Activos">Activos</option>
             <option value="Inactivos">Inactivos</option>
           </select>
-
-          {showNewProductForm && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <NewProductForm onSubmit={handleNewProduct} />
-                <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setShowNewProductForm(false)}
-                >
-                  Cerrar
-                </button>
-              </div>
-            </div>
-          )}
-          {showSuccessMessage && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <p className="text-green-500 font-bold text-lg">
-                  PRODUCTO AGREGADO CON EXITO
-                </p>
-                <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setShowSuccessMessage(false)}
-                >
-                  Cerrar
-                </button>
-              </div>
-            </div>
-          )}
-          {showConfirmationModal && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <p className="text-gray-700 font-bold text-lg mb-4">
-                  ¿Seguro que desea deshabilitar el producto
-                  '{productToDisable.name}'?
-                </p>
-                <div className="flex justify-end">
-                  <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={handleConfirmDisable}
-                  >
-                    Sí
-                  </button>
-                  <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={handleCancelDisable}
-                  >
-                    No
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-          {showInactiveProducts && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="text-lg font-bold mb-4">Productos Inactivos</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {filteredProducts.map((product) => (
-                    <div
-                      key={product.id}
-                      className="bg-white p-4 rounded shadow-md"
-                    >
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-48 object-contain mb-2"
-                      />
-                      <h4 className="text-lg font-bold mb-2">{product.name}</h4>
-                      <p className="text-gray-600 mb-2">{product.description}</p>
-                      <p className="text-gray-600 mb-2">Precio: ${product.price}</p>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setShowInactiveProducts(false)}
-                >
-                  Cerrar
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      <center>
-        <div className="flex">
-          <div className="w-1/4">
-            <div className="bg-gray-100 p-4 rounded">
-              <h3 className="text-lg font-bold mb-2">Seleccionar</h3>
+      {showNewProductForm && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg md:p-8 lg:p-10 xl:p-12 ">
+            <NewProductForm onSubmit={handleNewProduct} />
+            <button
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
+              onClick={() => setShowNewProductForm(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showSuccessMessage && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg md:p-8 lg:p-10 xl:p-12">
+            <p className="text-green-500 font-bold text-lg md:text-xl lg:text-2xl xl:text-3xl">
+              PRODUCTO AGREGADO CON EXITO
+            </p>
+            <button
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
+              onClick={() => setShowSuccessMessage(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showConfirmationModal && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg md:p-8 lg:p-10 xl:p-12">
+            <p className="text-gray-700 font-bold text-lg md:text-xl lg:text-2xl xl:text-3xl mb-4">
+              ¿Seguro que desea deshabilitar el producto '{productToDisable.name}'?
+            </p>
+            <div className="flex justify-end">
               <button
-                className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 ${
-                  selectedCategory === 'Todas' ? 'bg-red-700' : ''
-                }`}
-                onClick={() => handleCategoryChange('Todas')}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
+                onClick={handleConfirmDisable}
               >
-                Todas
+                Sí
               </button>
               <button
-                className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 ${
-                  selectedCategory === 'Accesorios Deportivos'
-                    ? 'bg-red-700'
-                    : ''
-                }`}
-                onClick={() => handleCategoryChange('Accesorios Deportivos')}
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
+                onClick={handleCancelDisable}
               >
-                Accesorios Deportivos
-              </button>
-              <button
-                className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 ${
-                  selectedCategory === 'Máquina' ? 'bg-red-700' : ''
-                }`}
-                onClick={() => handleCategoryChange('Máquina')}
- >
-                Máquina
-              </button>
-              <button
-                className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 ${
-                  selectedCategory === 'Equipo de Ejercicios'
-                    ? 'bg-red-700'
-                    : ''
-                }`}
-                onClick={() => handleCategoryChange('Equipo de Ejercicios')}
-              >
-                Equipo de Ejercicios
-              </button>
-              <button
-                className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 ${
-                  selectedCategory === 'Ropa Deportiva' ? 'bg-red-700' : ''
-                }`}
-                onClick={() => handleCategoryChange('Ropa Deportiva')}
-              >
-                Ropa Deportiva
-              </button>
-              <button
-                className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 ${
-                  selectedCategory === 'Suplementos' ? 'bg-red-700' : ''
-                }`}
-                onClick={() => handleCategoryChange('Suplementos')}
-              >
-                Suplementos
+                No
               </button>
             </div>
           </div>
-          <div className="w-3/4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        </div>
+      )}
+
+      {showInactiveProducts && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg md:p-8 lg:p-10 xl:p-12">
+            <h3 className="text-lg font-bold mb-4 md:text-xl lg:text-2xl xl:text-3xl">Productos Inactivos</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white p-4 rounded shadow-md"
+                  className="bg-white p-4 rounded shadow-md md:p-6 lg:p-8 xl:p-10"
                 >
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-48 object-contain mb-2"
+                    className="w-full h-48 object-contain mb-2 md:h-64 lg:h-80 xl:h-96"
                   />
-                  <h4 className="text-lg font-bold mb-2">{product.name}</h4>
-                  <p className="text-gray-600 mb-2">{product.description}</p>
-                  <p className="text-gray-600 mb-2">Precio: ${product.price}</p>
-                  <button
-                    className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 ${
-                      product.active ? 'bg-green-500' : 'bg-red-500'
-                    }`}
-                    onClick={product.active ? () => handleDisableConfirmation(product) : () => handleProductActivation(product.id)}
-                  >
-                    {product.active ? 'Deshabilitar' : 'Activar'}
-                  </button>
+                  <h4 className="text-lg font-bold mb-2 md:text-xl lg:text-2xl xl:text-3xl">{product.name}</h4>
+                  <p className="text-gray-600 mb-2 md:text-lg lg:text-xl xl:text-2xl">{product.description}</p>
+                  <p className="text-gray-600 mb-2 md:text-lg lg:text-xl xl:text-2xl">Precio: ${product.price}</p>
                 </div>
               ))}
             </div>
+            <button
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
+              onClick={() => setShowInactiveProducts(false)}
+            >
+              Cerrar
+            </button>
           </div>
         </div>
-      </center>
+      )}
 
-      <div className="text-center mt-8">
-        <p className="text-gray-600">Copyright 2024</p>
+      <div className="flex flex-wrap justify-center md:justify-between lg:justify-around xl:justify-between">
+        <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 md:p-6 lg:p-8 xl:p-10">
+          <div className="bg-gray-100 p-4 rounded md:p-6 lg:p-8 xl:p-10">
+            <h3 className="text-lg font-bold mb-2 md:text-xl lg:text-2xl xl:text-3xl">Seleccionar</h3>
+            <button
+              className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10 ${
+                selectedCategory === 'Todas' ? 'bg-red-700' : ''
+              }`}
+              onClick={() => handleCategoryChange('Todas')}
+            >
+              Todas
+            </button>
+            <button
+              className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10 ${
+                selectedCategory === 'Accesorios Deportivos'
+                  ? 'bg-red-700'
+                  : ''
+              }`}
+              onClick={() => handleCategoryChange('Accesorios Deportivos')}
+            >
+              Accesorios Deportivos
+            </button>
+            <button
+              className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10 ${
+                selectedCategory === 'Máquina' ? 'bg-red-700' : ''
+              }`}
+              onClick={() => handleCategoryChange('Máquina')}
+            >
+              Máquina
+            </button>
+            <button
+              className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10 ${
+                selectedCategory === 'Equipo de Ejercicios'
+                  ? 'bg-red-700'
+                  : ''
+              }`}
+              onClick={() => handleCategoryChange('Equipo de Ejercicios')}
+            >
+              Equipo de Ejercicios
+            </button>
+            <button
+              className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10 ${
+                selectedCategory === 'Ropa Deportiva' ? 'bg-red-700' : ''
+              }`}
+              onClick={() => handleCategoryChange('Ropa Deportiva')}
+            >
+              Ropa Deportiva
+            </button>
+            <button
+              className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10 ${
+                selectedCategory === 'Suplementos' ? 'bg-red-700' : ''
+              }`}
+              onClick={() => handleCategoryChange('Suplementos')}
+            >
+              Suplementos
+            </button>
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4 p-4 md:p-6 lg:p-8 xl:p-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white p-4 rounded shadow-md md:p-6 lg:p-8 xl:p-10"
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-contain mb-2 md:h-64 lg:h-80 xl:h-96"
+                />
+                <h4 className="text-lg font-bold mb-2 md:text-xl lg:text-2xl xl:text-3xl">{product.name}</h4>
+                <p className="text-gray-600 mb-2 md:text-lg lg:text-xl xl:text-2xl">{product.description}</p>
+                <p className="text-gray-600 mb-2 md:text-lg lg:text-xl xl:text-2xl">Precio: ${product.price}</p>
+                <button
+ className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10 ${
+                    product.active ? 'bg-green-500' : 'bg-red-500'
+                  }`}
+                  onClick={product.active ? () => handleDisableConfirmation(product) : () => handleProductActivation(product.id)}
+                >
+                  {product.active ? 'Deshabilitar' : 'Activar'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -347,38 +324,38 @@ function NewProductForm({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-md">
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-md md:p-6 lg:p-8 xl:p-10">
       <div className="mb-4">
-        <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+        <label htmlFor="name" className="block text-gray-700 font-bold mb-2 md:text-lg lg:text-xl xl:text-2xl">
           Nombre del producto
         </label>
         <input
           type="text"
           id="name"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
+        <label htmlFor="image" className="block text-gray-700 font-bold mb-2 md:text-lg lg:text-xl xl:text-2xl">
           Imagen
         </label>
         <input
           type="file"
           id="image"
           accept="image/*"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
           onChange={(e) => setImage(e.target.files[0])}
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="category" className="block text-gray-700 font-bold mb- 2">
+        <label htmlFor="category" className="block text-gray-700 font-bold mb-2 md:text-lg lg:text-xl xl:text-2xl">
           Categoría
         </label>
         <select
           id="category"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
@@ -395,44 +372,44 @@ function NewProductForm({ onSubmit }) {
       <div className="mb-4">
         <label
           htmlFor="description"
-          className="block text-gray-700 font-bold mb-2"
+          className="block text-gray-700 font-bold mb-2 md:text-lg lg:text-xl xl:text-2xl"
         >
           Descripción
         </label>
         <textarea
           id="description"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="price" className="block text-gray-700 font-bold mb-2">
+        <label htmlFor="price" className="block text-gray-700 font-bold mb-2 md:text-lg lg:text-xl xl:text-2xl">
           Precio
         </label>
         <input
           type="number"
           id="price"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
           value={price}
           onChange={(e) => setPrice(parseFloat(e.target.value))}
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="active" className="block text-gray-700 font-bold mb-2">
+        <label htmlFor="active" className="block text-gray-700 font-bold mb-2 md:text-lg lg:text-xl xl:text-2xl">
           Activo
         </label>
         <input
           type="checkbox"
           id="active"
-          className="form-checkbox"
+          className="form-checkbox md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
           checked={active}
           onChange={(e) => setActive(e.target.checked)}
         />
       </div>
       <button
         type="submit"
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline md:py-3 md:px-6 lg:py-4 lg:px-8 xl:py-5 xl:px-10"
       >
         Registrar Producto
       </button>
