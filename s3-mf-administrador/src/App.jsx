@@ -9,7 +9,7 @@ import HUVISUALLIZARINICIOSEGN from "./pages/HUVISUALLIZARINICIOSEGN";
 import TipoProductos from "./pages/tipoProductos/tipoProductos";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import TipoEjercicios from "./pages/tipoEjercicios/tipoEjercicios";
+import TipoEjercicios from "./pages/tipoEjercicios/TipoEjercicios";
 
 function App() {
   const action = useNavigationType();
