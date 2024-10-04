@@ -1,5 +1,6 @@
 import './RegistrarC.css';
 import { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 
 export default function RegistrarCompra() {
   const [nombreProducto, setNombreProducto] = useState("");
@@ -14,7 +15,6 @@ export default function RegistrarCompra() {
   const [productos, setProductos] = useState([]);
   const [sedes, setSedes] = useState([]);
 
-  // Función para obtener los tipos de productos
   const obtenerTiposProducto = async () => {
     try {
       const response = await fetch("https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/compras/hu-tp-61", {
@@ -32,7 +32,6 @@ export default function RegistrarCompra() {
     }
   };
 
-  // Función para obtener productos según el tipo seleccionado
   const obtenerProductosPorTipo = async (tipoId) => {
     try {
       const response = await fetch("https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/compras/hu-tp-61", {
@@ -50,7 +49,6 @@ export default function RegistrarCompra() {
     }
   };
 
-  // Función para obtener las sedes
   const obtenerSedes = async () => {
     try {
       const response = await fetch("https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/compras/hu-tp-61", {
@@ -79,7 +77,21 @@ export default function RegistrarCompra() {
     }
   }, [tipoProducto]);
 
+  const validarCampos = () => {
+    if (!tipoProducto || !nombreProducto || !fechaCompra || !cantidadComprada || !precioTotal || !boletaCompra || !sede) {
+      alert("Por favor, complete todos los campos.");
+      return false;
+    }
+    return true;
+  };
+
   const handleGuardar = async () => {
+    if (!validarCampos()) return;
+
+    if (!window.confirm("¿Estás seguro de que quieres agregar este producto?")) {
+      return;
+    }
+
     const tipoProductoSeleccionado = tiposProducto.find(tipo => tipo.id === parseInt(tipoProducto));
     const productoSeleccionado = productos.find(producto => producto.id === parseInt(nombreProducto));
 
@@ -156,7 +168,15 @@ export default function RegistrarCompra() {
   };
 
   return (
+    <div>
+    <div className="buttonHead">
+                    <Link to={"/Informe-Compra"} href="#" className="back-buttonVI">
+                        - Regresar
+                    </Link>
+
+                </div>
     <div className="containerRP">
+      
       <div className="d-flex justify-content-between">
         <div className="form-containerAP">
           <h2>Agregar Producto</h2>
@@ -238,7 +258,7 @@ export default function RegistrarCompra() {
               </tr>
             </thead>
             <tbody>
-              {productData.length > 0 ? (
+            {productData.length > 0 ? (
                 productData.map((product, index) => (
                   <tr key={product.report_product_id}>
                     <td>{index + 1}</td>
@@ -256,13 +276,12 @@ export default function RegistrarCompra() {
               )}
             </tbody>
           </table>
-          <button className="btn-guardarP" onClick={handleSaveProducts}>
-            Guardar Productos
+          <button type="button" className="btn-guardarP" onClick={handleSaveProducts}>
+            Guardar Informe
           </button>
         </div>
       </div>
     </div>
+    </div>
   );
 }
-
-             

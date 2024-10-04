@@ -96,7 +96,7 @@ export default function VisualizarInforme() {
             </header>
             <div className="informeCompraB">
                 <h6>Informe Compra</h6>
-                <input type="text" placeholder="" />
+                <input type="text" placeholder="Buscar Informe" />
             </div>
             <div className="cTabla">
                 <table>
