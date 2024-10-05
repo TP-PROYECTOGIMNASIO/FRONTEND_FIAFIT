@@ -168,7 +168,7 @@ export default function RegistrarCompra() {
   };
 
   return (
-    <div>
+    <div className='containerCRP'>
     <div className="buttonHead">
                     <Link to={"/Informe-Compra"} href="#" className="back-buttonVI">
                        <h3 className='buttonRegresar'> - Regresar</h3>
@@ -250,14 +250,14 @@ export default function RegistrarCompra() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Fecha</th>
+                <th>Fecha Compra</th>
                 <th>Tipo Producto</th>
                 <th>Nombre Producto</th>
                 <th>Cantidad</th>
                 <th>Precio Venta</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='table-body-container'>
             {productData.length > 0 ? (
                 productData.map((product, index) => (
                   <tr key={product.report_product_id}>
