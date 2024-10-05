@@ -35,8 +35,7 @@ const ListaAlumnos = () => {
             objetivo,
             pesoIdeal
         });
-    };
-
+    }
     return (
         <div className="flex flex-col items-center w-full min-h-screen p-4 bg-gray-100">
            <div className="flex items-center justify-between w-full mb-4 sm:mb-6">
@@ -128,5 +127,4 @@ const ListaAlumnos = () => {
         </div>
     );
 };
-
 export default ListaAlumnos;
