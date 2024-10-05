@@ -171,7 +171,7 @@ export default function RegistrarCompra() {
     <div>
     <div className="buttonHead">
                     <Link to={"/Informe-Compra"} href="#" className="back-buttonVI">
-                        - Regresar
+                       <h3 className='buttonRegresar'> - Regresar</h3>
                     </Link>
 
                 </div>
@@ -245,7 +245,7 @@ export default function RegistrarCompra() {
         </div>
 
         <div className="containerListaC">
-          <h3 className="title">Lista de Compras</h3>
+          <h2 className="title">Lista de Compras</h2>
           <table className="table">
             <thead>
               <tr>
