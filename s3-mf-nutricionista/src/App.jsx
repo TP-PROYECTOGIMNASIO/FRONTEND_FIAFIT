@@ -21,9 +21,13 @@ function App() {
         <Routes>
           <Route  path="/" element={<HUVISUALLIZARINICIOSEGN />} />
           <Route  path="/Plan-Nutricion" element={<PlanNutricion />} />
+
           <Route  path="/Plan-Form" element={<PlanForm />} />
           <Route path="/plan" element={<DietPlanList />} />
         <Route path="/plan/:dietPlanId" element={<DietPlanDetail />} />  
+
+          <Route  path="/Plan-Form" element={<PlanForm />} />  
+
         </Routes>
         <Footer/>
         </>
