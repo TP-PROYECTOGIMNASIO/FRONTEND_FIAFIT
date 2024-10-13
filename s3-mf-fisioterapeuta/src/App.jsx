@@ -17,7 +17,7 @@ function App() {
         <Navbar/>
         <Routes>
           <Route  path="/" element={<HUVISUALLIZARINICIOSEGN />} />
-
+          
         </Routes>
         <Footer/>
         </>
