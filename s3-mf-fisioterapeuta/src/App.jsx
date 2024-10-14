@@ -7,6 +7,9 @@ import './index.css'
 import HUVISUALLIZARINICIOSEGN from './pages/HUVISUALLIZARINICIOSEGN';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ListaEjercicios from './pages/ListaEjercicios'; // Si es .jsx
+
+
 
 function App() {
 
@@ -17,7 +20,8 @@ function App() {
         <Navbar/>
         <Routes>
           <Route  path="/" element={<HUVISUALLIZARINICIOSEGN />} />
-          
+          <Route path="/ListaEjercicios" element={<ListaEjercicios />} />
+
         </Routes>
         <Footer/>
         </>
