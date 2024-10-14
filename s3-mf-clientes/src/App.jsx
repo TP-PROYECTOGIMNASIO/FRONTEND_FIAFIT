@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import PlanesEntrenamiento from "./components/PlanesEntrenamiento";
 import VerPlan from "./components/VerPlan";
 import VerEjercicios from "./components/VerEjercicios";
+import VerNutricion from "./components/VerNutricion";
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
           <Route path="/ver-planes" element={<PlanesEntrenamiento />} />
         <Route path="/ver-plan/:planId" element={<VerPlan />} />
         <Route path="/ver-ejercicios/:diaId" element={<VerEjercicios />} />
+        <Route path="/ver-nutricion" element={<VerNutricion />} />
         </Routes>
         <Footer/>
       </div>
