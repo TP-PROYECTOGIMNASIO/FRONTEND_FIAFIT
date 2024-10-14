@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 
 const RegistroPlan = () => {
   const [showModal, setShowModal] = useState(false);
-  const [sesiones, setSesiones] = useState([]); // Estado para almacenar las sesiones
+  const [sesiones, setSesiones] = useState([]); // Estado para almacenar las sesiones.
   const [ejercicio, setEjercicio] = useState('');
   const [fecha, setFecha] = useState('');
   const [hora, setHora] = useState('');
 
-  // Función para mostrar la modal
+  // Función para mostrar la modal.
   const handleShowModal = () => {
     setShowModal(true);
   };
 
-  // Función para cerrar la modal
+  // Función para cerrar la modal.
   const handleCloseModal = () => {
     setShowModal(false);
-    setEjercicio(''); // Limpiar campos
+    setEjercicio(''); // Limpiar los campos.
     setFecha('');
     setHora('');
   };
@@ -30,7 +30,7 @@ const RegistroPlan = () => {
         hora,
       };
       setSesiones([...sesiones, nuevaSesion]); // Agrega la nueva sesión al estado
-      handleCloseModal(); // Cierra la modal y limpia los campos
+      handleCloseModal(); // Cierra el modal y limpia los campos
     } else {
       alert('Por favor, completa todos los campos.');
     }
