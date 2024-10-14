@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
+// Función para convertir el número de día en nombre de día
+const getDayName = (dayNumber) => {
+  const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const date = new Date();
+  date.setDate(date.getDate() + (dayNumber - 1)); // Ajusta la fecha
+  return daysOfWeek[date.getDay()]; // Devuelve el nombre del día correspondiente
+};
 
 const DietPlanDetail = () => {
   const { dietPlanId } = useParams();
   const [dietPlan, setDietPlan] = useState(null);
+  const navigate = useNavigate(); // Para manejar la navegación del botón "Regresar"
 
   useEffect(() => {
     fetch(`https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/plan-de-nutricion/hu-tp-36?dietPlanId=${dietPlanId}`)
@@ -17,38 +26,81 @@ const DietPlanDetail = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">{dietPlan.name_plan}</h1>
-      <p><strong>Fecha de Asignación:</strong> {new Date(dietPlan.diet_assignment_date).toLocaleDateString()}</p>
-      <p><strong>Fecha de Inicio:</strong> {new Date(dietPlan.start_date).toLocaleDateString()}</p>
-      <p><strong>Fecha de Finalización:</strong> {new Date(dietPlan.end_date).toLocaleDateString()}</p>
-      <p><strong>Proteínas:</strong> {dietPlan.protein_gr}g</p>
-      <p><strong>Carbohidratos:</strong> {dietPlan.carbohydrates_gr}g</p>
-      <p><strong>Calorías Diarias:</strong> {dietPlan.daily_calories_kcal} kcal</p>
+    <div className="p-6 max-w-4xl mx-auto">
+      {/* Botón Regresar */}
+      <button
+        onClick={() => navigate(-1)}
+        className="text-gray-600 text-sm mb-4 flex items-center"
+      >
+        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Regresar
+      </button>
 
-      <h2 className="text-2xl font-semibold mt-6">Comidas por Día</h2>
-      <table className="min-w-full bg-white mt-4">
-        <thead>
-          <tr>
-            <th className="py-2">Día</th>
-            <th className="py-2">Desayuno</th>
-            <th className="py-2">Almuerzo</th>
-            <th className="py-2">Cena</th>
-            <th className="py-2">Notas</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dietPlan.days.map(day => (
-            <tr key={day.diet_plan_day_id}>
-              <td className="border px-4 py-2">{day.day_number}</td>
-              <td className="border px-4 py-2">{day.breakfast}</td>
-              <td className="border px-4 py-2">{day.lunch}</td>
-              <td className="border px-4 py-2">{day.dinner}</td>
-              <td className="border px-4 py-2">{day.notes}</td>
+      {/* Información del Plan */}
+      <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+        <h1 className="text-2xl font-semibold mb-4 text-red-600">SOBRE EL PLAN</h1>
+        <div className="grid grid-cols-3 gap-4 text-sm">
+          <div className="col-span-1">
+            <p><strong>Nombre del Plan:</strong> {dietPlan.name_plan}</p>
+          </div>
+          <div className="col-span-1">
+            <p><strong>Fecha de Inicio:</strong> {new Date(dietPlan.start_date).toLocaleDateString()}</p>
+          </div>
+          <div className="col-span-1">
+            <p><strong>Fecha de Fin:</strong> {new Date(dietPlan.end_date).toLocaleDateString()}</p>
+          </div>
+        </div>
+        <h2 className=" font-semibold mb-4 text-red-600">Distribución de Macronutrientes</h2>
+        {/* Distribución de Macronutrientes */}
+        <div className="mt-4 grid grid-cols-4 gap-4 text-sm">
+          <div className="bg-gray-200 p-4 rounded">
+            <p className="font-bold">Proteínas</p>
+            <p>{dietPlan.protein_gr}g</p>
+          </div>
+          <div className="bg-gray-200 p-4 rounded">
+            <p className="font-bold">Carbohidratos</p>
+            <p>{dietPlan.carbohydrates_gr}g</p>
+          </div>
+          <div className="bg-gray-200 p-4 rounded">
+            <p className="font-bold">Grasas</p>
+            <p>{dietPlan.fat_gr}g</p>
+          </div>
+          <div className="bg-gray-200 p-4 rounded">
+            <p className="font-bold">Calorías Diarias</p>
+            <p>{dietPlan.daily_calories_kcal} kcal</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Cronograma */}
+      <div className="mt-6">
+        <h2 className="text-2xl font-semibold mb-4">CRONOGRAMA</h2>
+        <table className="min-w-full bg-white rounded-lg shadow-md">
+          <thead>
+            <tr className="bg-red-600 text-white">
+              <th className="py-2 px-4">Día</th>
+              <th className="py-2 px-4">Desayuno</th>
+              <th className="py-2 px-4">Almuerzo</th>
+              <th className="py-2 px-4">Cena</th>
+              <th className="py-2 px-4">Notas</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {dietPlan.days.map((day) => (
+              <tr key={day.diet_plan_day_id} className="text-center border-t">
+                {/* Llamada a getDayName para convertir el número de día en nombre de día */}
+                <td className="border px-4 py-2 bg-gray-100 font-semibold text-red-600">{getDayName(day.day_number)}</td>
+                <td className="border px-4 py-2">{day.breakfast}</td>
+                <td className="border px-4 py-2">{day.lunch}</td>
+                <td className="border px-4 py-2">{day.dinner}</td>
+                <td className="border px-4 py-2">{day.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
