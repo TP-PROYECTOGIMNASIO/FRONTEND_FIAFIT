@@ -6,6 +6,10 @@ import Navbar from "./components/Navbar";
 import Sedes from "./pages/sedes/Sedes";
 import RegistrarSedes from "./pages/sedes/RegistrarSedes";
 import Footer from "./components/Footer";
+import InformePrincipal from "./pages/visualizarInforme/InformePrincipal";
+import RegistrarCompra from "./components/RegistrarCompra/RegistrarCompra";
+import InventarioSedeP from "./pages/inventario/InventarioSedeP";
+import ProductoSedeI from "./components/InventarioSede/ProductoSedeI";
 import Tipodeproducto from "./pages/inventario/Tipodeproducto";
 import ActualizarInventarioSedes from "./pages/inventario/ActualizarInventarioSedes";
 import GenerarNuevoInventario from "./pages/inventario/GenerarNuevoInventario";
@@ -65,14 +69,18 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Layout><HUVISUALLIZARINICIOSEGN /></Layout>}/>
-      <Route path="/empleados" element={<Layout><EmployeeList /></Layout>}/>
-      <Route path="/sedes" element={<Layout><Sedes /></Layout>}/>
-      <Route path="/registrar-sedes" element={<Layout><RegistrarSedes /></Layout>}/>
-      <Route path="/membresias" element={<Layout><MemberPage /></Layout>}/>
-      <Route path="/GenerarTipoProducto" element={<Layout><Tipodeproducto /></Layout>}/>
-      <Route path="/ActualizarInventarioSedes" element={<Layout><ActualizarInventarioSedes /></Layout>}/>
-      <Route path="/GenerarNuevoInventario" element={<Layout><GenerarNuevoInventario /></Layout>}/>
+      <Route path="/" element={<Layout><HUVISUALLIZARINICIOSEGN /></Layout>} />
+      <Route path="/empleados" element={<Layout><EmployeeList /></Layout>} />
+      <Route path="/sedes" element={<Layout><Sedes /></Layout>} />
+      <Route path="/registrar-sedes" element={<Layout><RegistrarSedes /></Layout>} />
+      <Route path="/membresias" element={<Layout><MemberPage /></Layout>} />
+      <Route path="/GenerarTipoProducto" element={<Layout><Tipodeproducto /></Layout>} />
+      <Route path="/ActualizarInventarioSedes" element={<Layout><ActualizarInventarioSedes /></Layout>} />
+      <Route path="/GenerarNuevoInventario" element={<Layout><GenerarNuevoInventario /></Layout>} />
+      <Route path="/Inventario-Sede" element={<Layout><InventarioSedeP /></Layout>} />
+      <Route path="/Inventario-Sede/Producto-Sede" element={<Layout><ProductoSedeI /></Layout>} />
+      <Route path="/Informe-Compra" element={<Layout><InformePrincipal /></Layout>} />
+      <Route path="/Informe-Compra/Registrar-Compra" element={<Layout><RegistrarCompra /></Layout>} />
     </Routes>
   );
 }
