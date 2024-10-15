@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const NutritionPlan = () => {
   const [plan, setPlan] = useState(null);
@@ -14,41 +14,54 @@ const NutritionPlan = () => {
   // Función para convertir el número de día en el nombre del día de la semana
   const getDayName = (dayNumber) => {
     const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-    return days[dayNumber - 1]; // Restamos 1 porque el índice del array comienza en 0
+    return days[dayNumber - 1]; 
   };
 
   if (!plan) return <div>Loading...</div>;
 
   return (
-    <div className="p-4">
-      <button 
-        onClick={() => window.history.back()} 
-        className="text-left mb-4 text-sm text-gray-600">
-        &#8592; Regresar
-      </button>
-      <h2 className="text-center text-xl font-bold mb-4 text-red-600">Cronograma</h2>
-      <table className="w-full text-center border border-collapse border-red-600">
-        <thead>
-          <tr className="bg-red-600 text-white">
-            <th className="p-2 border border-red-600">Día</th>
-            <th className="p-2 border border-red-600">Desayuno</th>
-            <th className="p-2 border border-red-600">Almuerzo</th>
-            <th className="p-2 border border-red-600">Cena</th>
-            <th className="p-2 border border-red-600">Notas</th>
-          </tr>
-        </thead>
-        <tbody>
-          {plan.days.map(day => (
-            <tr key={day.diet_plan_day_id}>
-              <td className="p-2 border border-red-600 text-red-600">{getDayName(day.day_number)}</td>
-              <td className="p-2 border border-red-600">{day.breakfast}</td>
-              <td className="p-2 border border-red-600">{day.lunch}</td>
-              <td className="p-2 border border-red-600">{day.dinner}</td>
-              <td className="p-2 border border-red-600">{day.notes}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-6 py-10">
+      <div className="w-full max-w-4xl bg-white p-10 rounded-lg shadow-lg relative">
+        {/* Botón "Regresar" */}
+        <button 
+          onClick={() => window.history.back()} 
+          className="absolute top-4 left-4 text-sm text-gray-600 flex items-center"
+        >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Regresar
+        </button>
+
+        {/* Título */}
+        <h2 className="text-center text-4xl font-bold mb-6 text-red-600">Cronograma</h2>
+
+        {/* Tabla del plan de nutrición */}
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-center border border-collapse border-red-600 rounded-lg shadow-md">
+            <thead>
+              <tr className="bg-red-600 text-white text-lg">
+                <th className="p-3 border border-red-600">Día</th>
+                <th className="p-3 border border-red-600">Desayuno</th>
+                <th className="p-3 border border-red-600">Almuerzo</th>
+                <th className="p-3 border border-red-600">Cena</th>
+                <th className="p-3 border border-red-600">Notas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {plan.days.map(day => (
+                <tr key={day.diet_plan_day_id} className="border-t">
+                  <td className="p-3 border border-red-600 bg-gray-100 font-bold text-red-600">{getDayName(day.day_number)}</td>
+                  <td className="p-3 border border-red-600">{day.breakfast}</td>
+                  <td className="p-3 border border-red-600">{day.lunch}</td>
+                  <td className="p-3 border border-red-600">{day.dinner}</td>
+                  <td className="p-3 border border-red-600">{day.notes}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
