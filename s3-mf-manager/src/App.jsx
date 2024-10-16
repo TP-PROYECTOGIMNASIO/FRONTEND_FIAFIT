@@ -82,7 +82,7 @@ function App() {
         
       } />
       <Route path="/Inventario-Sede" element={<InventarioSedeP />} />
-      <Route path="/Inventario-Sede/Producto-Sede" element={
+      <Route path="/Inventario-Sede/Producto-Sede/:locationId" element={
          <>
          <Navbar />
          <ProductoSedeI />
