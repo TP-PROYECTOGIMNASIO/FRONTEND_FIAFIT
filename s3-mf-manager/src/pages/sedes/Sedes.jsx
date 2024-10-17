@@ -119,13 +119,13 @@ export default function Sedes() {
                 {isLoading ? (
                     <div className="text-center text-blue-500">Cargando sedes...</div>
                 ) : (
-                    <div className="flex justify-center gap-6">
+                    <div className="flex justify-center gap-4 p-4 mt-4">
                         {filteredSedes.length > 0 ? (
                             filteredSedes.map((sede, index) => (
                                 <div
                                     key={index}
                                     className="border rounded-lg shadow-lg w-80 bg-gray-200 flex flex-col justify-between"
-                                    style={{ minHeight: '400px' }} // Ajustar la altura mínima de la tarjeta
+                                    style={{ minHeight: '300px' }} // Ajustar la altura mínima de la tarjeta
                                 >
                                     <img
                                         src={sede.image_url || 'https://via.placeholder.com/300'} // Imagen predeterminada si no existe
