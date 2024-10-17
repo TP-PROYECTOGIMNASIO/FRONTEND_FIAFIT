@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { FaEye } from 'react-icons/fa'; // Para el ícono del ojo
-import './App.css'; // Tailwind importado aquí
+import { FaEye } from 'react-icons/fa';
 
 const ejerciciosData = [
   { tipo: 'Fortalecimiento', nombre: 'Isométrico', descripcion: 'Ejercicio de fuerza', activo: true },
