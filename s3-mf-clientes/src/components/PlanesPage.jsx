@@ -28,7 +28,7 @@ const PlanesPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 max-w-4xl">
           <button
             className="bg-gray-300 p-12 md:p-16 rounded-lg flex flex-col items-center justify-center hover:bg-gray-400 transition"
-            onClick={() => navigate('/ver-plan')}
+            onClick={() => navigate('/ver-planes')}
           >
             <img src="/logo-3.png" alt="Plan de Entrenamiento" className="h-24 mb-8" /> {/* Duplicar tamaño de imagen */}
             <span className="text-red-500 text-2xl text-center">PLAN DE ENTRENAMIENTO</span>
