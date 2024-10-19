@@ -45,7 +45,7 @@ const TrainingPlanOk = () => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('client_id');
     setClientId(id);
-    
+
     // Recuperar el nombre del alumno desde localStorage
     const storedStudentName = localStorage.getItem('selectedStudentName');
     if (storedStudentName) {
@@ -97,13 +97,13 @@ const TrainingPlanOk = () => {
             <p className='text-left mt-2'>Fecha</p>
           </div>
           {/* Botón "Visualizar Ejercicios" a la misma altura */}
-          <button 
-    style={{ backgroundColor: '#3c4862' }} // Estilo en línea para aplicar el color
-    className="text-white px-4 py-2 rounded ml-4" 
-    onClick={() => fetchTrainingPlan(clientId)} // Usa el clientId almacenado
->
-    Visualizar Ejercicios
-</button>
+          <button
+            style={{ backgroundColor: '#3c4862' }} // Estilo en línea para aplicar el color
+            className="text-white px-4 py-2 rounded ml-4"
+            onClick={() => fetchTrainingPlan(clientId)} // Usa el clientId almacenado
+          >
+            Visualizar Ejercicios
+          </button>
 
         </div>
 

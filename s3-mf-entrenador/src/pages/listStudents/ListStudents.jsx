@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const ListStudents = () => {
@@ -11,7 +11,7 @@ const ListStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/alumnos?staff_id=3');
+        const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/alumnos?staff_id=1');
         const data = await response.json();
         console.log('Datos obtenidos de la API:', data);
         setStudents(data);
@@ -26,10 +26,10 @@ const ListStudents = () => {
   const openModal = (student) => {
     setSelectedStudent(student);
     setIsModalOpen(true);
-    
+
     // Guardar el nombre del alumno en localStorage
     localStorage.setItem('selectedStudentName', student.nombres);
-    
+
     // Guardar el client_id en localStorage
     localStorage.setItem('selectedClientId', student.client_id);
   };
@@ -50,7 +50,7 @@ const ListStudents = () => {
       });
 
       const trainingPlanData = await response.json();
-      
+
       if (trainingPlanData.training_plan) {
         console.log('Plan de entrenamiento encontrado:', trainingPlanData);
 
@@ -59,7 +59,7 @@ const ListStudents = () => {
         console.log('Plan ID:', trainingPlanData.training_plan.training_plan_id);
         navigate(`/TrainingPlanOk?client_id=${selectedStudent.client_id}`);
       } else {
-        navigate(`/Trainingplan?client_id=${selectedStudent.client_id}`); 
+        navigate(`/Trainingplan?client_id=${selectedStudent.client_id}`);
       }
     } catch (error) {
       console.error('Error fetching training plan:', error);
@@ -174,7 +174,12 @@ const ListStudents = () => {
               <div className="flex-1 flex flex-col mr-4">
                 <button className="bg-[#b31b20] text-white py-2 px-4 rounded-md mb-2">HORARIO</button>
                 <div className="flex justify-center w-full">
-                  <Link to={'/vista-no-registrado'} className="bg-[#b31b20] text-white py-2 px-4 rounded-md w-full text-center">MÉTRICAS</Link>
+<Link
+  to={`/vista-no-registrado?client_id=${selectedStudent.client_id}`}
+  className="bg-[#b31b20] text-white py-2 px-4 rounded-md w-full text-center"
+>
+  MÉTRICAS
+</Link>
                 </div>
               </div>
               <div className="flex-1 flex flex-col">
