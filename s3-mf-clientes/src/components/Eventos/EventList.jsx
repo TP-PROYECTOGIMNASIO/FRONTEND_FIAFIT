@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import EventCard from './EventCard';
 import EventDetailModal from './EventDetailModal';
+import Banner from './Banner'; // Importa el componente Banner
 
 const events = [
   {
     title: "Reto Fitness Total",
     location: "Sede Santa Anita",
     slots: "15",
-    img: "ruta/de/imagen1.png"
+    img: "plan_tratamiento.png"
   },
   {
     title: "Maratón de Spinning",
@@ -20,8 +21,25 @@ const events = [
     location: "Sede Santa Anita",
     slots: "15",
     img: "ruta/de/imagen3.png"
+  },
+  {
+    title: "Entrenamiento Funcional",
+    location: "Sede San Isidro",
+    slots: "10",
+    img: "ruta/de/imagen4.png"
+  },
+  {
+    title: "Zumba Party",
+    location: "Sede Barranco",
+    slots: "25",
+    img: "ruta/de/imagen5.png"
+  },
+  {
+    title: "Pilates Avanzado",
+    location: "Sede Miraflores",
+    slots: "12",
+    img: "ruta/de/imagen6.png"
   }
-  // Puedes agregar más eventos aquí
 ];
 
 const EventList = () => {
@@ -30,13 +48,13 @@ const EventList = () => {
 
   const nextEvent = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === events.length - 1 ? 0 : prevIndex + 1
+      prevIndex + 3 >= events.length ? 0 : prevIndex + 3
     );
   };
 
   const prevEvent = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? events.length - 1 : prevIndex - 1
+      prevIndex - 3 < 0 ? Math.max(events.length - 3, 0) : prevIndex - 3
     );
   };
 
@@ -48,35 +66,45 @@ const EventList = () => {
     setSelectedEvent(null); // Cerrar el modal
   };
 
+  // Obtener los eventos a mostrar según el índice actual
+  const displayedEvents = events.slice(currentIndex, currentIndex + 3);
+
   return (
     <section className="relative p-4">
-      {/* Botón para ir al evento anterior */}
-      <button 
-        onClick={prevEvent} 
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
-      >
-        {"<"}
-      </button>
+      {/* Agrega el Banner al inicio de la sección */}
+      <Banner />
 
-      {/* Evento actual mostrado */}
-      <div className="flex justify-center">
-        <div onClick={() => openModal(events[currentIndex])}>
-          <EventCard 
-            title={events[currentIndex].title} 
-            location={events[currentIndex].location} 
-            slots={events[currentIndex].slots} 
-            img={events[currentIndex].img} 
-          />
+      <div className="flex items-center justify-between mt-4">
+        {/* Botón para ir al evento anterior */}
+        <button 
+          onClick={prevEvent} 
+          className="text-red-600 text-5xl font-bold focus:outline-none"
+        >
+          {"<"}
+        </button>
+
+        {/* Eventos actuales mostrados */}
+        <div className="flex justify-center items-center space-x-4">
+          {displayedEvents.map((event, index) => (
+            <div key={index} onClick={() => openModal(event)}>
+              <EventCard 
+                title={event.title} 
+                location={event.location} 
+                slots={event.slots} 
+                img={event.img} 
+              />
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* Botón para ir al siguiente evento */}
-      <button 
-        onClick={nextEvent} 
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
-      >
-        {">"}
-      </button>
+        {/* Botón para ir al siguiente evento */}
+        <button 
+          onClick={nextEvent} 
+          className="text-red-600 text-5xl font-bold focus:outline-none"
+        >
+          {">"}
+        </button>
+      </div>
 
       {/* Modal de Detalles del Evento */}
       <EventDetailModal event={selectedEvent} onClose={closeModal} />
@@ -85,8 +113,3 @@ const EventList = () => {
 };
 
 export default EventList;
-
-
-
-
-
