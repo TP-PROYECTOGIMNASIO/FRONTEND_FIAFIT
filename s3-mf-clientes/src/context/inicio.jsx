@@ -83,7 +83,7 @@ const HomePage = () => {
 
           <button
             className="bg-white text-red-600 p-4 rounded-md shadow-md w-full sm:w-3/4 max-w-xs sm:max-w-md flex flex-col items-start text-left relative"
-            onClick={() => handleNavigation('/', 'mi_suscripcion')}
+            onClick={() => handleNavigation('/sub-list', 'sub-list')}
             disabled={loading.mi_suscripcion}>
             <span className="text-sm font-semibold">VER</span>
             <span className="text-lg sm:text-xl font-bold">MI SUSCRIPCIÓN</span>
