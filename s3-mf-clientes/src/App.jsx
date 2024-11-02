@@ -11,6 +11,9 @@ import VerEjercicios from "./components/VerEjercicios";
 import VerNutricion from "./components/VerNutricion";
 import VerMetricas from "./components/VerMetricas/VerMetricas";
 import PagoExitoso from "./components/PagoExitoso";
+import SubscriptionDetails from "./components/SubscriptionDetails"
+import SubscriptionList from "./components/SubscriptionList"
+import UpdateSubscriptionForm from "./components/UpdateSubscriptionForm"
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
           <Route path="/ver-nutricion" element={<VerNutricion />} />
           <Route path="/ver-metricas" element={<VerMetricas />} />
           <Route path="/payment-success" element={<PagoExitoso />} />
+          <Route path="/sub-details" element={<SubscriptionDetails />} />
+          <Route path="/sub-list" element={<SubscriptionList />} />
+          <Route path="/sub-update" element={<UpdateSubscriptionForm />} />
         </Routes>
         <Footer/>
       </div>
