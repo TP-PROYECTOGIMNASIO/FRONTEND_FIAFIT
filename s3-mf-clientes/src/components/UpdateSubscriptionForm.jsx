@@ -24,12 +24,17 @@ const UpdateSubscriptionForm = () => {
     }
   };
 
-  // Manejo del botón siguiente
+  // Manejo del botón siguiente: Redirigir a pagoSub.html con los datos necesarios
   const handleNextClick = () => {
     if (!selectedMembership) {
-      setShowModal(true);
+      setShowModal(true); // Mostrar modal si no se seleccionó una membresía
     } else {
-      navigate('/payment', { state: { membershipId: selectedMembership } });
+      // Obtener la membresía seleccionada
+      const selectedPlan = memberships.find(m => m.membership_id === selectedMembership);
+      const price = selectedPlan.price;
+
+      // Redirigir a pagoSub.html con los parámetros necesarios (membership_id y price)
+      window.location.href = `/pagoSub.html?membership_id=${selectedMembership}&price=${price}`;
     }
   };
 
@@ -37,24 +42,20 @@ const UpdateSubscriptionForm = () => {
     <div className="min-h-screen bg-gray-100">
       {/* Barra superior */}
       <div className="bg-red-600 p-4 flex justify-between items-center">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-white font-bold flex items-center"
-        >
+        <button onClick={() => navigate(-1)} className="text-white font-bold flex items-center">
           <span className="ml-2">Regresar</span>
-        </button>  
+        </button>
       </div>
 
       {/* Formulario de actualización de suscripción */}
       <div className="container mx-auto p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">Selecciona tu suscripción:</h2>
-
         <div className="space-y-4">
           {memberships.map(membership => (
-            <div 
-              key={membership.membership_id} 
-              className={`border rounded-lg p-4 bg-white shadow-md flex justify-between items-center space-x-4 
-                          ${selectedMembership === membership.membership_id ? 'border-red-500' : 'border-gray-300'}`}
+            <div
+              key={membership.membership_id}
+              className={`border rounded-lg p-4 bg-white shadow-md flex justify-between items-center space-x-4
+              ${selectedMembership === membership.membership_id ? 'border-red-500' : 'border-gray-300'}`}
             >
               {/* Checkbox de selección */}
               <input
