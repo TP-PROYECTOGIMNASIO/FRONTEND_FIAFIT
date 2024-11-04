@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useShoppingCart } from "../hooks";
-import Modal from "./modal/ProductModal";
+import { useShoppingCart } from "../../hooks";
+import Modal from "../modal/ProductModal";
 
 export default function ProductList() {
   const { products, addProduct } = useShoppingCart();

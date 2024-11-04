@@ -1,16 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import ProductList from "./components/product-list";
+import ProductList from "./components/ListaProductos/product-list";
 import CartDetails from "./components/shopping-cart/cartDetails";
 import Inicio from "./context/inicio";
 import Footer from "./components/Footer";
-import PlanesEntrenamiento from "./components/PlanesEntrenamiento";
-import Planes from "./components/PlanesPage";
-import VerPlan from "./components/VerPlan";
-import VerEjercicios from "./components/VerEjercicios";
-import VerNutricion from "./components/VerNutricion";
+import PlanesEntrenamiento from "./components/PlanEntrenamiento/PlanesEntrenamiento";
+import Planes from "./components/PlanEntrenamiento/PlanesPage";
+import VerPlan from "./components/PlanNutricion/VerPlan";
+import VerEjercicios from "./components/PlanEntrenamiento/VerEjercicios";
+import VerNutricion from "./components/PlanNutricion/VerNutricion";
 import VerMetricas from "./components/VerMetricas/VerMetricas";
-import PagoExitoso from "./components/PagoExitoso";
+import PagoExitoso from "./components/shopping-cart/PagoExitoso";
+import UpdateSubscriptionForm from "./components/ActualizarSub/UpdateSubscriptionForm"
+import SubscriptionList from "./components/ActualizarSub/SubscriptionList"
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path="/ver-nutricion" element={<VerNutricion />} />
           <Route path="/ver-metricas" element={<VerMetricas />} />
           <Route path="/payment-success" element={<PagoExitoso />} />
+          <Route path="/sub-update" element={<UpdateSubscriptionForm />} />
+          <Route path="/sub-list" element={<SubscriptionList />} />
         </Routes>
         <Footer/>
       </div>
