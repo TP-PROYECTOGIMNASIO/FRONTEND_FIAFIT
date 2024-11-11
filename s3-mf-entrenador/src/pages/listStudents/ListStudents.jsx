@@ -116,7 +116,7 @@ const ListStudents = () => {
 
       const trainingPlanData = await response.json();
       
-      if (trainingPlanData.training_plan) {
+      if (trainingPlanData.training_plan?.training_plan_id) {
         console.log('Plan de entrenamiento encontrado:', trainingPlanData);
 
         // Guardar el training_plan_id en localStorage si existe
@@ -127,7 +127,7 @@ const ListStudents = () => {
         navigate(`/Trainingplan?client_id=${selectedStudent.client_id}&role=${role}&token=${token}&username=${username}`); 
       }
     } catch (error) {
-      console.error('Error fetching training plan:', error);
+      console.error('Error al traer training plan:', error);
     }
   };
 
