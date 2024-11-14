@@ -10,6 +10,16 @@ const RegistroEntrenamiento = () => {
   const [clientId, setClientId] = useState(''); // Estado para almacenar el client_id
   const [trainingPlanId, setTrainingPlanId] = useState(null); // Estado para almacenar el trainingPlanId con valor inicial null
   const navigate = useNavigate();
+  const apiUrl28 = import.meta.env.VITE_APP_API_URL_28;
+  const params = new URLSearchParams(window.location.search);
+
+  const role = params.get("role");
+  const token = params.get("token");
+  const username = params.get("username");
+
+  console.log("role recibido en Registro Entrenamiento:", role);
+  console.log("token recibido en Registro Entrenamiento:", token);
+  console.log("username recibido en Registro Entrenamiento:", username);
 
   useEffect(() => {
     try {
@@ -44,7 +54,7 @@ const RegistroEntrenamiento = () => {
 
       // Recuperar el trainingPlanId del plan de entrenamiento
       const storedTrainingPlanId = localStorage.getItem('trainingPlanId');
-      setTrainingPlanId(storedTrainingPlanId ? storedTrainingPlanId : null);
+      setTrainingPlanId(storedTrainingPlanId ? parseInt(storedTrainingPlanId, 10) : null);
     } catch (error) {
       console.error('Error parsing JSON data from localStorage:', error);
     }
@@ -56,7 +66,9 @@ const RegistroEntrenamiento = () => {
   const handleSave = async () => {
     // Crear el payload con los datos
     const payload = {
-      client_id: clientId, // Incluir el client_id recuperado
+      client_id: clientId,
+      name: "Plan de Entrenamiento 6",
+      description: "Descripcion de la membresia",
       day: parseInt(NdiaSeleccionado, 10),
       focus: focus,
       exercises: ejercicios.map((ejercicio) => ({
@@ -67,14 +79,14 @@ const RegistroEntrenamiento = () => {
     };
 
     // Si el trainingPlanId es null o no existe, agregar el training_plan_id = 1
-    if (!trainingPlanId) {
-      payload.training_plan_id = 1;
+    if (trainingPlanId) {
+      payload.training_plan_id =trainingPlanId;
     }
 
     console.log('Payload con ejercicios y trainingPlanId:', payload);
 
     try {
-      const response = await fetch('https://3zn8rhvzul.execute-api.us-east-2.amazonaws.com/api/plan-de-entrenamiento/hu-tp-28', {
+      const response = await fetch(`${apiUrl28}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +101,7 @@ const RegistroEntrenamiento = () => {
         // Almacenar el día guardado en localStorage y redirigir a la página PlanEntrenamientoPorDia
         localStorage.setItem('diaGuardado', NdiaSeleccionado); // Guardar día en localStorage
         alert('Plan de entrenamiento guardado con éxito!');
-        navigate('/PlanEntrenamientoDia'); // Redirigir a PlanEntrenamientoPorDia
+        navigate(`/PlanEntrenamientoDia?role=${role}&token=${token}&username=${username}`); // Redirigir a PlanEntrenamientoPorDia
       } else {
         console.error('Error al guardar el plan de entrenamiento:', response.statusText);
         alert('Error al guardar el plan de entrenamiento.');
@@ -130,7 +142,7 @@ const RegistroEntrenamiento = () => {
 
       <h1 className="text-red-600 text-xl font-bold mt-8">Registro de Entrenamiento</h1>
 
-      <h2 className="text-gray-700 text-lg mb-4">{studentName || 'Nombre del Alumno'}</h2> {/* Mostrar el nombre del alumno */}
+      <h2 className="text-gray-700 text-lg mb-4">{studentName || 'Nombre del Alumno'}</h2>
 
       <h3 className="text-red-600 text-lg font-semibold">{diaSeleccionado}</h3>
 
@@ -149,7 +161,7 @@ const RegistroEntrenamiento = () => {
             {ejercicios.map((item, index) => (
               <tr key={index}>
                 <td className="p-2 flex justify-center items-center">
-                  <img
+                  <video
                     src={item.image_url}
                     alt="Ejercicio"
                     className="w-auto h-auto max-w-full max-h-16 object-cover"

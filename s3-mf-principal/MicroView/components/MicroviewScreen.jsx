@@ -11,49 +11,49 @@ export default function MicroviewScreen() {
 
   var urlNew =""
   if(role === "admin"){
-    //urlNew = `https://d9cbdrt9qxc6x.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d9cbdrt9qxc6x.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role ==="cliente"){
-    //urlNew = `https://d28sl9jcsu2dh.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d28sl9jcsu2dh.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
   }else if(role==='entrenador'){
-    //urlNew = `https://dvnm61x8t41e0.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://dvnm61x8t41e0.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
   }else if(role==='cliente_libre'){
-    //urlNew = `https://d28sl9jcsu2dh.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d28sl9jcsu2dh.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role==='instructor'){
-    //urlNew = `https://d3matswszdb8p0.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d3matswszdb8p0.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role==='manager'){
-    //urlNew = `https://dlfxmk04c8l4u.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://dlfxmk04c8l4u.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role ==='encargado'){
-    //urlNew = `https://d33a2p3oofplz1.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d33a2p3oofplz1.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role ==='encargado_eventos'){
-    //urlNew = `https://d33a2p3oofplz1.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d33a2p3oofplz1.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role ==='encargado_gimnasios'){
-    //urlNew = `https://d33a2p3oofplz1.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d33a2p3oofplz1.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role==='fisioterapeuta'){
-    //urlNew = `https://d1f9oglz3r6l8a.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d1f9oglz3r6l8a.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
 
   }else if(role==='nutricionista'){
-    //urlNew = `https://d27br7ner8n8n5.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d27br7ner8n8n5.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
   }else if(role==='recepcionista'){
-    //urlNew = `https://d2ts7snh3o8l3c.cloudfront.net?role=${role}&token=${token}&username=${username}`;
-    urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
+    urlNew = `https://d2ts7snh3o8l3c.cloudfront.net?role=${role}&token=${token}&username=${username}`;
+    //urlNew = `http://localhost:5173?role=${role}&token=${token}&username=${username}`;
   }
 
   
@@ -62,10 +62,12 @@ export default function MicroviewScreen() {
     navigation.navigate('Dashboard', { role: role, token: token, username: username });
   };
 
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={handleNavigateToDashboard}>
-        <Icon name="arrow-back" size={24} color="black" /> {/* Cambia el nombre del ícono según sea necesario */}
+      <TouchableOpacity style={styles.backButton} onPress={handleNavigateToDashboard}
+      >
+        { /*<Icon name="arrow-back" size={24} color="black" /> Cambia el nombre del ícono según sea necesario */}
         <Text style={styles.backButtonText}> Dashboard</Text>
       </TouchableOpacity>
       
@@ -94,8 +96,9 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 200,
-    left: 10,
+    top: 20,  // Ajusta el valor según cuán arriba quieras que esté el botón
+    left: '30%',  // Centra horizontalmente el botón
+    transform: [{ translateX: -30 }],  // Alinea el botón en el centro
     zIndex: 1,
     padding: 10,
     borderRadius: 5,
@@ -103,8 +106,11 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Centra verticalmente los elementos dentro del botón
   },
   backButtonText: {
-    color: 'black',
+    color: "#4B4F57",
     fontWeight: 'bold',
     marginLeft: 5, // Agrega un margen entre el ícono y el texto
+    fontFamily: 'Roboto', // Aplica Roboto
+    fontSize: 20, // Tamaño de 20 px
+
   },
 });

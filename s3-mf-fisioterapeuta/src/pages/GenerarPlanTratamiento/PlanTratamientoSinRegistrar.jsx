@@ -9,6 +9,16 @@ const PlanTratamientoSinRegistrar = () => {
   const [month, setMonth] = useState(''); // Estado para el filtro de mes
   const clientId = 1;
 
+  const params = new URLSearchParams(window.location.search);
+  console.log("Todos los parámetros en Plan Tratamiento Sin Registrar:", window.location.search); // Verificar que todos los parámetros están presentes
+  
+  const role = params.get("role");
+  const token = params.get("token");
+  const username = params.get("username");
+  console.log("role recibido en Plan Tratamiento Sin Registrar:", role);
+  console.log("token recibido en Plan Tratamiento Sin Registrar:", token);
+  console.log("username recibido en Plan Tratamiento Sin Registrar:", username);
+
   useEffect(() => {
     const fetchPlanesTratamiento = async () => {
       setLoading(true);
@@ -155,7 +165,7 @@ const PlanTratamientoSinRegistrar = () => {
 
           <div className="mt-10">
             <Link
-              to="/RegistroPlan"
+              to={`/RegistroPlan?role=${role}&token=${token}&username=${username}`}
               className="bg-red-700 text-white py-2 px-4 rounded-lg mt-4 hover:bg-red-800 transition duration-300"
             >
               GENERAR PLAN TRATAMIENTO
@@ -168,3 +178,4 @@ const PlanTratamientoSinRegistrar = () => {
 };
 
 export default PlanTratamientoSinRegistrar;
+
