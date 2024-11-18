@@ -200,6 +200,7 @@ const ListStudents = () => {
                 <td className="border-t py-2 px-4 text-black">{student.sede}</td>
                 <td className="border-t py-2 px-4 text-black">{student.membresia || 'No disponible'}</td>
                 <td className="border-t py-2 px-4 text-black">{student.rango}</td>
+
                 <td className="border-t py-2 px-4">
                   <button
                     className="text-white py-2 px-6 rounded-md"
